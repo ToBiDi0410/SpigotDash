@@ -30,5 +30,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: jar
-        path: 'spigotdash-0.3.9 BETA.jar'
+        path: /home/runner/work/SpigotDash/SpigotDash/target/spigotdash-0.3.9 BETA-jar-with-dependencies.jar
         retention-days: 5
