@@ -1,5 +1,5 @@
 name: Build JARs
-on: workflow_dispatch
+on: [push, workflow_dispatch]
 
 jobs:
   build:
