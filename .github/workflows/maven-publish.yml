@@ -1,13 +1,8 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
-name: Maven Package
-
+name: Build JARs
 on: workflow_dispatch
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,6 +24,6 @@ jobs:
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v2
       with:
-        name: jar
-        path: /home/runner/work/SpigotDash/SpigotDash/target/spigotdash-0.3.9 BETA-jar-with-dependencies.jar
-        retention-days: 5
+        name: JARs
+        path: /home/runner/work/SpigotDash/SpigotDash/target/*.jar
+        retention-days: 7
