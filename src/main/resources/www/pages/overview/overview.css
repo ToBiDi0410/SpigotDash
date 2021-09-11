@@ -1,0 +1,127 @@
+.colorbox.one {
+    background: rgb(91, 29, 255);
+    background: linear-gradient(90deg, rgba(91, 29, 255, 1) 0%, rgba(175, 59, 255, 1) 100%);
+}
+
+.colorbox.two {
+    background: rgb(0, 133, 235);
+    background: linear-gradient(90deg, rgba(0, 133, 235, 1) 0%, rgba(0, 75, 189, 1) 100%);
+}
+
+.colorbox.three {
+    background: rgb(255, 102, 29);
+    background: linear-gradient(90deg, rgba(255, 102, 29, 1) 0%, rgba(255, 59, 59, 1) 100%);
+}
+
+.colorbox.four {
+    background: rgb(0, 154, 68);
+    background: linear-gradient(90deg, rgba(0, 154, 68, 1) 0%, rgba(35, 194, 110, 1) 100%);
+}
+
+.colorbox {
+    box-shadow: -2px -2px;
+    text-align: center;
+}
+
+.colorbox>*.subtitle {
+    color: inherit;
+    opacity: 0.7;
+}
+
+.menuWindowsContainer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+}
+
+.menuWindowBlur {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(49, 49, 49, 0.274);
+}
+
+.menuWindow {
+    width: 80vw;
+    height: 80vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgba(0, 0, 0, 0.178);
+    border-radius: 2vh;
+    box-sizing: border-box;
+}
+
+.menuWindow>*.topbar {
+    position: relative;
+    border-top-left-radius: 2vh;
+    border-top-right-radius: 2vh;
+    border: 1px solid rgba(102, 102, 102, 0.322);
+    padding: 1%;
+    margin-bottom: 1%;
+    box-shadow: #d2d2d2 1px 1px 6px 0px;
+    font-size: calc(1.25vh + 1.25vw);
+}
+
+.menuWindow>*.topbar>*.ctitle {
+    font-weight: bold;
+    text-align: center;
+    width: fit-content;
+    display: block;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.menuWindow>*.topbar>*.controls {
+    position: absolute;
+    top: 50%;
+    right: 2%;
+    transform: translate(0, -50%);
+}
+
+.menuWindow>*.topbar>*.controls>*.material-icons-outlined {
+    vertical-align: middle;
+    color: rgb(255, 75, 75);
+}
+
+.menuWindow>*.navigation {
+    width: 100%;
+    color: rgb(74, 177, 255);
+    padding: 0 2% 0 2%;
+    position: relative;
+}
+
+.menuWindow>*.navigation>*.path {
+    width: fit-content;
+    left: 2%;
+    position: absolute;
+    color: rgb(74, 177, 255);
+    transform: translate(0, -50%);
+    top: 50%;
+}
+
+.menuWindow>*.navigation>*.back {
+    position: absolute;
+    right: 2%;
+    width: fit-content;
+    color: rgb(74, 177, 255);
+    transform: translate(0, -50%);
+    top: 50%;
+}
+
+.menuWindow>*.navigation>*.hidden {
+    opacity: 0;
+}
+
+.menuWindow>*.content {
+    padding: 2%;
+}
+
+.colorbox {
+    color: #ffffff !important;
+}

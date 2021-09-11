@@ -1,0 +1,126 @@
+Kill: Töten
+Alt_Accounts: Andere Accounts
+Datapacks: Datenpakete (Datapacks)
+Actions: Aktionen
+Administration: Administration
+Edit_Operators: Admins verwalten
+Day_in_World: Tag in der Welt
+MSPT_Long: Millisekunden pro Tick
+Gamemode_Creative: Kreativ
+Gamemode_Adventure: Adventure
+Gamemode_Spectator: Zuschauer
+Gamemode: Gamemode
+Gamemode_Survival: Überleben
+Level: Level
+XP: XP
+XP_Required_For_Next_Level: nächstes Level
+XP_Level: XP Level
+Uptime: Uptime
+No_Players_in_World: Derzeit befinden sich keien Spieler in dieser Welt
+Day: Tag
+Night: Nacht
+Time: Zeit
+Weather: Wetter
+Reconnecting: Neuverbinden...
+Page_Load_Failed: Fehler beim laden der angeforderten Seite! Ist der Server immernoch
+  online?
+Login_Required_Short: Login benötigt
+Login_Required_Popup: Du musst eingeloggt sein um diese Seite zu nutzen! Du wirst
+  nun auf die Login Seite weitergeleitet...
+Server_Offline: Oh nein, der Server scheint offline zu sein! Wir versuchen erneut
+  eine Verbindung herzustellen...
+Coming_Soon: Kommt bald...
+Action_Kick: Rauswerfen
+Displayname: Anzeigename
+Position: Position
+Action_Message: Kontaktieren
+In: in
+PLAYER_RECORD: Spielerrekord
+Food: Essen
+Health: Leben
+Back: Zurück
+NOTIFICATION_RELOADNEED_TITLE: Reload benötigt
+NOTIFICATION_RELOADNEED_CONTENT: Ein reload oder neustart wird benötigt um eine Aktion
+  zu vervollständingen!<br><button class="button is-danger" onclick='reloadServer();'>Reload</button>
+NOTIFICATION_LOWTPS_CONTENT: Der Server läuft unter niederigen TPS.<br>Prüfe die Leistungstabs
+  für mehr Informationen
+NOTIFICATION_DISABLEDPLUGINS_TITLE: Deaktivierte Plugins
+NOTIFICATION_UPDATE_TITLE: Update verfügbar
+NOTIFICATION_UPDATE_CONTENT: Ein neues Update wurde gefunden!<br>Bitte besuche <a
+  href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a>
+  für mehr Informationen
+NOTIFICATION_UNLOADEDJARS_CONTENT: Eine oder mehrer JAR Dateien im Plugins Ordner
+  sind derzeit <b>entladen oder ungültig</b>!
+NOTIFICATION_UNLOADEDJARS_TITLE: Entladene JAR Dateien
+NOTIFICATION_DISABLEDPLUGINS_CONTENT: Ein oder mehrere Plugins sind derzeit <b>deaktiviert
+  oder entladen</b><br>Bitte prüfe den Log wenn dies nicht vorgesehen ist!
+NOTIFICATION_LOWTPS_TITLE: Niedrige TPS
+Engine_Stats: Spielengine
+Supports: Unterstützt
+Disabled: Deaktiviert
+Install: Installieren
+Disable: Deaktivieren
+Enable: Aktivieren
+Enabled: Aktiviert
+From: von
+Installed: Installiert
+Remove: Entfernen
+Send_Message: Senden
+Send_Ingame_Message: Ingame Nachricht Senden
+Previous_Folder: Vorheriger Ordner
+Ingame_Message_Sent: Die Nachricht wurde gesendet!
+Sent: Gesendet
+Color_Codes_Supported: Color Codes werden unterstützt (e.g '&6')
+Error_Unsupported_File_Format: Dateiformat nicht Unterstützt
+Kick_player: Spieler Kicken
+Player_Left_Server: Der Spieler hat den Server verlassen
+No_Players_Online: Es sind derzeit keine Spieler auf dem Server
+Error_Occured: Ein Fehler ist aufgetreten
+Player_Kicked: Der Spieler wurde vom Server gekickt!
+Kicked: Gekickt
+Chunks: Chunks
+TPS_Long: TPS (Ticks pro Sekunden)
+CPU_load_server: Last vom Server
+RAM_Usage: RAM Nutzung (mB)
+CPU_load_host: Host CPU Last
+Allocated: Allocated
+Entities: Entitäten
+CPU_Usage: CPU Nutzung (%)
+Game: Spiel
+Used: Genutzt
+Whitelist: Whitelist
+TPS_History: TPS Historie
+Disable_End: End deaktivieren
+Enable_Whitelist: Whitelist aktivieren
+Disable_Whitelist: Whitelist deaktivieren
+Enable_End: End aktivieren
+Disable_Nether: Nether deaktivieren
+Enable_Nether: Nether aktivieren
+Management: Verwaltung
+Name: Name
+Install_Plugins: Plugins installieren
+Password: Passwort
+Login: Login
+Login_Required: Du musst eingeloggt sein, um weiter zu machen!
+Others: Andere
+Edit_Whitelist: Whitelist editieren
+Execute: Ausführen
+Stop: Stop
+Worlds: Welten
+Last_Change: Letzt Änderung
+Command: Befehl
+TPS: TPS
+Reload: Neuladen
+Console: Konsole
+Controls: Kontrolle
+General: Allgemein
+Icon: Icon
+Files: Dateien
+Tps: TPS
+Graphs: Graphen
+Overview: Übersicht
+Performance: Leistung
+Notifications: Hinweise
+Players: Spieler
+Plugins: Plugins
+Ontime: Laufzeit

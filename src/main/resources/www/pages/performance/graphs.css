@@ -1,0 +1,15 @@
+.tile.is-child.box {
+    height: 100%;
+}
+
+.tile.is-child.box>* {
+    left: 0;
+    right: 0;
+    top: 0;
+    right: 0;
+    margin: auto;
+}
+
+.tile.is-ancestor {
+    height: auto;
+}

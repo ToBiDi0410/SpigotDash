@@ -1,0 +1,41 @@
+.console {
+    background-color: black;
+    height: 85%;
+    width: 100%;
+    display: inline-block;
+}
+
+.controls {
+    display: inline-block;
+    width: 100%;
+    left: 50%;
+    overflow: auto;
+}
+
+.controls>.tile {
+    width: 100%;
+}
+
+.consolein {
+    width: 100%;
+}
+
+.consolebtn {
+    width: 100%;
+}
+
+.console_messagelist {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: auto;
+    color: white;
+}
+
+.console_messagelist_entry {
+    opacity: 0;
+    transition: opacity ease-in-out 1s;
+}
+
+.console_messagelist_entry.FADEIN {
+    opacity: 1;
+}

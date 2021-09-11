@@ -1,0 +1,78 @@
+*::-webkit-scrollbar {
+    width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(90, 90, 90);
+    border-radius: 20px;
+}
+
+*::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+.card-content.is-expanded {
+    animation: card-expand 1s;
+    height: 100%;
+}
+
+.card-content.is-hiddenc {
+    animation: card-unexpand 1s;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.card+.card {
+    margin-top: 20px;
+}
+
+@keyframes card-expand {
+    from {
+        height: 0px;
+        padding: 0;
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        height: 100%;
+        padding: 1.5rem;
+    }
+}
+
+@keyframes card-unexpand {
+    from {
+        padding: 1.5rem;
+        opacity: 1;
+    }
+    to {
+        height: 0px;
+        padding: 0;
+        opacity: 0;
+    }
+}
+
+.transparentButton {
+    border: 0 !important;
+    background-color: transparent !important;
+}
+
+.vanillatoasts-toast {
+    background-color: #77777785;
+}
+
+.vanillatoasts-text {
+    color: #464646;
+}
+
+.copyClipboardBtn {
+    font-size: 80%;
+}
+
+html {
+    --theme-graphs-backcolor: #ffffff;
+}

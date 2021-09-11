@@ -1,0 +1,35 @@
+.menuLayer {
+    background-color: #100e0e !important;
+}
+
+.menuLayer>*.ctitle {
+    color: #ffffff !important;
+}
+
+.menuLayer>*.content {
+    color: #ffffff !important;
+}
+
+.card {
+    background-color: #0e0e0e !important;
+}
+
+.box {
+    background-color: #1f2424 !important;
+}
+
+.vanillatoasts-toast {
+    background-color: #000000c9 !important;
+}
+
+.vanillatoasts-title {
+    color: white;
+}
+
+.vanillatoasts-text {
+    color: #969696;
+}
+
+html {
+    --theme-graphs-backcolor: #1f2424 !important;
+}

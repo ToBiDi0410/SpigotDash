@@ -1,0 +1,123 @@
+MSPT_Long: Миллисекунды на тик
+Gamemode_Creative: креатив
+Gamemode_Adventure: приключение
+Gamemode_Spectator: зрители
+Gamemode: игровой режим
+Gamemode_Survival: выживание
+Level: уровень
+XP: XP
+XP_Required_For_Next_Level: следующий уровень
+XP_Level: Уровень опыта
+Uptime: Время безотказной работы
+No_Players_in_World: В настоящее время в этом мире нет игроков
+Day: День
+Night: ночь
+Time: Время
+Weather: Погода
+Send_Message: Отправить
+Chunks: Чанки
+Send_Ingame_Message: Отправить сообщение
+NOTIFICATION_LOWTPS_CONTENT: Ваш сервер работает с низким TPS.<br>Проверьте вкладки
+  производительности для получения дополнительной информации.
+Stop: Стоп
+Worlds: Миры
+Displayname: Ник
+NOTIFICATION_DISABLEDPLUGINS_TITLE: Отключенные плагины
+Remove: Удалить
+NOTIFICATION_RELOADNEED_TITLE: Требуется перезагрузка
+Name: Название
+NOTIFICATION_UPDATE_TITLE: Доступно обновление
+Action_Kick: Кик
+Supports: Поддерживает
+Install_Plugins: Установить плагины
+Reload: Перезагрузка
+NOTIFICATION_UPDATE_CONTENT: Обнаружено обновление для этого плагина!<br>Посетите
+  <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a>
+ за дополнительной информацией
+Back: Назад
+Previous_Folder: Предыдущая папка
+Graphs: Графики
+Ingame_Message_Sent: Сообщение отправлено игроку!
+Disabled: Выключен
+Install: Установить
+Enable_Whitelist: Включить белый список
+Disable: Отключить
+Sent: Отправлено
+Color_Codes_Supported: Поддерживаются цветовые коды (например,'&6')
+Error_Unsupported_File_Format: Формат файла не поддерживается
+Position: Позиция
+CPU_load_host: Загрузка центрального процессора
+NOTIFICATION_UNLOADEDJARS_CONTENT: Один или несколько файлов JAR в папке Plugins <b>выгружен
+  или недействителен</b>!
+Login: Войти
+Allocated: Выделено
+Reconnecting: Повторное подключение...
+NOTIFICATION_UNLOADEDJARS_TITLE: Выгруженные файлы JAR
+Enable_End: Включить Эндер мир
+CPU_Usage: Процессор (%)
+Game: Игра
+NOTIFICATION_DISABLEDPLUGINS_CONTENT: Один или несколько подключаемых модулей в настоящее
+  время <b>отключены или выгружены</b><br>Пожалуйста, проверьте логи на наличие ошибок!
+Login_Required: Вам необходимо войти в систему, чтобы продолжить!
+Page_Load_Failed: Не удалось загрузить запрошенную страницу! Сервер в сети?
+General: Общий
+Kick_player: Кикнуть игрока
+TPS_History: История TPS
+Icon: Иконка
+Performance: Производительность
+Notifications: Уведомления
+Coming_Soon: Скоро будет...
+Kill: убийство
+Alt_Accounts: старый аккаунт
+Datapacks: пакеты данных
+Actions: Действия
+Administration: Администрация
+Edit_Operators: редактировать операторы
+Day_in_World: день в мире
+Player_Left_Server: Игрок покинул сервер
+Edit_Whitelist: Изменить белый список
+Execute: Выполнить
+Action_Message: ообщение
+In: в
+PLAYER_RECORD: Запись игрока
+TPS_Long: TPS (Тиков в секунду)
+Last_Change: Последнее изменение
+NOTIFICATION_RELOADNEED_CONTENT: Для завершения установки плагина требуется перезагрузка
+  сервера!<br><button class="button is-danger" onclick='reloadServer();'>Перезагрузить</button>
+TPS: TPS
+CPU_load_server: Нагрузка, вызванная сервером
+RAM_Usage: Использование RAM (mB)
+Console: Консоль
+Controls: Управление
+Enable: Включить
+No_Players_Online: На сервере нет игроков
+Files: Файлы
+Disable_End: Отключить Эндер
+Engine_Stats: Статистика движка
+Login_Required_Short: Требуется авторизация
+Password: Пароль
+Players: Игроки
+Plugins: Плагины
+Ontime: Время работы
+Food: Еда
+Error_Occured: Произошла ошибка
+Others: Другое
+Login_Required_Popup: Вы должны войти в систему, чтобы использовать эту страницу!<br>Перенаправляем
+  вас на страницу входа ...
+Health: Здоровье
+Enabled: Включено
+Server_Offline: Сервер отключен! Мы попробуем переподключиться за вас ...
+Overview: Обзор
+Player_Kicked: Игрок кикнут с сервера!
+Management: Управление
+From: Из
+Entities: Сущности
+Disable_Whitelist: Отключить белый список
+Disable_Nether: Отключить Ад
+Kicked: Кикнут
+Used: Использовал
+Command: Команда
+Installed: Установлен
+Whitelist: Белый список
+Enable_Nether: Вклю Ад
+NOTIFICATION_LOWTPS_TITLE: Низкий TPS

@@ -1,0 +1,123 @@
+Kill: Kill
+Alt_Accounts: Alt Accounts
+Datapacks: Datapacks
+Actions: Actions
+Administration: Administration
+Edit_Operators: Edit operators
+Day_in_World: Day in World
+Send_Ingame_Message: Send Ingame Message
+NOTIFICATION_LOWTPS_CONTENT: Your Server is running at low TPS.<br>Check the Performance
+  Tabs for further Inforomation
+Stop: Stop
+Remove: Remove
+Action_Kick: Kick
+Supports: Supports
+Reload: Reload
+Back: Back
+Ingame_Message_Sent: The Message was sent to the Player!
+Disable: Disable
+Position: Position
+NOTIFICATION_UNLOADEDJARS_CONTENT: One or more JAR Files in the Plugins folder are
+  currently <b>unloaded or invalid</b>!
+Login: Login
+Allocated: Allocated
+Game: Game
+Gamemode_Creative: Creative
+XP_Required_For_Next_Level: Next Level
+Level: Level
+Performance: Performance
+Player_Left_Server: The Player left the Server
+In: in
+PLAYER_RECORD: Player Record
+TPS_Long: TPS (Ticks per Second)
+Last_Change: Last Change
+NOTIFICATION_RELOADNEED_CONTENT: A reload or restart is required to finish Plugin
+  installation!<br><button class="button is-danger" onclick='reloadServer();'>Reload</button>
+TPS: TPS
+CPU_load_server: Load caused by Server
+RAM_Usage: RAM Usage (mB)
+Gamemode_Adventure: Adventure
+Enable: Enable
+No_Players_Online: There are currently no Player on the Server
+Files: Files
+Engine_Stats: Engine Stats
+Players: Players
+Plugins: Plugins
+Food: Food
+Gamemode_Spectator: Spectator
+Uptime: Uptime
+Enabled: Enabled
+Player_Kicked: The Player was kicked from the Server!
+Entities: Entities
+Disable_Whitelist: Disable Whitelist
+Kicked: Kicked
+Installed: Installed
+Day: Day
+NOTIFICATION_LOWTPS_TITLE: Low TPS
+Send_Message: Send
+Chunks: Chunks
+Night: Night
+No_Players_in_World: Currently, there are no Players in this World
+Worlds: Worlds
+Displayname: Displayname
+XP_Level: XP Level
+NOTIFICATION_DISABLEDPLUGINS_TITLE: Disabled Plugins
+NOTIFICATION_RELOADNEED_TITLE: Reload required
+Name: Name
+NOTIFICATION_UPDATE_TITLE: Update available
+Install_Plugins: Install Plugins
+NOTIFICATION_UPDATE_CONTENT: An new Update for this Plugin was found!<br>Please visit
+  <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a>
+  for more Information
+Previous_Folder: Previous Folder
+Graphs: Graphs
+Disabled: Disabled
+Install: Install
+Enable_Whitelist: Enable Whitelist
+Sent: Sent
+Color_Codes_Supported: Color Codes are support (e.g '&6')
+Error_Unsupported_File_Format: File format not supported
+CPU_load_host: Host CPU Load
+Reconnecting: Reconnecting...
+NOTIFICATION_UNLOADEDJARS_TITLE: Unloaded JAR Files
+MSPT_Long: Milliseconds per Tick
+Enable_End: Enable End
+CPU_Usage: CPU Usage (%)
+NOTIFICATION_DISABLEDPLUGINS_CONTENT: One or more Plugins are currently <b>disabled
+  or unloaded</b><br>Please check the Log for Errors if this is not intended!
+Login_Required: You need to be logged in, in order to continue!
+Page_Load_Failed: Failed to load the requested Page! Is the Server online?
+General: General
+Kick_player: Kick Player
+TPS_History: TPS History
+Icon: Icon
+Notifications: Notifications
+Coming_Soon: Coming soon...
+Edit_Whitelist: Edit Whitelist
+Execute: Execute
+Action_Message: Message
+Gamemode: Gamemode
+Time: Time
+Console: Console
+Controls: Controls
+Disable_End: Disable End
+Login_Required_Short: Login required
+Password: Password
+Error_Occured: An error occured
+Others: Others
+Login_Required_Popup: You need to be logged in to use this Page!<br>Redirecting you
+  to the Login page...
+Health: Health
+Server_Offline: Oh no, the Server seems to be offline! We will try reconnecting for
+  you...
+Overview: Overview
+Management: Management
+From: From
+Gamemode_Survival: Survival
+Weather: Weather
+Disable_Nether: Disable Nether
+Used: Used
+Command: Command
+XP: XP
+Whitelist: Whitelist
+Enable_Nether: Enable Nether

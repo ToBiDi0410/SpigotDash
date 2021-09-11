@@ -1,0 +1,35 @@
+.simplePlayerList {
+    position: relative;
+    max-height: 70vh;
+    overflow-y: scroll;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.playerListBox>* {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.playerListHead {
+    width: 32px;
+    height: 32px;
+}
+
+.playerListName {
+    font-size: 1rem;
+    padding-left: 1.25rem;
+}
+
+.playerListActions {
+    float: right;
+    vertical-align: middle;
+    line-height: 2;
+}
+
+.playerListActions>* {
+    vertical-align: middle;
+}

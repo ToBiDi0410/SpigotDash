@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SpigotDash</title>
+    <link rel="stylesheet" href="./bundledCSS">
+    <script src="./bundledJS"></script>
+</head>
+
+<body>
+    <div class="columns" style="height: 100vh; margin: 0;">
+        <div class="column is-one-fifth p-5" style="max-width: 300px; max-height: 100vh; overflow: auto;">
+
+            <aside class="menu">
+                <ul class="menu-list">
+                    <li><img src="./global/NewLogoWeb.png"></img>
+                    </li>
+                </ul>
+                <ul class="menu-list">
+                    <li><a data-url="./pages/overview/overview.html">%T%OVERVIEW%T%</a></li>
+                </ul>
+                <p class="menu-label">
+                    %T%PERFORMANCE%T%
+                </p>
+                <ul class="menu-list">
+                    <li><a data-url="./pages/performance/graphs.html">%T%GRAPHS%T%</a></li>
+                    <li><a data-url="./pages/performance/worlds.html">%T%WORLDS%T%</a></li>
+                </ul>
+                <p class="menu-label">
+                    %T%MANAGEMENT%T%
+                </p>
+                <ul class="menu-list">
+                    <li><a data-url="./pages/management/console.html">%T%CONSOLE%T%</a></li>
+                    <li><a data-url="./pages/management/controls.html">%T%CONTROLS%T%</a></li>
+                    <li><a data-url="./pages/management/plugins.html">%T%PLUGINS%T%</a></li>
+                </ul>
+                <p class="menu-label">
+                    %T%OTHERS%T%
+                </p>
+                <ul class="menu-list">
+                    <li><a data-url="./pages/others/players.html">%T%PLAYERS%T%</a></li>
+                </ul>
+                <ul class="menu-list">
+                    <li><a data-url="./pages/others/files.html">%T%FILES%T%</a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <div class="column contentColumn p-0" style="height: 100vh; flex-grow: 1;">
+            <div class="menuLayerContainer"></div>
+        </div>
+
+        <script src="./index.js"></script>
+    </div>
+</body>
+
+</html>

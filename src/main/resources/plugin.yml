@@ -1,0 +1,7 @@
+name: SpigotDash
+version: 0.3.9 BETA
+main: de.tobias.spigotdash.main
+api-version: 1.13
+author: Tobias Dickes
+commands:
+    dashurl:
