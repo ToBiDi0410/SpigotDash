@@ -62,7 +62,7 @@ public class main extends JavaPlugin {
 			webserver = new WebServer((Integer) configuration.CFG.get("PORT"));
 			webserver.setup();
 			
-			//NGROK
+			//NGROK MANGEMENT
 			if(configuration.yaml_cfg.getBoolean("USE_NGROK")) {
 				ngrok = new NgrokManager(webserver.port);
 				ngrok.ngrokClient.setAuthToken(configuration.yaml_cfg.getString("NGROK_AUTH"));
