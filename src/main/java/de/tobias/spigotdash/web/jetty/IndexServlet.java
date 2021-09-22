@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class IndexServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/web/index.html");
     }

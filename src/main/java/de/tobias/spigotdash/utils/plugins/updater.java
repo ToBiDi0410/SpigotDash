@@ -36,7 +36,7 @@ public class updater {
 			if (status == 200) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String inputLine;
-				StringBuffer content = new StringBuffer();
+				StringBuilder content = new StringBuilder();
 				while ((inputLine = in.readLine()) != null) {
 					content.append(inputLine);
 				}
@@ -53,7 +53,7 @@ public class updater {
 				Version newestv = new Version(newest_version);
 				Version current = new Version(current_version);
 				
-				Integer update = current.compareTo(newestv);
+				int update = current.compareTo(newestv);
 				
 				if(update == -1) {
 					update_available = true;
@@ -71,7 +71,6 @@ public class updater {
 				}
 			} else {
 				pluginConsole.sendMessage(LOCAL_PREFIX + "&cCheck for Updates failed! You won't recieve notifications!");
-				return;
 			}
 
 		} catch (Exception ex) {
@@ -83,7 +82,7 @@ public class updater {
 		return new Runnable() {
 			@Override
 			public void run() {
-				if(update_available != true) {
+				if(!update_available) {
 					checkForUpdates();
 				}
 			}

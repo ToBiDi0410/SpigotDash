@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class notificationManager {
 	
-	public static HashMap<String, HashMap<String, Object>> notifications = new HashMap<String, HashMap<String, Object>>();
+	public static HashMap<String, HashMap<String, Object>> notifications = new HashMap<>();
 	
 	public static boolean needReload = false;
 	public static void setNeedReload(boolean value) {
@@ -25,7 +25,7 @@ public class notificationManager {
 		//CREATE OR LOAD DATA
 		if(notifications.containsKey(MESSAGE_ID)) {
 			data = notifications.get(MESSAGE_ID);
-			data.replace("removedAfter", System.currentTimeMillis() + (stayMinutes * 1000 * 60));
+			data.replace("removedAfter", System.currentTimeMillis() + ((long) stayMinutes * 1000 * 60));
 		} else {
 			data.put("title", title);
 			data.put("level", level);
@@ -38,12 +38,12 @@ public class notificationManager {
 		}
 		
 		//RESET REMOVE TIME
-		if(data.containsKey("removedAfter")) data.remove("removedAfter");
+		data.remove("removedAfter");
 		
 		if(stayMinutes == -1) {
 			data.put("removedAfter", (long)-1);
 		} else {
-			data.put("removedAfter", System.currentTimeMillis() + (stayMinutes * 1000 * 60));
+			data.put("removedAfter", System.currentTimeMillis() + ((long) stayMinutes * 1000 * 60));
 		}
 		
 		
@@ -58,9 +58,7 @@ public class notificationManager {
 	}
 	
 	public static void removeNotification(String MESSAGE_ID) {
-		if(notifications.containsKey(MESSAGE_ID) ) {
-			notifications.remove(MESSAGE_ID);
-		}
+		notifications.remove(MESSAGE_ID);
 	}
 	
 	public static void closeNotification(String ID) {
@@ -72,7 +70,7 @@ public class notificationManager {
 	}
 	
 	public static void manageNotifications() {
-		List<String> toRemove = new ArrayList<String>();
+		List<String> toRemove = new ArrayList<>();
 		for(Map.Entry<String, HashMap<String, Object>> entry : notifications.entrySet()) {
 			String key = entry.getKey();
 			HashMap<String, Object> value = entry.getValue();

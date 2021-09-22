@@ -25,7 +25,7 @@ public class NgrokManager {
 
 	public void constructClient() {
 		this.ngrokClient = new NgrokClient.Builder().build();
-		Logger.getLogger(String.valueOf(ngrokClient.getNgrokProcess().getClass())).setFilter(emptyLogger());;
+		Logger.getLogger(String.valueOf(ngrokClient.getNgrokProcess().getClass())).setFilter(emptyLogger());
 		Logger.getLogger(String.valueOf(ngrokClient.getClass())).setFilter(emptyLogger());
 	}
 	

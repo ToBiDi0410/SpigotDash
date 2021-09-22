@@ -3,6 +3,7 @@ package de.tobias.spigotdash.utils.files;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.pluginConsole;
@@ -17,7 +18,7 @@ public class configuration {
 	public static File cfg_file = new File(main.pl.getDataFolder(), "config.yml");
 	public static YamlConfiguration yaml_cfg = null;
 	
-	public static HashMap<String, Object> CFG = new HashMap<String, Object>();
+	public static HashMap<String, Object> CFG = new HashMap<>();
 	public static boolean dark = false;
 	
 	public static boolean init() {
@@ -66,7 +67,7 @@ public class configuration {
 		}
 		
 		//WARN ON WRONG_VERSIONS
-		if(!yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase(current_ver)) {
+		if(!Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase(current_ver)) {
 			if(!tryUpgrade(yaml_cfg)) {
 				pluginConsole.sendMessage("&6WARNING: Your Config File Version is not the newest (" + current_ver + ")");
 				pluginConsole.sendMessage("&cTo fix this, you should delete the current Config and Restart the Server to generate a new one!");	
@@ -88,14 +89,14 @@ public class configuration {
 	public static boolean tryUpgrade(YamlConfiguration yaml_cfg) {
 		boolean migrated = false;
 		String currentFileVer = yaml_cfg.getString("FILE_VERSION");
-		if(yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase("0.2")) {
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.2")) {
 			yaml_cfg.set("UPDATE_REFRESH_TIME", 30);
 			yaml_cfg.set("FILE_VERSION", "0.3");
 			save();
 			migrated = true;
 		}
 		
-		if(yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase("0.3")) {
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.3")) {
 			yaml_cfg.set("PLAYER_RECORD", 0);
 			yaml_cfg.set("darkMode", true);
 			yaml_cfg.set("FILE_VERSION", "0.4");
@@ -103,7 +104,7 @@ public class configuration {
 			migrated = true;
 		}
 		
-		if(yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase("0.4")) {
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.4")) {
 			yaml_cfg.set("autoUpdate", true);
 			yaml_cfg.set("autoReloadOnUpdate", true);
 			yaml_cfg.set("FILE_VERSION", "0.5");
@@ -111,14 +112,14 @@ public class configuration {
 			migrated = true;
 		}
 		
-		if(yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase("0.5")) {
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.5")) {
 			yaml_cfg.set("translations", "EN");
 			yaml_cfg.set("FILE_VERSION", "0.6");
 			save();
 			migrated = true;
 		}
 		
-		if(yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase("0.6")) {
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.6")) {
 			yaml_cfg.set("USE_NGROK", false);
 			yaml_cfg.set("NGROK_AUTH", "");
 			yaml_cfg.set("FILE_VERSION", "0.7");

@@ -13,26 +13,17 @@ public class SocketAuthManager {
         if(isValid(name, password)) {
             socketAuths.put(socket.getId(), new HashMap<>());
             socreq.setResponse(200, "TEXT", "LOGGED_IN");
-            return;
         } else {
             socreq.setResponse(400, "TEXT", "ERR_WRONG_NAME_OR_PASSWORD");
-            return;
         }
     }
 
     public static boolean isAuthed(SocketIoSocket soc) {
-        if(socketAuths.containsKey(soc.getId())) {
-            return true;
-        } else {
-            return false;
-        }
+        return socketAuths.containsKey(soc.getId());
     }
 
     public static boolean isValid(String username, String password) {
         username = username.toLowerCase();
-        if(username.equalsIgnoreCase("admin") && password.equals(configuration.CFG.get("WEB_PASSWORD").toString())) {
-            return true;
-        }
-        return false;
+        return username.equalsIgnoreCase("admin") && password.equals(configuration.CFG.get("WEB_PASSWORD").toString());
     }
 }

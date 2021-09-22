@@ -25,7 +25,7 @@ public class errorCatcher {
 		pluginConsole.sendMessageWithoutPrefix("&cStacktrace:");
 		ex.printStackTrace();
 		pluginConsole.sendMessageWithoutPrefix("&c[---------- EXCEPTION ----------]\n");
-		if(halt == true) {
+		if(halt) {
 			pluginConsole.sendMessage("&4The error above will disable this Plugin! Disabling..");
 			Bukkit.getPluginManager().disablePlugin(main.pl);
 		}

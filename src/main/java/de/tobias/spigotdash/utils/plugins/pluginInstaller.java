@@ -39,7 +39,7 @@ public class pluginInstaller {
 			
 			//REQUEST CREATION AND EXECUTION
 			URL download = new URL(API_URL + "resources/" + id + "/download");
-			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Downloading Plugin from '" + download.toString() + "'...");
+			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Downloading Plugin from '" + download + "'...");
 			HttpURLConnection con = (HttpURLConnection) download.openConnection();
 			con.setInstanceFollowRedirects(true);
 			con.setRequestMethod("GET");
@@ -56,7 +56,7 @@ public class pluginInstaller {
 			
 			//WRITING OF FILE
 			File dest = new File(main.pl.getDataFolder().getParentFile(), id + ".SpigotDashDownload" + details.get("file").getAsJsonObject().get("type").getAsString());
-			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Writing Response to File (" + dest.getAbsolutePath().toString() + ")...");
+			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Writing Response to File (" + dest.getAbsolutePath() + ")...");
 			writeBytesFromInputStreamIntoFile(con.getInputStream(), dest);
 			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Finished! Loading Plugin...");
 			pluginManager.load(FilenameUtils.removeExtension(dest.getName()));
@@ -84,7 +84,7 @@ public class pluginInstaller {
 			
 			//REQUEST CREATION AND EXECUTION
 			URL download = new URL(API_URL + "resources/" + id + "/download");
-			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Downloading Update from '" + download.toString() + "'...");
+			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Downloading Update from '" + download + "'...");
 			HttpURLConnection con = (HttpURLConnection) download.openConnection();
 			con.setInstanceFollowRedirects(true);
 			con.setRequestMethod("GET");
@@ -102,7 +102,7 @@ public class pluginInstaller {
 			
 			//WRITING OF FILE
 			File dest = dataFetcher.getPluginFile(pl);
-			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Overwriting current Version with Update (" + dest.getAbsolutePath().toString() + ")...");
+			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Overwriting current Version with Update (" + dest.getAbsolutePath() + ")...");
 			writeBytesFromInputStreamIntoFile(con.getInputStream(), dest);
 			if(configuration.yaml_cfg.getBoolean("autoReloadOnUpdate")) {
 				pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Finished! Reloading Server to enable Update...");
@@ -129,15 +129,15 @@ public class pluginInstaller {
 			
 			if(status != 200) return null;
 			
-			String inline = "";
+			StringBuilder inline = new StringBuilder();
 			Scanner sc = new Scanner(download.openStream());
 			while(sc.hasNext())	{
-				inline+=sc.nextLine();
+				inline.append(sc.nextLine());
 			}
 			sc.close();
 			
 			JsonParser parser = new JsonParser();
-			JsonObject jsonTree = parser.parse(inline).getAsJsonObject();
+			JsonObject jsonTree = parser.parse(inline.toString()).getAsJsonObject();
 			
 			con.disconnect();
 			return jsonTree;

@@ -2,6 +2,7 @@ package de.tobias.spigotdash;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import de.tobias.spigotdash.web.sockets.SocketIoManager;
 import de.tobias.spigotdash.web.jetty.JettyServer;
@@ -80,7 +81,7 @@ public class main extends JavaPlugin {
 			Bukkit.getPluginManager().registerEvents(new AltJoin(), main.pl);
 
 			//COMMANDS
-			Bukkit.getPluginCommand("dashurl").setExecutor(new dashurl());
+			Objects.requireNonNull(Bukkit.getPluginCommand("dashurl")).setExecutor(new dashurl());
 
 			pluginConsole.sendMessage("&5Everything (seems to be) done!");
 			latestStart = System.currentTimeMillis();

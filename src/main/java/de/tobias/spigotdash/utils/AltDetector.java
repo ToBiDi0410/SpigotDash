@@ -15,7 +15,7 @@ public class AltDetector {
 		String IP = getAddress(p.getAddress());
 		if(ips.containsKey(IP)) {
 			ArrayList<OfflinePlayer> list = new ArrayList<>(ips.get(IP));
-			list.remove((OfflinePlayer) p);
+			list.remove(p);
 			return list;
 		} else {
 			return new ArrayList<>();
@@ -30,8 +30,8 @@ public class AltDetector {
 			array = ips.get(IP);
 		}
 		
-		if(!array.contains((OfflinePlayer) p)) {
-			array.add((OfflinePlayer) p);
+		if(!array.contains(p)) {
+			array.add(p);
 		}
 		ips.put(IP, array);
 	}

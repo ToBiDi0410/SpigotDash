@@ -19,9 +19,7 @@ public class SocketIoManager {
             final SocketIoSocket socket = (SocketIoSocket) args[0];
 
             for(String s: listenedEvents) {
-                socket.on(s, arguments -> {
-                   SocketEventHandler.handleSocketEvent(socket, s, arguments);
-                });
+                socket.on(s, arguments -> SocketEventHandler.handleSocketEvent(socket, s, arguments));
             }
         });
     }

@@ -2,6 +2,7 @@ package de.tobias.spigotdash.web.dataprocessing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,14 +17,14 @@ import de.tobias.spigotdash.utils.pluginConsole;
 public class pageDataFetcher {
 	
 	public static Object GET_PAGE_OVERVIEW() {
-		HashMap<String, Object> data = new HashMap<String, Object>();
+		HashMap<String, Object> data = new HashMap<>();
 		
 		data.put("ontime", timeIntoString(dataFetcher.getOntime()));
 		data.put("tps", Math.round(dataFetcher.getTPS() * 100.0) / 100.0);
 		data.put("player_count", dataFetcher.getPlayerCount());
 		data.put("plugin_count", Bukkit.getPluginManager().getPlugins().length);
 		data.put("player_record", configuration.yaml_cfg.getInt("PLAYER_RECORD"));
-		data.put("notifications", notificationManager.notifications.entrySet().stream().filter(x -> !(boolean)x.getValue().get("closed")).collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue())) );
+		data.put("notifications", notificationManager.notifications.entrySet().stream().filter(x -> !(boolean)x.getValue().get("closed")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)) );
 		
 		return data;
 	}
@@ -50,24 +51,24 @@ public class pageDataFetcher {
 	}
 	
 	public static Object GET_PAGE_CONTROLS() {
-		HashMap<String, Object> data = new HashMap<String, Object>();
+		HashMap<String, Object> data = new HashMap<>();
 		
 		Object end = dataFetcher.getBukkitPropertie("settings.allow-end");
 		if(end == null) {
 			pluginConsole.sendMessage("&cYour Bukkit.yml does not contain the 'settings.allow-end' Value. Please add it manually!");
 		} else {
-			data.put("end", (boolean) end);
+			data.put("end", end);
 		}
 		
 		String whitelist = dataFetcher.getServerPropertie("white-list");
-		if(whitelist == null || whitelist == "" || whitelist == " ") {
+		if(whitelist == null || whitelist.equals("") || whitelist.equals(" ")) {
 			pluginConsole.sendMessage("&cYour Server.properties does not contain the 'white-list' Value. Please add it manually!");
 		} else {
 			data.put("whitelist", Boolean.parseBoolean(whitelist));
 		}
 		
 		String nether = dataFetcher.getServerPropertie("allow-nether");
-		if(nether == null || nether == "" || nether == " ") {
+		if(nether == null || nether.equals("") || nether.equals(" ")) {
 			pluginConsole.sendMessage("&cYour Server.properties does not contain the 'allow-nether' Value. Please add it manually!");
 		} else {
 			data.put("nether", Boolean.parseBoolean(nether));
@@ -92,7 +93,7 @@ public class pageDataFetcher {
 	}
 	
 	public static Object offlinePlayerToWeb(OfflinePlayer p) {
-		HashMap<String, Object> data = new HashMap<String, Object>();
+		HashMap<String, Object> data = new HashMap<>();
 		
 		data.put("uuid", p.getUniqueId().toString());
 		data.put("name", p.getName());

@@ -83,34 +83,32 @@ public class webBundler {
 	}
 	
 	public static String bundleCSSContents(HashMap<String, String> contents) {
-		String s = "/*This file contains multiple CSS Files!*/\n";
+		StringBuilder s = new StringBuilder("/*This file contains multiple CSS Files!*/\n");
 		for(Entry<String, String> ent : contents.entrySet()) {
-			s+= ""
-			+ "\n\n/*----------\n"
-			+ "FROM: " + ent.getKey()
-			+ "\n----------*/\n"
-			+ ent.getValue();
+			s.append("" + "\n\n/*----------\n" + "FROM: ")
+			.append(ent.getKey())
+			.append("\n----------*/\n")
+			.append(ent.getValue());
 		}
 
-		return s;
+		return s.toString();
 	}
 	
 	//JS
 	
 	public static String bundleJSContents(HashMap<String, String> contents) {
-		String s = "/*This file contains multiple JS Files!*/\n";
+		StringBuilder s = new StringBuilder("/*This file contains multiple JS Files!*/\n");
 		for(Entry<String, String> ent : contents.entrySet()) {
-			s+= ""
-			+ "\n\n/*----------\n"
-			+ "FROM: " + ent.getKey()
-			+ "\n----------*/\n"
-			+ translations.replaceTranslationsInString(ent.getValue());
+			s.append("" + "\n\n/*----------\n" + "FROM: ")
+			.append(ent.getKey())
+			.append("\n----------*/\n")
+			.append(translations.replaceTranslationsInString(ent.getValue()));
 		}
 
-		return s;
+		return s.toString();
 	}
 	
-	public static void addResourceToMap(String rsname, HashMap<String, String> files) throws IOException {
+	public static void addResourceToMap(String rsname, HashMap<String, String> files) throws Exception {
 		URL rs = main.pl.getClass().getResource("/www/global/" + rsname);
 		files.put(rs.getFile(), IOUtils.toString(rs, StandardCharsets.UTF_8));
 	}
@@ -119,9 +117,9 @@ public class webBundler {
 	public static HashMap<String, String> getBundledPage(String relpath) {
 		HashMap<String, String> ressources = new HashMap<>();
 
-		String html = "";
-		String css = "";
-		String js = "";
+		String html;
+		String css;
+		String js;
 		
 		try {
 			html = IOUtils.toString(main.pl.getClass().getResource("/www/" + relpath + ".html"), StandardCharsets.UTF_8);

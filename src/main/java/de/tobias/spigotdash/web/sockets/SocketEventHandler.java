@@ -30,6 +30,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 public class SocketEventHandler {
@@ -53,35 +54,32 @@ public class SocketEventHandler {
     }
 
     public static void request(Object[] args, SocketIoSocket soc) {
-        Bukkit.getScheduler().runTask(main.pl, new Runnable() {
-                    @Override
-                    public void run() {
-                        JsonObject jsonobj = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
+        Bukkit.getScheduler().runTask(main.pl, () -> {
+            JsonObject jsonobj = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
 
-                        SocketRequest req = new SocketRequest(jsonobj);
-                        String type = req.json.get("TYPE").getAsString();
+            SocketRequest req = new SocketRequest(jsonobj);
+            String type = req.json.get("TYPE").getAsString();
 
-                        try {
-                            if(type.equalsIgnoreCase("PAGE")) {
-                                handlePageRequest(req);
-                            } else if(type.equalsIgnoreCase("WEBFILE")) {
-                                handleWebfileRequest(req);
-                            } else if(type.equalsIgnoreCase("SYSFILE")) {
-                                handleSysfileRequest(req);
-                            } else if(type.equalsIgnoreCase("EXECUTE")) {
-                                handleExecutionRequest(req);
-                            } else if(type.equalsIgnoreCase("DATA")) {
-                                handleDataRequest(req);
-                            } else if(type.equalsIgnoreCase("PAGEDATA")) {
-                                handlePageDataRequest(req);
-                            }
-                        } catch(Exception ex) {
-                            errorCatcher.catchException(ex, false);
-                            req.setResponse(500, "TEXT", "INTERNAL_ERROR");
-                        }
+            try {
+                if(type.equalsIgnoreCase("PAGE")) {
+                    handlePageRequest(req);
+                } else if(type.equalsIgnoreCase("WEBFILE")) {
+                    handleWebfileRequest(req);
+                } else if(type.equalsIgnoreCase("SYSFILE")) {
+                    handleSysfileRequest(req);
+                } else if(type.equalsIgnoreCase("EXECUTE")) {
+                    handleExecutionRequest(req);
+                } else if(type.equalsIgnoreCase("DATA")) {
+                    handleDataRequest(req);
+                } else if(type.equalsIgnoreCase("PAGEDATA")) {
+                    handlePageDataRequest(req);
+                }
+            } catch(Exception ex) {
+                errorCatcher.catchException(ex, false);
+                req.setResponse(500, "TEXT", "INTERNAL_ERROR");
+            }
 
-                        ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
-                    }
+            ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
         });
     }
 
@@ -106,10 +104,8 @@ public class SocketEventHandler {
     public static void handlePageRequest(SocketRequest req) {
         if(req.json.has("PAGE")) {
             req.setResponse(200, "TEXT", webBundler.getBundledPage("pages/" + req.json.get("PAGE").getAsString()));
-            return;
         } else {
             req.setResponse(400, "TEXT", "ERR_MISSING_PAGE");
-            return;
         }
     }
 
@@ -120,10 +116,8 @@ public class SocketEventHandler {
 
             if(file.toLowerCase().indexOf(".html") > 0 || file.toLowerCase().indexOf(".css") > 0 || file.toLowerCase().indexOf(".js") > 0) {
                 req.setResponse(200, "TEXT", translations.replaceTranslationsInString(Resources.toString(res, StandardCharsets.UTF_8)));
-                return;
             } else {
                 req.setResponse(200, "RESOURCE", res);
-                return;
             }
         } else {
             req.setResponse(400, "TEXT", "ERR_MISSING_FILE");
@@ -140,14 +134,11 @@ public class SocketEventHandler {
                 } else {
                     req.setResponse(400, "TEXT","ERR_FILE_IS_DIR");
                 }
-                return;
             } else {
                 req.setResponse(404, "TEXT", "ERR_FILE_NOT_FOUND");
-                return;
             }
         } else {
             req.setResponse(400, "TEXT", "ERR_MISSING_FILE");
-            return;
         }
     }
 
@@ -208,9 +199,8 @@ public class SocketEventHandler {
                 if(action.equalsIgnoreCase("TOGGLE_NETHER")) {
                     boolean current = Boolean.parseBoolean(dataFetcher.getServerPropertie("allow-nether"));
                     dataFetcher.setServerPropertie("allow-nether", String.valueOf(!current));
-                    boolean suc = true;
                     notificationManager.setNeedReload(true);
-                    req.setResponse(suc ? 200 : 500, "TEXT", suc ? "SUCCESS" : "ERROR");
+                    req.setResponse(200, "TEXT", "SUCCESS");
                     return;
                 }
 
@@ -219,9 +209,8 @@ public class SocketEventHandler {
 
                     Bukkit.setWhitelist(!current);
                     dataFetcher.setServerPropertie("white-list", String.valueOf(!current));
-                    boolean suc = true;
                     Bukkit.reloadWhitelist();
-                    req.setResponse(suc ? 200 : 500, "TEXT", suc ? "SUCCESS" : "ERROR");
+                    req.setResponse(200, "TEXT", "SUCCESS");
                     return;
                 }
 
@@ -299,8 +288,8 @@ public class SocketEventHandler {
                         if(action.equalsIgnoreCase("WEATHER")) {
                             if(json.has("WEATHER")) {
                                 String weather = json.get("WEATHER").getAsString();
-                                final boolean thundering = weather.equalsIgnoreCase("Thunder") ? true : false;
-                                final boolean storming = weather.equalsIgnoreCase("Rain") || weather.equalsIgnoreCase("Thunder") ? true : false;
+                                final boolean thundering = weather.equalsIgnoreCase("Thunder");
+                                final boolean storming = weather.equalsIgnoreCase("Rain") || weather.equalsIgnoreCase("Thunder");
 
                                 w.setStorm(storming);
                                 w.setThundering(thundering);
@@ -322,7 +311,7 @@ public class SocketEventHandler {
 
                         if(action.equalsIgnoreCase("TIME")) {
                             if(json.has("TIME")) {
-                                final Long time = json.get("TIME").getAsLong();
+                                final long time = json.get("TIME").getAsLong();
 
                                 w.setTime(time);
                                 req.setResponse(200, "TEXT", "SUCCESS");
@@ -337,17 +326,12 @@ public class SocketEventHandler {
                             if(json.has("TYPE")) {
                                 EntityType entType = EntityType.valueOf(json.get("TYPE").getAsString());
 
-                                if (entType != null) {
-                                    for (Entity e : w.getEntities()) {
-                                        if (e.getType() == entType)
-                                            e.remove();
-                                    }
-                                    req.setResponse(200, "TEXT", "KILLED");
-                                    return;
-                                } else {
-                                    req.setResponse(400, "TEXT", "ERR_INVALID_ENTITYTYPE");
-                                    return;
+                                for (Entity e : w.getEntities()) {
+                                    if (e.getType() == entType)
+                                        e.remove();
                                 }
+                                req.setResponse(200, "TEXT", "KILLED");
+                                return;
                             } else {
                                 req.setResponse(400, "TEXT", "ERR_MISSING_TYPE");
                                 return;
@@ -449,15 +433,12 @@ public class SocketEventHandler {
                 if (pl.isEnabled()) {
                     boolean suc = pluginManager.disablePlugin(pl);
                     req.setResponse(suc ? 200 : 500, "TEXT", suc ? "SUCCESS" : "ERROR");
-                    return;
                 } else {
                     boolean suc = pluginManager.load(json.get("plugin").getAsString());
                     req.setResponse(suc ? 200 : 500, "TEXT", suc ? "SUCCESS" : "ERROR");
-                    return;
                 }
             } else {
                 req.setResponse(400, "TEXT", "ERR_MISSING_PLUGIN");
-                return;
             }
         }
     }
@@ -484,7 +465,7 @@ public class SocketEventHandler {
                     return;
                 }
 
-                req.setResponse(200, "TEXT", dataFetcher.getWorldForWeb(Bukkit.getWorld(json.get("WORLD").getAsString())));
+                req.setResponse(200, "TEXT", dataFetcher.getWorldForWeb(Objects.requireNonNull(Bukkit.getWorld(json.get("WORLD").getAsString()))));
                 return;
             } else {
                 req.setResponse(400, "TEXT", "ERR_MISSING_WORLD");
@@ -499,7 +480,6 @@ public class SocketEventHandler {
 
         if(method.equalsIgnoreCase("THEME"))  {
             req.setResponse(200, "TEXT", (configuration.yaml_cfg.getBoolean("darkMode") ? "dark" : "light"));
-            return;
         }
     }
 
@@ -538,11 +518,9 @@ public class SocketEventHandler {
 
             if(page.equalsIgnoreCase("PLAYERS")) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_PLAYERS());
-                return;
             }
         } else {
             req.setResponse(400, "TEXT", "ERR_PAGE");
-            return;
         }
     }
 }

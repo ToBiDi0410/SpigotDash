@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileUtils;
@@ -79,7 +80,7 @@ public class translations {
 				loadedFile = null;
 			}
 			
-			Reader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
+			Reader r = new InputStreamReader(Objects.requireNonNull(stream), StandardCharsets.UTF_8);
 			yaml_cfg = YamlConfiguration.loadConfiguration(r);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,7 +89,7 @@ public class translations {
 	
 	public static void loadDefaultTranslations() {
 		InputStream stream = main.pl.getClass().getResourceAsStream("/translations/EN.yml");
-		YamlConfiguration temp = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
+		YamlConfiguration temp = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(stream), StandardCharsets.UTF_8));
 		
 		for(String key : temp.getKeys(true)) {
 			currentTranslations.put(key, temp.getString(key));
