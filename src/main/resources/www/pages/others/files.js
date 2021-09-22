@@ -21,7 +21,7 @@ var FILE_TEMPLATE_BACK = '<tr onclick="goBackPath();">\
     <tr>';
 
 async function refreshFiles() {
-    var files = await getDataFromAPI({ method: "GET_FILES_IN_PATH", path: curr_path });
+    var files = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_FILES_IN_PATH", PATH: curr_path });
     files = files.sort((a, b) => (a.DIR == false) ? 1 : -1);
     var table_body = document.getElementsByTagName("tbody")[0];
     table_body.innerHTML = "";
@@ -72,27 +72,15 @@ async function downloadFile(event) {
     event.stopPropagation();
     var elem = event.target.parentElement.parentElement.querySelector(".buttonDownload");
     elem.classList.add("is-loading");
-    console.log(elem);
 
     try {
         var path = elem.getAttribute("data-relative-path");
-        var data = await fetch(API_URL, {
-            "headers": {
-                "accept": "*/*",
-                "accept-language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,nl;q=0.6",
-                "cache-control": "no-cache",
-                "content-type": "application/json;charset=UTF-8",
-            },
-            "body": '{\n    "method": "GET_FILE_WITH_PATH", "path": "' + path + '"\n}',
-            "method": "POST",
-            "Cache-Control": "no-cache"
 
-        });
+        var bytes = await getDataFromAPI({ TYPE: "SYSFILE", PATH: path });
+        var ascii = new Uint8Array(bytes);
 
-        var blob = await data.blob();
-        var url = window.URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
+        var a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(new Blob([ascii], { type: 'application/octet-stream' }));
         a.download = path.split("/").latest();
         document.body.appendChild(a);
         a.click();
@@ -116,24 +104,13 @@ async function openFileInViewer(path) {
         }
 
 
-        var data = await fetch(API_URL, {
-            "headers": {
-                "accept": "*/*",
-                "accept-language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,nl;q=0.6",
-                "cache-control": "no-cache",
-                "content-type": "application/json;charset=UTF-8",
-            },
-            "body": '{\n    "method": "GET_FILE_WITH_PATH", "path": "' + path + '"\n}',
-            "method": "POST",
-            "Cache-Control": "no-cache"
+        var data = await socketIoRequestAwaitFull({ TYPE: "SYSFILE", PATH: path });
 
-        });
-
-        if (data.status != 200) {
-            throw new Error(await data.text());
+        if (data.CODE != 200) {
+            throw new Error(await data.DATA);
         }
 
-        content = await data.text();
+        content = byteArrayToString(data.DATA);
         content = content.replaceAll("\n", "<br>")
         extension = extension.replace("yml", "yaml");
     } catch (err) {

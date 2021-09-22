@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import de.tobias.spigotdash.utils.configuration;
+import de.tobias.spigotdash.utils.files.configuration;
 
 public class JoinTime implements Listener {
 

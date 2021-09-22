@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.web;
+package de.tobias.spigotdash.web.sockets;
 
 public class GeneralSocketReciever {
 	private String userName;

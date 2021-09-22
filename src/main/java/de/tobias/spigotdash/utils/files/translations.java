@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.utils;
+package de.tobias.spigotdash.utils.files;
 
 import java.io.File;
 import java.io.InputStream;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -16,7 +17,7 @@ import de.tobias.spigotdash.main;
 
 public class translations {
 
-	public static Map<String, Object> currentTranslations = new HashMap<String, Object>();
+	public static Map<String, Object> currentTranslations = new HashMap<>();
 	public static String translationBrackets = "%T%";
 	public static YamlConfiguration yaml_cfg = null;
 	public static File loadedFile = null;

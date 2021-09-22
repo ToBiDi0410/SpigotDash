@@ -1,5 +1,7 @@
 package de.tobias.spigotdash.utils;
 
+import de.tobias.spigotdash.utils.files.translations;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

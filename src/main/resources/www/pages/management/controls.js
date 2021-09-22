@@ -3,7 +3,7 @@ async function initPage() {
 }
 
 async function updateTask() {
-    var data = await getDataFromAPI({ method: "GET_CONTROLS" });
+    var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "CONTROLS" });
 
     if (JSONMatches(data, CURR_DATA)) {
         return;
@@ -43,7 +43,7 @@ async function addToWhitelist(elem) {
     uuid = uuid[uuid.length - 1];
     elem.classList.add("is-loading");
 
-    var data = await getDataFromAPI({ method: "CONTROL", action: "WHITELIST_ADD", player: input.value });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "WHITELIST_ADD", PLAYER: input.value });
 
     if (data == null || data != "SUCCESS") {
         input.value = "%T%ADD_FAILED%T%";
@@ -60,7 +60,7 @@ async function removeFromWhitelist(elem) {
 
     elem.classList.add("is-loading");
 
-    var data = await getDataFromAPI({ method: "CONTROL", action: "WHITELIST_REMOVE", player: uuid });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "WHITELIST_REMOVE", PLAYER: uuid });
 
     if (data != "SUCCESS") {
         elem.innerHTML = "%T%ERROR%T%";
@@ -210,7 +210,7 @@ async function addToOperators(elem) {
     uuid = uuid[uuid.length - 1];
     elem.classList.add("is-loading");
 
-    var data = await getDataFromAPI({ method: "CONTROL", action: "OPERATOR_ADD", player: input.value });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "OPERATOR_ADD", PLAYER: input.value });
 
     if (data == null || data != "SUCCESS") {
         input.value = "%T%ADD_FAILED%T%";
@@ -227,7 +227,7 @@ async function removeFromOperators(elem) {
 
     elem.classList.add("is-loading");
 
-    var data = await getDataFromAPI({ method: "CONTROL", action: "OPERATOR_REMOVE", player: uuid });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "OPERATOR_REMOVE", PLAYER: uuid });
 
     if (data != "SUCCESS") {
         elem.innerHTML = "%T%ERROR%T%";

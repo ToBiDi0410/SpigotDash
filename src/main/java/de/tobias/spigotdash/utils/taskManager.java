@@ -2,10 +2,13 @@ package de.tobias.spigotdash.utils;
 
 import java.util.HashMap;
 
+import de.tobias.spigotdash.utils.files.configuration;
+import de.tobias.spigotdash.utils.files.translations;
+import de.tobias.spigotdash.utils.plugins.updater;
 import org.bukkit.Bukkit;
 
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.web.dataFetcher;
+import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 
 public class taskManager {
 

@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.utils;
+package de.tobias.spigotdash.utils.plugins;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,6 +11,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.utils.Version;
+import de.tobias.spigotdash.utils.files.configuration;
+import de.tobias.spigotdash.utils.pluginConsole;
 
 public class updater {
 

@@ -5,6 +5,6 @@ async function initPage() {
 }
 
 async function updaterTask() {
-    var data = await getDataFromAPI({ method: "GET_OVERVIEW" });
+    var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "OVERVIEW" });
     insertObjectIntoHTML(data, document.body);
 }

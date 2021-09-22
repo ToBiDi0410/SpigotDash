@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.utils;
+package de.tobias.spigotdash.utils.files;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;

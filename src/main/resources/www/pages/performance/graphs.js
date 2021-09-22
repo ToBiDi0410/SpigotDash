@@ -149,7 +149,7 @@ function fixDuplicates() {
 async function updateData() {
     try {
 
-        var data = await getDataFromAPI({ method: "GET_GRAPHS" });
+        var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "GRAPHS" });
 
         var RAM_GRAPH = {
             options: {

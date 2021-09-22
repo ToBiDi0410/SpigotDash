@@ -80,6 +80,10 @@ function heightFillRestClass() {
     });
 }
 
+function byteArrayToString(array) {
+    return String.fromCharCode.apply(null, new Uint8Array(array));
+}
+
 function arr_diff(a1, a2) {
     var a = [],
         diff = [];
@@ -117,7 +121,7 @@ function toggleExpandCart(elem) {
 
 async function getDataFromAPI(body) {
     try {
-        var data;
+        /*var data;
         data = await customEncryptor.encryptedFetch(API_URL, {
             method: "POST",
             mode: "cors",
@@ -134,6 +138,8 @@ async function getDataFromAPI(body) {
         }
 
         data = await data.json();
+        return data;*/
+        data = await socketIoRequestAwait(body);
         return data;
     } catch (err) {
         console.error(err);
@@ -266,9 +272,3 @@ Object.size = function(obj) {
 
 var theme = (document.head.innerHTML.includes("bulmaswatch") ? "dark" : "light");
 var API_URL = "./api";
-
-const timer = function(time) {
-    return new Promise((resolve, reject) => {
-        setTimeout(resolve, time);
-    });
-}

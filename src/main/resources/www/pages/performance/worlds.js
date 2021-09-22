@@ -5,7 +5,7 @@ async function initPage() {
 async function refreshWorlds() {
     var worldListDom = document.querySelector(".worldlist");
 
-    var data = await getDataFromAPI({ method: "GET_WORLDS" });
+    var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "WORLDS" });
 
     worldListDom.querySelectorAll(".worldlist_entry").forEach((elem) => {
         var obj = data.getObjectWithKeyValue("name", elem.getAttribute("data-id"));
@@ -35,7 +35,7 @@ async function openWorldMenu(worldname) {
     menu.open();
     menu.setHTML(TEMPLATE_WORLD_MENU);
 
-    var data = await getDataFromAPI({ method: "GET_WORLD", world: worldname });
+    var data = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_WORLD", WORLD: worldname });
 
     var entitieCount = menu.getContentDOM().querySelector(".card-header-title.entities");
     var entitieList = menu.getContentDOM().querySelector(".entitieDropDownCont");
@@ -49,7 +49,7 @@ async function openWorldMenu(worldname) {
         elem.addEventListener("click", async function() {
             this.classList.add("is-loading");
 
-            var res = await getDataFromAPI({ method: "CONTROL_WORLD", action: "WEATHER", world: data.name, weather: this.getAttribute("data-weather") });
+            var res = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL_WORLD", ACTION: "WEATHER", WORLD: data.name, WEATHER: this.getAttribute("data-weather") });
             if (res == "SUCCESS") {
                 this.classList.remove("is-loading");
                 worldUpdateWeather(this.parentElement.parentElement.parentElement.parentElement, this.getAttribute(("data-weather")));
@@ -60,7 +60,7 @@ async function openWorldMenu(worldname) {
     var timeDom = menu.getContentDOM().querySelector(".timeslider");
     var daysDom = menu.getContentDOM().querySelector(".days");
     timeDom.addEventListener("input", async function() {
-        var res = await getDataFromAPI({ method: "CONTROL_WORLD", action: "TIME", world: data.name, time: this.value });
+        var res = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL_WORLD", ACTION: "TIME", WORLD: data.name, TIME: this.value });
 
         if (res == "SUCCESS") {
             this.removeAttribute("disabled");
@@ -70,7 +70,7 @@ async function openWorldMenu(worldname) {
     var datapackDom = menu.getContentDOM().querySelector(".datapacks");
 
     while (!menu.closed) {
-        data = await getDataFromAPI({ method: "GET_WORLD", world: worldname });
+        data = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_WORLD", WORLD: worldname });
 
         worldMenuUpdateEntities(entitieList, data.Entities);
         worldMenuUpdatePlayers(playerList, data.Players);
@@ -98,7 +98,7 @@ function registerEntityKillClicks(menu, data) {
         elem.addEventListener("click", async function() {
             this.setAttribute("disabled", true);
             this.classList.add("is-loading");
-            var res = await getDataFromAPI({ method: "CONTROL_WORLD", action: "KILL_ENTITY_TYPE", world: data.name, "type": this.getAttribute("data-type") });
+            var res = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL_WORLD", ACTION: "KILL_ENTITY_TYPE", WORLD: data.name, TYPE: this.getAttribute("data-type") });
 
             if (res == "KILLED") {
                 this.removeAttribute("disabled");

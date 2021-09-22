@@ -1,12 +1,12 @@
 <div class="m-1">
     <div>%T%GENERAL%T%</div>
-    <div class="button is-danger m-1" onclick='executeAPIRequestWithButton(this, { method: "CONTROL", action: "STOP" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">stop_circle</span>%T%STOP%T%</div>
-    <div class="button is-danger m-1" onclick='executeAPIRequestWithButton(this, { method: "CONTROL", action: "RELOAD" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">refresh</span>%T%RELOAD%T%</div>
+    <div class="button is-danger m-1" onclick='executeAPIRequestWithButton(this, {TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "STOP" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">stop_circle</span>%T%STOP%T%</div>
+    <div class="button is-danger m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "RELOAD" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">refresh</span>%T%RELOAD%T%</div>
 </div>
 
 <div class="m-1">
     <div>%T%WHITELIST%T%</div>
-    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { method: "CONTROL", action: "TOGGLE_WHITELIST" }, function(data) { return(data == "SUCCESS") });'>
+    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_WHITELIST" }, function(data) { return(data == "SUCCESS") });'>
         <span class="material-icons-outlined">power_settings_new</span>
         <div data-apiobj="WHITELIST_TOGGLE_TEXT"></div>
     </div>
@@ -20,11 +20,11 @@
 
 <div class="m-1">
     <div>%T%GAME%T%</div>
-    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { method: "CONTROL", action: "TOGGLE_NETHER" }, function(data) { return(data == "SUCCESS") });'>
+    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_NETHER" }, function(data) { return(data == "SUCCESS") });'>
         <span class="material-icons-outlined">power_settings_new</span>
         <div data-apiobj="NETHER_TOGGLE_TEXT"></div>
     </div>
-    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { method: "CONTROL", action: "TOGGLE_END" }, function(data) { return(data == "SUCCESS") });'>
+    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_END" }, function(data) { return(data == "SUCCESS") });'>
         <span class="material-icons-outlined">power_settings_new</span>
         <div data-apiobj="END_TOGGLE_TEXT"></div>
     </div>

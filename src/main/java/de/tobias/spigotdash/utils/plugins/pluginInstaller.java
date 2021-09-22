@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.utils;
+package de.tobias.spigotdash.utils.plugins;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,6 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import de.tobias.spigotdash.utils.files.configuration;
+import de.tobias.spigotdash.utils.errorCatcher;
+import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
@@ -17,7 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.web.dataFetcher;
+import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 
 public class pluginInstaller {
 	

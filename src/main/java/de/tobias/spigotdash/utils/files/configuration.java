@@ -1,9 +1,11 @@
-package de.tobias.spigotdash.utils;
+package de.tobias.spigotdash.utils.files;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import de.tobias.spigotdash.utils.errorCatcher;
+import de.tobias.spigotdash.utils.pluginConsole;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.tobias.spigotdash.main;

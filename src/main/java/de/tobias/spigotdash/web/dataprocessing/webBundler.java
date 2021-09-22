@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.web;
+package de.tobias.spigotdash.web.dataprocessing;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.utils.configuration;
-import de.tobias.spigotdash.utils.translations;
+import de.tobias.spigotdash.utils.files.configuration;
+import de.tobias.spigotdash.utils.files.translations;
 
 public class webBundler {
 	
@@ -122,8 +122,6 @@ public class webBundler {
 		String html = "";
 		String css = "";
 		String js = "";
-		
-		
 		
 		try {
 			html = IOUtils.toString(main.pl.getClass().getResource("/www/" + relpath + ".html"), StandardCharsets.UTF_8);

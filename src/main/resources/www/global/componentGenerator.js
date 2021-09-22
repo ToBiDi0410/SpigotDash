@@ -60,6 +60,9 @@ function generatePluginEntry(value) {
     value.enabled_text = value.enabled ? "%T%ENABLED%T%" : "%T%DISABLED%T%";
     value.enabled_toggle_text = !value.enabled ? "%T%ENABLE%T%" : "%T%DISABLE%T%";
     value.enabled_toggle_onoff = !value.enabled ? "on" : "off";
+    if (!value.description) { value.description = ""; }
+    if (!value.website) { value.website = ""; }
+
     if (value.authors != null) {
         value.authors = value.authors.join(",").substring(0, 40);
     }
@@ -99,7 +102,7 @@ var TEMPLATE_WORLD_ENTRY = '\
 <div class="worldlist_entry box" data-id="%NAME%" onclick="openWorldMenu(\'%NAME%\');">\
         <div class="tile is-ancestor">\
             <div class="tile is-1">\
-                <img src="./global/icons/%ICON%.png">\
+                <img class="imgLoadSocket loader is-loading" data-src="global/icons/%ICON%.png">\
             </div>\
             <div class="tile is-1"></div>\
             <div class="tile is-3">\
@@ -141,7 +144,7 @@ var TEMPLATE_WORLD_ENTITIE_ENTRY = '\
                 <div class="level">\
                     <div class="level-left">\
                         <div class="level-item" style="width: 48px">\
-                            <img style="max-width: 48px; max-height: 48px;" src="./global/icons/MOBS/%ICON%.png">\
+                            <img class="imgLoadSocket loader is-loading" style="max-width: 48px; max-height: 48px;" data-src="global/icons/MOBS/%ICON%.png">\
                         </div>\
                         <div class="level-item">\
                             <div class="title" style="font-size: 120%;">%NAME%</div>\

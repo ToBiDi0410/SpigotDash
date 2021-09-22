@@ -2,7 +2,7 @@ var current_notifications = {};
 var current_notifications_raw = {};
 
 async function refreshNotifications() {
-    var newNotifications = await getDataFromAPI({ method: "GET_NOTIFICATIONS" });
+    var newNotifications = await socketIoRequestAwait({ TYPE: "DATA", METHOD: "GET_NOTIFICATIONS" });
 
     if (!JSONMatches(current_notifications_raw, getIndependentObject(newNotifications))) {
         var newNotificationsSaved = getIndependentObject(newNotifications);
@@ -18,7 +18,7 @@ async function refreshNotifications() {
                     text: value.message,
                     type: value.level.toLowerCase(),
                     callback: async function() {
-                        var data = await getDataFromAPI({ method: "NOTIFICATION_CLOSED", uuid: value.uuid });
+                        var data = await getDataFromAPI({ TYPE: "EXECUTION", METHOD: "NOTIFICATION_CLOSED", UUID: value.uuid });
                     }
                 });
             }

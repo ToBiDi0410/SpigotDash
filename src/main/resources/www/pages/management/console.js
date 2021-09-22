@@ -16,7 +16,7 @@ async function executeCommand(elem) {
     btn.setAttribute("disabled", "");
     btn.classList.add("is-loading");
 
-    var data = await getDataFromAPI({ method: "EXEC_COMMAND", command: command });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "EXEC_COMMAND", COMMAND: command });
 
     input.removeAttribute("disabled");
     btn.removeAttribute("disabled");
@@ -27,7 +27,7 @@ async function executeCommand(elem) {
 }
 
 async function updateLog() {
-    var data = await getDataFromAPI({ method: "GET_LOG" });
+    var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "CONSOLE" });
     if (!JSONMatches(data, currentData)) {
         var messagelist = document.querySelector(".console_messagelist");
         var newLines = data.filter((elem) => { return !currentData.includes(elem); });

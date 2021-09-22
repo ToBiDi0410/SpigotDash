@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.web;
+package de.tobias.spigotdash.web.dataprocessing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 
-import de.tobias.spigotdash.utils.configuration;
+import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.notificationManager;
 import de.tobias.spigotdash.utils.pluginConsole;
 

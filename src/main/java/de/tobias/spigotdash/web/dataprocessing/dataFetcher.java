@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.web;
+package de.tobias.spigotdash.web.dataprocessing;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,8 +43,8 @@ import de.tobias.spigotdash.listener.JoinTime;
 import de.tobias.spigotdash.utils.AltDetector;
 import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.pluginConsole;
-import de.tobias.spigotdash.utils.pluginManager;
-import de.tobias.spigotdash.utils.translations;
+import de.tobias.spigotdash.utils.plugins.pluginManager;
+import de.tobias.spigotdash.utils.files.translations;
 
 public class dataFetcher {
 

@@ -5,7 +5,7 @@ async function initPage() {
 }
 
 async function updatePlayerList() {
-    var temp_players = await getDataFromAPI({ method: "GET_PLAYERS" });
+    var temp_players = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "PLAYERS" });
     temp_players.forEach(generatePlayerEntry);
     if (JSONMatches(temp_players, players)) return;
     players = temp_players;
@@ -78,7 +78,7 @@ async function sendMessageClick(uuid) {
         backdrop: true,
         allowOutsideClick: () => !Swal.isLoading(),
         preConfirm: async function(message) {
-            var reqres = await getDataFromAPI({ method: "PLAYER_ACTION", action: "MESSAGE", message: message, player: uuid })
+            var reqres = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "PLAYER_ACTION", ACTION: "MESSAGE", MESSAGE: message, PLAYER: uuid })
             if (reqres == "SUCCESS") {
                 return true;
             } else {
@@ -108,7 +108,7 @@ async function kickClick(uuid) {
         backdrop: true,
         allowOutsideClick: () => !Swal.isLoading(),
         preConfirm: async function(message) {
-            var reqres = await getDataFromAPI({ method: "PLAYER_ACTION", action: "KICK", message: message, player: uuid })
+            var reqres = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "PLAYER_ACTION", ACTION: "KICK", MESSAGE: message, PLAYER: uuid })
             if (reqres == "SUCCESS") {
                 return true;
             } else {

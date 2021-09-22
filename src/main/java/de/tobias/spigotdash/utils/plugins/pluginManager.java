@@ -1,4 +1,4 @@
-package de.tobias.spigotdash.utils;
+package de.tobias.spigotdash.utils.plugins;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
+import de.tobias.spigotdash.utils.errorCatcher;
+import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

@@ -4,57 +4,44 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>SpigotDash</title>
-    <link rel="stylesheet" href="./bundledCSS">
-    <script src="./bundledJS"></script>
+    <link rel="stylesheet" href="global/other-license/bulma.min.css">
+    <script src="global/other-license/socket.io.min.js"></script>
 </head>
 
 <body>
-    <div class="columns" style="height: 100vh; margin: 0;">
-        <div class="column is-one-fifth p-5" style="max-width: 300px; max-height: 100vh; overflow: auto;">
-
-            <aside class="menu">
-                <ul class="menu-list">
-                    <li><img src="./global/NewLogoWeb.png"></img>
-                    </li>
-                </ul>
-                <ul class="menu-list">
-                    <li><a data-url="./pages/overview/overview.html">%T%OVERVIEW%T%</a></li>
-                </ul>
-                <p class="menu-label">
-                    %T%PERFORMANCE%T%
-                </p>
-                <ul class="menu-list">
-                    <li><a data-url="./pages/performance/graphs.html">%T%GRAPHS%T%</a></li>
-                    <li><a data-url="./pages/performance/worlds.html">%T%WORLDS%T%</a></li>
-                </ul>
-                <p class="menu-label">
-                    %T%MANAGEMENT%T%
-                </p>
-                <ul class="menu-list">
-                    <li><a data-url="./pages/management/console.html">%T%CONSOLE%T%</a></li>
-                    <li><a data-url="./pages/management/controls.html">%T%CONTROLS%T%</a></li>
-                    <li><a data-url="./pages/management/plugins.html">%T%PLUGINS%T%</a></li>
-                </ul>
-                <p class="menu-label">
-                    %T%OTHERS%T%
-                </p>
-                <ul class="menu-list">
-                    <li><a data-url="./pages/others/players.html">%T%PLAYERS%T%</a></li>
-                </ul>
-                <ul class="menu-list">
-                    <li><a data-url="./pages/others/files.html">%T%FILES%T%</a></li>
-                </ul>
-            </aside>
-        </div>
-
-        <div class="column contentColumn p-0" style="height: 100vh; flex-grow: 1;">
-            <div class="menuLayerContainer"></div>
-        </div>
-
-        <script src="./index.js"></script>
+    <div id="pageInitLoader" style="height: 100vh; width: 100vw; position: absolute; z-index: 50;">
+        <section class="hero is-primary is-fullheight">
+            <div class="hero-body">
+                <div class="container">
+                    <div class="columns is-centered">
+                        <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                            <article id="pageInitLoader_MESSAGEDOM" class="message is-info">
+                                <div class="message-header">
+                                    <p>Page load</p>
+                                </div>
+                                <div class="message-body has-text-centered">
+                                    <b>Please wait a moment</b><br><br>
+                                    <progress id="pageInitLoader_PROGRESS" class="progress is-small is-warning" max="100">0%</progress>
+                                    <div id="pageInitLoader_MESSAGE" style="font-size: 75%;">Please wait a moment...</div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <div class="BASEPAGE">
+        <a>Not loaded!</a>
+    </div>
+
+    <div class="VERSION_MARKER" style="position: absolute; z-index: 60; top: calc(100vh - 25px); margin: 0px 0px 10px 10px; float: left; color: red;">
+        0.4
+    </div>
+
+    <script src="index.js"></script>
 </body>
 
 </html>

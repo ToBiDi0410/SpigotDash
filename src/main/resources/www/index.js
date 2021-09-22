@@ -1,116 +1,170 @@
-var currURLElem = document.querySelector("#currurl");
-var currentMenu = null;
-var contentContainer = null;
-
-var PAGE_NAMES = {
-    overview: "%T%OVERVIEW%T%",
-    graphs: "%T%GRAPHS%T%",
-    worlds: "%T%WORLDS%T%",
-    console: "%T%CONSOLE%T%",
-    controls: "%T%CONTROLS%T%",
-    plugins: "%T%PLUGINS%T%",
-    players: "%T%PLAYERS%T%",
-    files: "%T%FILES%T%"
-}
+var socket;
+var STYLESHEETS = ["global.css", "minecraftColors.css", "smartMenu.css", "other-license/bulma.min.css", "other-license/bulma-extensions.min.css", "other-license/hightlightjs.railcasts.min.css", "other-license/materialIcons.css", "other-license/vanillatoasts.css"];
+var SCRIPTS = ["global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/sweetalert2.min.js", "other-license/vanillatoasts.js", "socketRessourceManager.js", "notificationManager.js"]
+var MAX_SOCKET_TRIES = 15;
+var theme;
 
 async function init() {
-    try {
-        await customEncryptor.init();
-    } catch (err) {
-        console.warn("[SECURITY] Failed to setup Encryptor!");
-        console.error(err);
-        Swal.fire({
-            icon: "warning",
-            title: "Encryption",
-            html: "There was a Problem setting up Encryption for this connection!",
-            allowClickOutside: false
-        });
+    var loaderMessageDOM = document.querySelector('#pageInitLoader_MESSAGE');
+    var loaderProgressDOM = document.querySelector('#pageInitLoader_PROGRESS');
+
+    loaderMessageDOM.innerHTML = "Establishing Socket connection...";
+    socket = io("ws://localhost:9678");
+
+    var SOCKET_TRIES = 0;
+    while (!socket.connected) {
+        loaderMessageDOM.innerHTML = "Establishing Socket connection...";
+        SOCKET_TRIES++;
+        await timer(1000);
+
+        if (SOCKET_TRIES >= MAX_SOCKET_TRIES) {
+            loaderMessageDOM.innerHTML = "Failed to establish connection!";
+            loaderMessageDOM.classList.add("has-text-danger");
+            loaderProgressDOM.value = 100;
+            loaderProgressDOM.classList.add("is-danger");
+            return;
+        }
     }
 
+    loaderMessageDOM.innerHTML = "Waiting for Authentication...";
+    await requireAuth();
+    loaderMessageDOM = document.querySelector('#pageInitLoader_MESSAGE');
+    loaderProgressDOM = document.querySelector('#pageInitLoader_PROGRESS');
 
-    document.querySelectorAll(".menu-list>li>a").forEach((elem) => {
-        elem.addEventListener("click", function(event) {
-            loadPage(event.target.getAttribute("data-url").replace(".html", ""));
-        });
-    });
+    loaderMessageDOM.innerHTML = "Loading Styles...";
+    theme = await socketIoRequestAwait({ TYPE: "DATA", METHOD: "THEME" });
 
-    theme = await getDataFromAPI({ method: "THEME" });
+    if (theme == "dark") {
+        STYLESHEETS.push("other-license/bulmaswatch.min.css");
+        STYLESHEETS.push("other-license/sweet_dark.css");
+        STYLESHEETS.push("dark.css");
+    }
 
-    console.log("[INDEX] Using Theme: " + theme);
+    for (elem of STYLESHEETS) {
+        loaderMessageDOM.innerHTML = "Loading Style (" + elem + ")...";
+        var css = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "global/" + elem }),
+            head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+        head.appendChild(style);
+        style.type = 'text/css';
+        if (style.styleSheet) { style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); }
 
-    addNewTask("heightFillClass", heightFillRestClass, 1000);
+        loaderProgressDOM.value += 33.3 / STYLESHEETS.length;
+        await timer(25);
+    }
+
+    loaderMessageDOM.innerHTML = "Loading Scripts...";
+    for (elem of SCRIPTS) {
+        loaderMessageDOM.innerHTML = "Loading Script (" + elem + ")...";
+        var js = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "global/" + elem }),
+            head = document.head || document.getElementsByTagName('head')[0];
+
+        appendScript(js, head);
+
+        loaderProgressDOM.value += 33.3 / SCRIPTS.length;
+        await timer(25);
+    }
+
+    addNewTask("HEIGHTFILL", heightFillRestClass, 500);
     addNewTask("NOTIFICATIONS", refreshNotifications, 2000);
 
-    loadPage("./pages/overview/overview");
-    //loadPage("./pages/performance/worlds");
+    loaderMessageDOM.innerHTML = "Loading Page (BASEPAGE)...";
+    var BASEPAGE_HTML = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.html" });
+    loaderProgressDOM.value += 33.3 / 3;
+    var BASEPAGE_JS = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.js" });
+    loaderProgressDOM.value += 33.3 / 3;
+    document.querySelector(".BASEPAGE").innerHTML = BASEPAGE_HTML;
+    appendScript(BASEPAGE_JS, document.querySelector(".BASEPAGE"));
+    loaderProgressDOM.value += 33.3 / 3;
 
+    await timer(100);
+    document.querySelector("#pageInitLoader").remove();
 }
 
-async function loadPage(url) {
-    console.log("[LOADER] Loading Page '" + url + "'...");
+async function requireAuth() {
+    var MSGDOM = document.querySelector("#pageInitLoader_MESSAGEDOM");
+    var OLD_CONT = MSGDOM.innerHTML;
 
-    if (smartMenuHelpers.getConstructedByID(url) != null && !smartMenuHelpers.getConstructedByID(url).closed) {
-        console.warn("[LOADER] Page already loaded");
-        return;
+    MSGDOM.innerHTML = LOGIN_HTML;
+
+    while ((await socketIoRequestAwait({ METHOD: "STATE" }, "AUTH") == false)) {
+        await timer(1000);
     }
 
-    curr_task = null;
-    initPage = null;
+    MSGDOM.innerHTML = OLD_CONT;
 
-    await smartMenuHelpers.closeAll();
-
-    var pageName = PAGE_NAMES[url.split("/").latest().toLowerCase()];
-
-    var menu = new smartMenu(url, pageName, pageName);
-    menu.open();
-    contentContainer = menu.getContentDOM();
-
-    try {
-        var data = await fetch("./bundledPage?page=" + url.replace("./", ""));
-        data = await data.json();
-
-        contentContainer.innerHTML += data.HTML;
-
-        //CSS
-        var styleSheet = document.createElement("style");
-        styleSheet.type = "text/css";
-        styleSheet.innerHTML = data.CSS;
-        contentContainer.appendChild(styleSheet);
-
-        //JS
-        var scriptTag = document.createElement("script");
-        scriptTag.innerHTML = data.JS;
-        contentContainer.appendChild(scriptTag);
-
-        //OTHER
-        contentContainer.innerHTML = contentContainer.innerHTML.replace('<progress class="progress is-small is-primary" max="100">15%</progress>', '');
-        hightlightMenu(url + ".html");
-        heightFillRestClass();
-
-        await timer(100);
-        if (initPage != null) { initPage(); }
-        //MANAGE DATAREFRESH TASKS
-        await stopTask("dataRefresher");
-        addNewTask("dataRefresher", function() {
-            if (curr_task == null) return;
-            curr_task();
-        }, 5000 * 2);
-    } catch (err) {
-        console.error("[LOADER] Page load failed: ");
-        console.error(err);
-        contentContainer.innerHTML = '<a class="has-text-danger">%T%PAGE_LOAD_FAILED%T%</a>';
-    }
-
+    await timer(1000);
 }
 
-async function hightlightMenu(htmlurl) {
-    document.querySelectorAll(".menu-list>li>a").forEach((elem) => {
-        elem.classList.remove("is-active");
-    });
+async function tryAuth() {
+    var USERNAME = "ADMIN";
+    var PASSWORD = document.querySelector("input[type='password']").value;
 
-    document.querySelectorAll(".menu-list>li>a[data-url='" + htmlurl + "']").forEach((elem) => {
-        elem.classList.add("is-active");
+    var res = await socketIoRequestAwaitFull({ METHOD: "AUTHENTICATE", USERNAME: USERNAME, PASSWORD: PASSWORD }, "AUTH");
+
+    if (res.CODE != 200) {
+        document.getElementById("ERR_FIELD").innerHTML = res.DATA.replace("ERR_WRONG_NAME_OR_PASSWORD", "%T%WRONG_NAME_OR_PASSWORD%T%");
+    } else {
+        document.getElementById("ERR_FIELD").innerHTML = "%T%LOGIN_SUCCESS%T%";
+        document.getElementById("ERR_FIELD").classList.remove("is-danger");
+        document.getElementById("ERR_FIELD").classList.add("is-success");
+    }
+}
+
+async function socketIoRequestAwait(data, INTERNAL_METHOD = "REQUEST") {
+    return (await socketIoRequestAwaitFull(data, INTERNAL_METHOD)).DATA;
+}
+
+function socketIoRequestAwaitFull(data, INTERNAL_METHOD = "REQUEST") {
+    data = JSON.stringify(data);
+    //console.log(INTERNAL_METHOD + " --> " + data);
+    return new Promise((resolve, reject) => {
+        socket.emit(INTERNAL_METHOD, data, function(respdata) {
+            var parsedResp = JSON.parse(respdata);
+            resolve(parsedResp);
+        });
     });
 }
 
-document.addEventListener("DOMContentLoaded", init);
+function appendScript(js, dom) {
+    var script = document.createElement('script');
+    script.innerHTML = js;
+    script.type = "text/javascript";
+    return dom.appendChild(script);
+}
+
+const timer = function(time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, time);
+    });
+}
+
+init();
+
+var LOGIN_HTML = '<div class="message-header">\
+<p>Login</p>\
+</div>\
+<div class="message-body has-text-centered">\
+<div class="subtitle has-text-danger"><b>%T%LOGIN_REQUIRED%T%</b></div>\
+<div class="content">\
+<div class="field">\
+    <label class="label">%T%PASSWORD%T%</label>\
+    <div class="control has-icons-left has-icons-right">\
+        <input class="input is-success" type="password" placeholder="SuperSecure178" id="PWORD">\
+        <span class="icon is-small is-left">\
+        <i class="fas fa-key"></i>\
+      </span>\
+    </div>\
+    <p class="help is-danger" id="ERR_FIELD"></p>\
+\
+</div>\
+\
+<div class="field">\
+    <div class="control">\
+        <button class="button is-link" onclick="tryAuth();">%T%LOGIN%T%</button>\
+    </div>\
+</div>\
+</div>\
+</div>\
+\
+';

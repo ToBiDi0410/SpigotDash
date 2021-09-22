@@ -3,7 +3,7 @@ function initPage() {
 }
 
 async function updatePlugins() {
-    var newPlugins = await getDataFromAPI({ method: "GET_PLUGINS" });
+    var newPlugins = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "PLUGINS" });
 
     if (!JSONMatches(newPlugins, plugins)) {
         var container = document.querySelector(".pluginContainer");
@@ -13,7 +13,6 @@ async function updatePlugins() {
         newPlugins.forEach((elem) => {
             if (ignore.includes(elem.name)) return;
             container.append(generatePluginEntry(getIndependentObject(elem)));
-
         })
     }
 
@@ -25,7 +24,7 @@ async function togglePlugin(elem) {
     elem.classList.add("is-loading");
 
     var pl = elem.getAttribute("data-plugin");
-    var data = await getDataFromAPI({ method: "TOGGLE_PLUGIN", plugin: pl });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "TOGGLE_PLUGIN", PLUGIN: pl });
 
     if (data == "SUCCESS") {
         elem.removeAttribute("disabled");
@@ -105,7 +104,7 @@ async function installPluginButtonClick(elem) {
 
     var id = elem.getAttribute("data-id");
 
-    var data = await getDataFromAPI({ method: "INSTALL_PLUGIN", id: id });
+    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "INSTALL_PLUGIN", ID: id });
     console.log(data);
 
     elem.classList.add("is-loading");

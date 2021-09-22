@@ -6,7 +6,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>spigotdash</artifactId>
-    <version>0.3.9 BETA</version>
+    <version>0.4 BETA</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -80,5 +80,50 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.68.Final</version>
         </dependency>
+
+        <!-- Jetty !-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-server</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <!-- SocketIO !-->
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>engine.io-server</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>engine.io-server-jetty</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-server</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
     </dependencies>
 </project>
