@@ -31,7 +31,7 @@ public class NgrokManager {
 	
 	public boolean connect() {
 		pluginConsole.sendMessage("&7Connecting to NGrok for external Access...");
-		pluginConsole.sendMessage("&6[NOTE] You don´t need this if you are able to forward ports!");
+		pluginConsole.sendMessage("&6[NOTE] You donÂ´t need this if you are able to forward ports!");
 		try {
 			httpTunnel = ngrokClient.connect(new CreateTunnel.Builder().withAddr(port).withProto(Proto.HTTP).build());
 			pluginConsole.sendMessage("&aConnected to NGrok Servers!");

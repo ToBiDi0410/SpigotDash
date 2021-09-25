@@ -1,8 +1,6 @@
 package de.tobias.spigotdash.web.sockets;
 
 import com.google.common.io.Resources;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
@@ -14,7 +12,6 @@ import de.tobias.spigotdash.utils.plugins.pluginManager;
 import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 import de.tobias.spigotdash.web.dataprocessing.pageDataFetcher;
 import de.tobias.spigotdash.web.dataprocessing.webBundler;
-import io.netty.util.internal.ThreadLocalRandom;
 import io.socket.socketio.server.SocketIoSocket;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -26,11 +23,10 @@ import org.bukkit.plugin.Plugin;
 import org.eclipse.jetty.http.HttpStatus;
 
 import java.io.File;
-import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 public class SocketEventHandler {
@@ -295,11 +291,11 @@ public class SocketEventHandler {
                                 w.setThundering(thundering);
 
                                 if(thundering) {
-                                    w.setThunderDuration(ThreadLocalRandom.current().nextInt(20*60*3, 20*60*13 + 1));
+                                    w.setThunderDuration(generateRandom(20*60*13, 20*60*3 + 1));
                                 }
 
                                 if(storming) {
-                                    w.setThunderDuration((int) ThreadLocalRandom.current().nextDouble(24000*0.5, 24000*0.75 + 1));
+                                    w.setThunderDuration((int) generateRandom(24000*0.5, 24000*0.75 + 1));
                                 }
                                 req.setResponse(200, "TEXT", "SUCCESS");
                                 return;
@@ -522,5 +518,15 @@ public class SocketEventHandler {
         } else {
             req.setResponse(400, "TEXT", "ERR_PAGE");
         }
+    }
+
+    public static int generateRandom(int max, int min)  {
+        int r = (int) ((int) (Math.random() * (max - min)) + min);
+        return r;
+    }
+
+    public static double generateRandom(double max, double min)  {
+        double r = ((int) (Math.random() * (max - min)) + min);
+        return r;
     }
 }
