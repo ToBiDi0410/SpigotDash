@@ -67,7 +67,7 @@ public class updater {
 				} else if(update == 1) {
 					update_available = false;
 					pluginConsole.sendMessage(LOCAL_PREFIX + "&6You are running a Version before?");
-					pluginConsole.sendMessage(LOCAL_PREFIX + "&bDon´t worry. This can happen if you download the Plugin shortly after the release or this is a Pre-Release Version.");
+					pluginConsole.sendMessage(LOCAL_PREFIX + "&bDonÂ´t worry. This can happen if you download the Plugin shortly after the release or this is a Pre-Release Version.");
 				}
 			} else {
 				pluginConsole.sendMessage(LOCAL_PREFIX + "&cCheck for Updates failed! You won't recieve notifications!");
