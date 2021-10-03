@@ -1,38 +1,37 @@
-var current_notifications = {};
-var current_notifications_raw = {};
+var currentNotifications = {};
+var newNotifications = null;
 
 async function refreshNotifications() {
-    var newNotifications = await socketIoRequestAwait({ TYPE: "DATA", METHOD: "GET_NOTIFICATIONS" });
+    if (newNotifications == null) {
+        newNotifications = await socketIoRequestAwait({ TYPE: "DATA", METHOD: "GET_NOTIFICATIONS" });
+    }
 
-    if (!JSONMatches(current_notifications_raw, getIndependentObject(newNotifications))) {
-        var newNotificationsSaved = getIndependentObject(newNotifications);
+    for (const [key, value] of Object.entries(newNotifications)) {
+        if (currentNotifications[key] == null && !value.closed) {
+            console.log("[NOTIFICATIONS] OPENING: " + key);
 
-        var add = {};
-        var remove = [];
-
-        for (const [key, value] of Object.entries(newNotifications)) {
-            if (current_notifications[key] == null && !value.closed) {
-                value.level = value.level == "DANGER" ? "ERROR" : value.level;
-                value.toast = VanillaToasts.create({
-                    title: value.title,
-                    text: value.message,
-                    type: value.level.toLowerCase(),
-                    callback: async function() {
-                        var data = await getDataFromAPI({ TYPE: "EXECUTION", METHOD: "NOTIFICATION_CLOSED", UUID: value.uuid });
-                    }
-                });
-            }
+            value.level = value.level == "DANGER" ? "ERROR" : value.level;
+            value.toast = VanillaToasts.create({
+                title: value.title,
+                text: value.message,
+                type: value.level.toLowerCase(),
+                callback: async function() {
+                    var data = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "NOTIFICATION_CLOSED", UUID: value.uuid });
+                }
+            });
+            currentNotifications[key] = value;
         }
+    }
 
-        for (const [key, value] of Object.entries(current_notifications)) {
-            if (newNotifications[key] == null) {
-                try {
-                    VanillaToasts.setTimeout(value.toast.id, 1000);
-                } catch (err) {}
-            }
+    for (const [key, value] of Object.entries(currentNotifications)) {
+        if (newNotifications[key] == null || newNotifications[key].closed) {
+            console.log("[NOTIFICATIONS] CLOSING: " + key);
+            VanillaToasts.setTimeout(value.toast.id, 1000);
+            delete currentNotifications[key];
         }
-
-        current_notifications = newNotifications;
-        current_notifications_raw = newNotificationsSaved;
     }
 }
+
+socket.on("NOTIFICATIONS", function(...args) {
+    newNotifications = JSON.parse(args[0]);
+});

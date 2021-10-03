@@ -1,5 +1,6 @@
 package de.tobias.spigotdash.utils;
 
+import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.files.translations;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class notificationManager {
 			data.put("created", System.currentTimeMillis());
 			data.put("uuid", MESSAGE_ID);
 		}
-		
+
 		//RESET REMOVE TIME
 		data.remove("removedAfter");
 		
@@ -53,12 +54,8 @@ public class notificationManager {
 		} else {
 			notifications.put(MESSAGE_ID, data);
 		}
-		
 
-	}
-	
-	public static void removeNotification(String MESSAGE_ID) {
-		notifications.remove(MESSAGE_ID);
+		main.sockMan.sendToAllSockets("NOTIFICATIONS", notifications);
 	}
 	
 	public static void closeNotification(String ID) {
@@ -66,6 +63,8 @@ public class notificationManager {
 			HashMap<String, Object> newdata = notifications.get(ID);
 			newdata.replace("closed", true);
 			notifications.replace(ID, newdata);
+
+			main.sockMan.sendToAllSockets("NOTIFICATIONS", notifications);
 		}
 	}
 	
@@ -81,8 +80,11 @@ public class notificationManager {
 			}
 
 		}
+
 		for(String s : toRemove) {
 			notifications.remove(s);
 		}
+
+		if(toRemove.size() > 0) main.sockMan.sendToAllSockets("NOTIFICATIONS", notifications);
 	}
 }
