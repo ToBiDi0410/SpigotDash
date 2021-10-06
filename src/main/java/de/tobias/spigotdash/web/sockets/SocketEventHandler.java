@@ -50,12 +50,30 @@ public class SocketEventHandler {
     }
 
     public static void request(Object[] args, SocketIoSocket soc) {
-        Bukkit.getScheduler().runTask(main.pl, () -> {
-            JsonObject jsonobj = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
+        JsonObject jsonobj = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
+        SocketRequest req = new SocketRequest(jsonobj);
+        String type = req.json.get("TYPE").getAsString();
 
-            SocketRequest req = new SocketRequest(jsonobj);
-            String type = req.json.get("TYPE").getAsString();
+        //SYNC OPERATIONS
+        if(type.equalsIgnoreCase("EXECUTE") || type.equalsIgnoreCase("DATA") || type.equalsIgnoreCase("PAGEDATA")) {
+            Bukkit.getScheduler().runTask(main.pl, () -> {
+                try {
+                    if(type.equalsIgnoreCase("EXECUTE")) {
+                        handleExecutionRequest(req);
+                    } else if(type.equalsIgnoreCase("DATA")) {
+                        handleDataRequest(req);
+                    } else if(type.equalsIgnoreCase("PAGEDATA")) {
+                        handlePageDataRequest(req);
+                    }
+                } catch(Exception ex) {
+                    errorCatcher.catchException(ex, false);
+                    req.setResponse(500, "TEXT", "INTERNAL_ERROR");
+                }
+                ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
+            });
 
+        //ASYNC OPERATIONS
+        } else {
             try {
                 if(type.equalsIgnoreCase("PAGE")) {
                     handlePageRequest(req);
@@ -63,20 +81,13 @@ public class SocketEventHandler {
                     handleWebfileRequest(req);
                 } else if(type.equalsIgnoreCase("SYSFILE")) {
                     handleSysfileRequest(req);
-                } else if(type.equalsIgnoreCase("EXECUTE")) {
-                    handleExecutionRequest(req);
-                } else if(type.equalsIgnoreCase("DATA")) {
-                    handleDataRequest(req);
-                } else if(type.equalsIgnoreCase("PAGEDATA")) {
-                    handlePageDataRequest(req);
                 }
             } catch(Exception ex) {
                 errorCatcher.catchException(ex, false);
                 req.setResponse(500, "TEXT", "INTERNAL_ERROR");
             }
-
             ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
-        });
+        }
     }
 
     public static void authRequest(SocketIoSocket soc, Object[] args) {
