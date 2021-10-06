@@ -21,7 +21,6 @@ function internalTimer() {
 
 function addNewTask(id, callback, refreshDelay) {
     tasks[id] = { callable: callback, refreshDelay: refreshDelay, last_executed: 0, exit: false, exited: false };
-    tasks[id].callable();
 }
 
 async function stopTask(id) {
