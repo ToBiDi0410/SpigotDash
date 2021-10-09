@@ -269,6 +269,4 @@ Object.size = function(obj) {
     return size;
 };
 
-
-var theme = (document.head.innerHTML.includes("bulmaswatch") ? "dark" : "light");
 var API_URL = "./api";
