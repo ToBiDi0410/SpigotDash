@@ -2,12 +2,12 @@
     overflow-y: scroll;
 }
 
-.pluginContainer>* {
+.pluginEntry {
     padding: 1%;
     border-top: 1px #1b1b1b solid;
 }
 
-.pluginContainer>*:last-child {
+.pluginEntry:last-child {
     border-bottom: 1px #1b1b1b solid;
 }
 

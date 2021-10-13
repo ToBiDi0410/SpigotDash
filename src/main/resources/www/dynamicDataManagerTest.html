@@ -1,0 +1,24 @@
+<head>
+    <script src="global/dynamicDataManager.js"></script>
+</head>
+
+<body>
+    <div class="dataParent" data-callback="test();">
+        <div class="dataParent" data-path="0">
+            <div class="dataArray" data-arrayid="testArray">
+            </div>
+
+            <div class="dataArrayTemplate" data-arrayid="testArray" style="display: none;">
+                <div class="dataField" data-path="test"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function task() {
+            dynamicDataManager.dynamicDataTask();
+            setTimeout(task, 1000);
+        }
+        task();
+    </script>
+</body>
