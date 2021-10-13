@@ -225,6 +225,11 @@ function copyClipboard(text) {
     navigator.clipboard.writeText(text);
 }
 
+async function evalAsync(scr) {
+    return eval("(async() => {" + scr + "})()");
+}
+
+
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }

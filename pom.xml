@@ -43,6 +43,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <outputDirectory>/Users/tobiasdickes/Documents/1.17Testserver/plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

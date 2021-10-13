@@ -1,6 +1,6 @@
 var socket;
 var STYLESHEETS = ["global.css", "minecraftColors.css", "smartMenu.css", "other-license/bulma.min.css", "other-license/bulma-extensions.min.css", "other-license/hightlightjs.railcasts.min.css", "other-license/materialIcons.css", "other-license/vanillatoasts.css"];
-var SCRIPTS = ["global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/sweetalert2.min.js", "other-license/vanillatoasts.js", "socketRessourceManager.js", "notificationManager.js"]
+var SCRIPTS = ["other-license/sweetalert2.min.js", "global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/vanillatoasts.js", "socketRessourceManager.js", "notificationManager.js", "dynamicDataManager.js"]
 var MAX_SOCKET_TRIES = 15;
 var theme;
 
@@ -8,12 +8,12 @@ async function init() {
     var loaderMessageDOM = document.querySelector('#pageInitLoader_MESSAGE');
     var loaderProgressDOM = document.querySelector('#pageInitLoader_PROGRESS');
 
-    loaderMessageDOM.innerHTML = "Establishing Socket connection...";
-    socket = io();
+    loaderMessageDOM.innerHTML = "%T%INIT_EST_CONNECTION%T%";
+    socket = io("ws://localhost:9677");
 
     var SOCKET_TRIES = 0;
     while (!socket.connected) {
-        loaderMessageDOM.innerHTML = "Establishing Socket connection...";
+        loaderMessageDOM.innerHTML = "%T%INIT_EST_CONNECTION%T%";
         SOCKET_TRIES++;
         await timer(1000);
 
@@ -26,12 +26,35 @@ async function init() {
         }
     }
 
-    loaderMessageDOM.innerHTML = "Waiting for Authentication...";
+    loaderMessageDOM.innerHTML = "%T%INIT_WAIT_AUTH%T%";
     await requireAuth();
     loaderMessageDOM = document.querySelector('#pageInitLoader_MESSAGE');
     loaderProgressDOM = document.querySelector('#pageInitLoader_PROGRESS');
 
-    loaderMessageDOM.innerHTML = "Loading Styles...";
+    socket.on("disconnect", async function() {
+        Swal.fire({
+            title: "%T%RECONNECTING%T%",
+            html: "%T%WEBSOCKET_LOST_CONNECTION%T%<br><br>%T%RELOAD_PAGE_IF_NEC%T%",
+            icon: "error",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+        Swal.showLoading();
+
+        while (!socket.connected) {
+            await timer(1000);
+        }
+
+        Swal.fire({
+            title: "%T%RECONNECTED%T%",
+            icon: "success",
+            html: "%T%WEBSOCKET_RECONNECTED%T%<br><br>%T%RELOAD_PAGE_IF_NEC%T%",
+            timer: 5000
+        });
+    });
+
+    loaderMessageDOM.innerHTML = "%T%INIT_LOADING_STYLES%T%";
     theme = await socketIoRequestAwait({ TYPE: "DATA", METHOD: "THEME" });
 
     if (theme == "dark") {
@@ -41,7 +64,7 @@ async function init() {
     }
 
     for (elem of STYLESHEETS) {
-        loaderMessageDOM.innerHTML = "Loading Style (" + elem + ")...";
+        loaderMessageDOM.innerHTML = "%T%INIT_LOADING_STYLE%T%".replace("%NAME%", elem);
         var css = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "global/" + elem }),
             head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style');
@@ -53,9 +76,9 @@ async function init() {
         await timer(25);
     }
 
-    loaderMessageDOM.innerHTML = "Loading Scripts...";
+    loaderMessageDOM.innerHTML = "%T%INIT_LOADING_SCRIPTS%T%";
     for (elem of SCRIPTS) {
-        loaderMessageDOM.innerHTML = "Loading Script (" + elem + ")...";
+        loaderMessageDOM.innerHTML = "%T%INIT_LOADING_SCRIPT%T%".replace("%NAME%", elem);
         var js = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "global/" + elem }),
             head = document.head || document.getElementsByTagName('head')[0];
 
@@ -67,8 +90,9 @@ async function init() {
 
     addNewTask("HEIGHTFILL", heightFillRestClass, 500);
     addNewTask("NOTIFICATIONS", refreshNotifications, 2000);
+    addNewTask("DYNDATA", dynamicDataManager.dynamicDataTask, 1000);
 
-    loaderMessageDOM.innerHTML = "Loading Page (BASEPAGE)...";
+    loaderMessageDOM.innerHTML = "%T%INIT_LOAD_BASEPAGE%T%";
     var BASEPAGE_HTML = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.html" });
     loaderProgressDOM.value += 33.3 / 3;
     var BASEPAGE_JS = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.js" });

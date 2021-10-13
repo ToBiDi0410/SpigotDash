@@ -1,3 +1,7 @@
+.worldlist_entry {
+    margin-bottom: 2%;
+}
+
 .worldlist_entry>*.tile>* {
     align-self: center;
 }

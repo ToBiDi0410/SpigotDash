@@ -1,33 +1,12 @@
-async function initPage() {
-    curr_task = refreshWorlds;
-}
+async function initPage() {}
 
-async function refreshWorlds() {
-    var worldListDom = document.querySelector(".worldlist");
 
+async function getCurrentData() {
     var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "WORLDS" });
-
-    worldListDom.querySelectorAll(".worldlist_entry").forEach((elem) => {
-        var obj = data.getObjectWithKeyValue("name", elem.getAttribute("data-id"));
-        if (obj != null) {
-            var entcount = elem.querySelector(".entitiecount");
-            entcount.innerHTML = entcount.innerHTML.replace(entcount.innerHTML.split(" ")[0], obj.entitieCount);
-
-            var chunkcount = elem.querySelector(".chunkcount");
-            chunkcount.innerHTML = chunkcount.innerHTML.replace(chunkcount.innerHTML.split(" ")[0], obj.chunkCount);
-
-            var playercount = elem.querySelector(".playercount");
-            playercount.innerHTML = playercount.innerHTML.replace(playercount.innerHTML.split(" ")[0], obj.playerCount);
-        } else {
-            elem.remove();
-        }
-    });
-
-    for (const elem of data) {
-        if (worldListDom.querySelector(".worldlist_entry[data-id='" + elem.name + "']") == null) {
-            worldListDom.appendChild(generateWorldEntry(elem));
-        }
+    for (elem of data) {
+        elem.icon = "global/icons/ICON_WORLD_" + elem.type + ".png";
     }
+    return data;
 }
 
 async function openWorldMenu(worldname) {

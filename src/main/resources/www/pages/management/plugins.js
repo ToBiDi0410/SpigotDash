@@ -1,22 +1,24 @@
-function initPage() {
-    curr_task = updatePlugins;
-}
+function initPage() {}
 
-async function updatePlugins() {
-    var newPlugins = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "PLUGINS" });
+async function getCurrentData() {
+    var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "PLUGINS" });
 
-    if (!JSONMatches(newPlugins, plugins)) {
-        var container = document.querySelector(".pluginContainer");
-        container.innerHTML = "";
-        var ignore = [];
+    for (value of data) {
+        value.enabled_icon = value.enabled ? "done" : "highlight_off";
+        value.enabled_text = value.enabled ? "%T%ENABLED%T%" : "%T%DISABLED%T%";
+        value.enabled_toggle_text = !value.enabled ? "%T%ENABLE%T%" : "%T%DISABLE%T%";
+        value.enabled_toggle_onoff = !value.enabled ? "on" : "off";
+        value.enabled_toggle_onoff = "toggle_" + value.enabled_toggle_onoff;
+        if (!value.description) { value.description = ""; }
+        if (!value.website) { value.website = ""; }
 
-        newPlugins.forEach((elem) => {
-            if (ignore.includes(elem.name)) return;
-            container.append(generatePluginEntry(getIndependentObject(elem)));
-        })
+        if (value.authors != null) {
+            value.authors = value.authors.join(",").substring(0, 40);
+        }
     }
 
-    plugins = newPlugins;
+    console.log(data);
+    return data;
 }
 
 async function togglePlugin(elem) {

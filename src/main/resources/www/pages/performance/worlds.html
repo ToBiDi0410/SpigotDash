@@ -1,3 +1,38 @@
-<div class="worldlist">
-
+<div class="dataParent" data-callback="return getCurrentData();">
+    <div class="worldlist">
+        <div class="dataArray" data-arrayid="worlds"></div>
+        <div class="dataArrayTemplate" data-arrayid="worlds">
+            <div class="worldlist_entry box dataFieldAttrib" data-attrib="worldID" data-attribpath="name" onclick="openWorldMenu(this.getAttribute('worldID'));">
+                <div class="tile is-ancestor">
+                    <div class="tile is-1">
+                        <img class="dataFieldIMG IGNORE" data-path="icon">
+                    </div>
+                    <div class="tile is-1"></div>
+                    <div class="tile is-3">
+                        <div class="title dataField IGNORE" data-path="name"></div>
+                    </div>
+                    <div class="tile is-2">
+                        <div class="subtitle chunkcount">
+                            <div class="dataField IGNORE" data-path="chunkCount"></div> %T%CHUNKS%T%
+                        </div>
+                    </div>
+                    <div class="tile is-2">
+                        <div class="subtitle playercount">
+                            <div class="dataField IGNORE" data-path="playerCount"></div> %T%PLAYERS%T%
+                        </div>
+                    </div>
+                    <div class="tile is-2">
+                        <div class="subtitle entitiecount">
+                            <div class="dataField IGNORE" data-path="entitieCount"></div> %T%ENTITIES%T%
+                        </div>
+                    </div>
+                    <div class="tile is-1">
+                        <span class="material-icons-outlined" style="text-align: right; width: 90%;">
+                        arrow_right_alt
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

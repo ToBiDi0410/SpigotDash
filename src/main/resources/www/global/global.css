@@ -31,6 +31,10 @@
     margin-top: 20px;
 }
 
+.dataArrayTemplate {
+    display: none;
+}
+
 @keyframes card-expand {
     from {
         height: 0px;
@@ -71,6 +75,10 @@
 
 .copyClipboardBtn {
     font-size: 80%;
+}
+
+.childrenInline>* {
+    display: inline;
 }
 
 html {

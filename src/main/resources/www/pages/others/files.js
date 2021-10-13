@@ -100,7 +100,7 @@ async function openFileInViewer(path) {
 
     try {
         if (!(path.includes("yml") || path.includes("yaml") || path.includes("json") || path.includes("txt") || path.includes("propertities"))) {
-            throw new Error("%T%Error_Unsupported_File_Format%T%");
+            throw new Error("%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%");
         }
 
 
