@@ -77,7 +77,7 @@ function registerEntityKillClicks(menu, data) {
         elem.addEventListener("click", async function() {
             this.setAttribute("disabled", true);
             this.classList.add("is-loading");
-            var res = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL_WORLD", ACTION: "KILL_ENTITY_TYPE", WORLD: data.name, TYPE: this.getAttribute("data-type") });
+            var res = await getDataFromAPI({ TYPE: "EXECUTE", METHOD: "CONTROL_WORLD", ACTION: "KILL_ENTITY_TYPE", WORLD: data.name, ENTTYPE: this.getAttribute("data-type") });
 
             if (res == "KILLED") {
                 this.removeAttribute("disabled");

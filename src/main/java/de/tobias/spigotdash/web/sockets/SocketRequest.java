@@ -2,19 +2,20 @@ package de.tobias.spigotdash.web.sockets;
 
 import com.google.common.io.Resources;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import de.tobias.spigotdash.utils.errorCatcher;
+import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.jetty.util.resource.Resource;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Base64;
 import java.util.HashMap;
 
 public class SocketRequest {
 
+    public static Gson internalGSON = (new GsonBuilder()).serializeNulls().create();
     public JsonObject json;
 
     public Integer repCode;
@@ -43,9 +44,23 @@ public class SocketRequest {
 
         try {
             if(type.equalsIgnoreCase("RESOURCE")) {
-                this.repData = Resources.toByteArray((URL) data);
+                if(data != null) {
+                    URL dataAsURL = (URL) data;
+                    try {
+                        this.repData = Resources.toByteArray((URL) data);
+                    } catch (Exception ex) {
+                        this.repData = "ERR_RESOURCE_MISSING";
+                        this.repType = "TEXT";
+                        this.repCode = 500;
+                        pluginConsole.sendMessage("Invalid Resource Response: " + String.valueOf(data));
+                    }
+                } else {
+                    this.repData = "ERR_RESOURCE_NULL";
+                    this.repType = "TEXT";
+                    this.repCode = 500;
+                }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             errorCatcher.catchException(e, false);
             this.repData = "ERR_RESOURCE_ENCODE_FAILED";
             this.repType = "TEXT";
@@ -55,6 +70,12 @@ public class SocketRequest {
     }
 
     public Object getResponseAsObject() {
+        if(repCode == null || repData == null || repType == null) {
+            repCode = 404;
+            repData = "ERR_RESPONSE_WOULD_BE_NULL";
+            repType = "TEXT";
+        }
+
         HashMap<String, Object> response = new HashMap<>();
         response.put("CODE", this.repCode);
         response.put("DATA", this.repData);
@@ -63,6 +84,6 @@ public class SocketRequest {
     }
 
     public String getResponseAsJson() {
-        return (new Gson()).toJson(getResponseAsObject());
+        return internalGSON.toJson(getResponseAsObject());
     }
 }

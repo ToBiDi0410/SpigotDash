@@ -2,7 +2,6 @@ package de.tobias.spigotdash.web.sockets;
 
 import com.google.gson.Gson;
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.utils.pluginConsole;
 import io.socket.socketio.server.SocketIoNamespace;
 import io.socket.socketio.server.SocketIoSocket;
 

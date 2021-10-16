@@ -4,9 +4,11 @@ import com.google.common.io.Resources;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.utils.*;
+import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.files.translations;
+import de.tobias.spigotdash.utils.notificationManager;
+import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.utils.plugins.pluginInstaller;
 import de.tobias.spigotdash.utils.plugins.pluginManager;
 import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
@@ -26,7 +28,6 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.Random;
 import java.util.UUID;
 
 public class SocketEventHandler {
@@ -64,6 +65,8 @@ public class SocketEventHandler {
                         handleDataRequest(req);
                     } else if(type.equalsIgnoreCase("PAGEDATA")) {
                         handlePageDataRequest(req);
+                    } else {
+                        req.setResponse(404, "TEXT", "NOT_HANDLED");
                     }
                 } catch(Exception ex) {
                     errorCatcher.catchException(ex, false);
@@ -291,7 +294,6 @@ public class SocketEventHandler {
                     String action = json.get("ACTION").getAsString();
                     World w = Bukkit.getWorld(json.get("WORLD").getAsString());
                     if(w != null) {
-
                         if(action.equalsIgnoreCase("WEATHER")) {
                             if(json.has("WEATHER")) {
                                 String weather = json.get("WEATHER").getAsString();
@@ -330,9 +332,8 @@ public class SocketEventHandler {
                         }
 
                         if(action.equalsIgnoreCase("KILL_ENTITY_TYPE")) {
-                            if(json.has("TYPE")) {
-                                EntityType entType = EntityType.valueOf(json.get("TYPE").getAsString());
-
+                            if(json.has("ENTTYPE")) {
+                                EntityType entType = EntityType.valueOf(json.get("ENTTYPE").getAsString());
                                 for (Entity e : w.getEntities()) {
                                     if (e.getType() == entType)
                                         e.remove();
@@ -340,7 +341,7 @@ public class SocketEventHandler {
                                 req.setResponse(200, "TEXT", "KILLED");
                                 return;
                             } else {
-                                req.setResponse(400, "TEXT", "ERR_MISSING_TYPE");
+                                req.setResponse(400, "TEXT", "ERR_MISSING_ENTTYPE");
                                 return;
                             }
                         }
