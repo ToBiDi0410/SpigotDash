@@ -229,6 +229,10 @@ async function evalAsync(scr) {
     return eval("(async() => {" + scr + "})()");
 }
 
+async function evalAsyncWithScope(code, scope) {
+    return eval("var scopeDat = JSON.parse('" + JSON.stringify(scope) + "'); (async(scope) => {" + code + "})(scopeDat);");
+}
+
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -265,13 +269,15 @@ Array.prototype.getObjectWithKeyValue = function(key, value) {
     return null;
 }
 
-Object.size = function(obj) {
+Object.size = sizeObj;
+
+function sizeObj(obj) {
     var size = 0,
         key;
     for (key in obj) {
         if (obj.hasOwnProperty(key)) size++;
     }
     return size;
-};
+}
 
 var API_URL = "./api";

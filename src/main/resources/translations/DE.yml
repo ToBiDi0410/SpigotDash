@@ -98,7 +98,7 @@ TPS_Long: TPS (Ticks pro Sekunden)
 CPU_load_server: Last vom Server
 RAM_Usage: RAM Nutzung (mB)
 CPU_load_host: Host CPU Last
-Allocated: Allocated
+Allocated: Zugeweisen
 Entities: Entitäten
 CPU_Usage: CPU Nutzung (%)
 Game: Spiel

@@ -48,8 +48,9 @@ async function dynamicDataTask() {
             lastParent = lastParent.parent;
 
             var data = await getDataForParent(lastParent);
-            var innerDATA = resolvePath(data, path.join("."));
-            if (dField.innerText != innerDATA || dField.innerText == "" || dField.innerText == " ") dField.innerText = innerDATA;
+            data = resolvePath(data, path.join("."));
+            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+            if (dField.innerText != innerDATA || dField.innerText == "" || dField.innerText == " ") dField.innerText = data;
         }
     }
 
@@ -77,8 +78,16 @@ async function dynamicDataTask() {
             lastParent = lastParent.parent;
 
             var data = await getDataForParent(lastParent);
-            var innerDATA = resolvePath(data, path.join("."));
-            dField.setAttribute(dField.getAttribute("data-attrib"), innerDATA);
+            data = resolvePath(data, path.join("."));
+            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+            var attribName = dField.getAttribute("data-atrrib");
+
+            if (!dField.hasAttribute(attribName) || dField.getAttribute(attribName) != data) {
+                dField.setAttribute(dField.getAttribute("data-attrib"), data);
+                if (dField.getAttribute("data-attrib") == "value") {
+                    dField.value = data;
+                }
+            }
         }
     }
 

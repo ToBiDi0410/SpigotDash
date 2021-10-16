@@ -1,4 +1,4 @@
-<div class="dataParent" data-callback="return getCurrentData();">
+<!--<div class="dataParent" data-callback="return getCurrentData();">
     <div class="worldlist">
         <div class="dataArray" data-arrayid="worlds"></div>
         <div class="dataArrayTemplate" data-arrayid="worlds">
@@ -30,6 +30,152 @@
                         <span class="material-icons-outlined" style="text-align: right; width: 90%;">
                         arrow_right_alt
                     </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>!-->
+<div class="dataParent" data-callback="return getWorldData('world_the_end');">
+    <div class="dataField" data-path="" data-processor="return scope.days;"></div>
+
+    <div class="weatherSelector p-2">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <div class="subitle">%T%WEATHER%T%:</div>
+                </div>
+                <div class="level-item">
+                    <button class="button transparentButton weatherTrigger" data-weather="Normal"><div class="material-icons-outlined" style="color: yellow;">wb_sunny</div></button>
+                </div>
+                <div class="level-item">
+                    <button class="button transparentButton weatherTrigger" data-weather="Rain"><div class="material-icons-outlined" style="color: blue;">water_drop</div></button>
+                </div>
+                <div class="level-item">
+                    <button class="button transparentButton weatherTrigger" data-weather="Thunder"><div class="material-icons-outlined" style="color: orange;">bolt</div></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-2">
+        <div class="days childrenInline">
+            <div>%T%DAY_IN_WORLD%T%: </div>
+            <div class="dataField" data-path="days"></div>
+        </div>
+    </div>
+
+    <div class="timeSelector p-2">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    %T%DAY%T%
+                </div>
+            </div>
+
+            <div class="level-middle">
+                <div class="level-item">
+                    %T%TIME%T%
+                </div>
+            </div>
+
+            <div class="level-right">
+                <div class="level-item">
+                    %T%NIGHT%T%
+                </div>
+            </div>
+        </div>
+        <input class="timeslider slider is-fullwidth dataFieldAttrib" data-attrib="value" data-attribpath="daytime" step="1000" min="0" max="24000" value="0" type="range">
+    </div>
+
+    <div class="p-2">
+        <div class="datapacks childrenInline">
+            <div>%T%DATAPACKS%T%:</div>
+            <div class="dataField" data-path="Datapacks" data-processor="return scope.join(', ');"></div>
+        </div>
+    </div>
+    <div class="card is-fullwidth">
+        <header class="card-header">
+            <p class="card-header-title entities">%T%ENTITIES%T% (0)</p>
+            <a class="card-header-icon card-toggle" onclick="toggleExpandCart(this.parentElement.parentElement);">
+                <span class="material-icons-outlined">expand</span>
+            </a>
+        </header>
+        <div class="card-content is-hiddenc">
+            <div class="content entitieDropDownCont">
+            </div>
+        </div>
+    </div>
+
+    <div class="card is-fullwidth">
+        <header class="card-header">
+            <div class="card-header-title players childrenInline">
+                <div>%T%PLAYERS%T% (</div>
+                <div class="dataField" data-path="Players" data-processor="return scope.length;"></div>
+                <div>)</div>
+            </div>
+            <a class="card-header-icon card-toggle" onclick="toggleExpandCart(this.parentElement.parentElement);">
+                <span class="material-icons-outlined">expand</span>
+            </a>
+        </header>
+        <div class="card-content is-hiddenc">
+            <div class="content playersDropDownCont">
+                <div class="dataArray" data-path="Players" data-arrayid="players"></div>
+                <div class="dataArrayTemplate" data-arrayid="players">
+                    <div class="player dataFieldAttrib" data-attrib="data-uuid" data-attribpath="UUID">
+                        <img class="head dataFieldAttrib" data-attrib="src" data-attribpath="UUID" data-processor="return 'https://crafatar.com/avatars/' + scope;">
+                        <div class="details">
+                            <div class="dataField" data-path="Displayname"></div>
+                            <div class="dataField" data-path="UUID"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card is-fullwidth">
+        <header class="card-header">
+            <p class="card-header-title chunks">%T%CHUNKS%T% (0)</p>
+            <a class="card-header-icon card-toggle" onclick="toggleExpandCart(this.parentElement.parentElement);">
+                <span class="material-icons-outlined">expand</span>
+            </a>
+        </header>
+        <div class="card-content is-hiddenc">
+            <div class="content chunksDropDownCont">
+                <div class="dataArray" data-path="Chunks" data-arrayid="chunks"></div>
+                <div class="dataArrayTemplate" data-arrayid="chunks">
+                    <div class="tile is-ancestor" data-id="%ID%">
+                        <div class="tile is-parent">
+                            <article class="tile is-child">
+                                <div class="content">
+                                    <div class="level">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <div class="title dataField IGNORE" data-path="ID" style="font-size: 120%;"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="level-right">
+                                            <div class="level-item">
+                                                <div class="subtitle childrenInline">
+                                                    <div>%T%PLAYERS%T%:</div>
+                                                    <div class="players dataField IGNORE" data-path="Players" data-processor="return scope.length;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="level-item">
+                                                <div class="subtitle childrenInline">
+                                                    <div>%T%ENTITIES%T%:</div>
+                                                    <div class="entities dataField IGNORE" data-path="Entities" data-processor="return sizeObj(scope);"></div>
+                                                </div>
+                                            </div>
+                                            <div class="level-item"></div>
+                                            <div class="level-item"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
                     </div>
                 </div>
             </div>
