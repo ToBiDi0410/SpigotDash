@@ -3,7 +3,6 @@ package de.tobias.spigotdash.web.dataprocessing;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.sun.management.OperatingSystemMXBean;
 import de.tobias.spigotdash.listener.JoinTime;
 import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.AltDetector;
@@ -33,6 +32,7 @@ import java.nio.charset.Charset;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -460,7 +460,6 @@ public class dataFetcher {
 					.map(Attribute::getValue)
 					.map(Double.class::cast)
 					.orElse(null);
-
 		} catch (Exception ex) {
 			return null;
 		}
@@ -611,5 +610,10 @@ public class dataFetcher {
 			return (int) (2.5 * level * level - 40.5 * level + 360);
 		}
 		return level * level + 6 * level;
+	}
+
+	public static double roundDouble(Double val, Integer places) {
+		DecimalFormat df = new DecimalFormat("#." + "#".repeat(places));
+		return Double.parseDouble(df.format(val).replace(",", "."));
 	}
 }

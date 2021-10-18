@@ -35,6 +35,10 @@
     display: none;
 }
 
+.hidden {
+    display: none;
+}
+
 @keyframes card-expand {
     from {
         height: 0px;

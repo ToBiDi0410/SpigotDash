@@ -1,5 +1,6 @@
 package de.tobias.spigotdash.utils;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -24,10 +25,12 @@ public class taskManager {
 	public static void startTasks() {
 		DATA_taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(main.pl, () -> {
 			if(lastUpdate + 1000*15 <= System.currentTimeMillis()) {
+				DecimalFormat df = new DecimalFormat("#.##");
+
 				HashMap<String, Object> currentPerformanceData = new HashMap<>();
 				currentPerformanceData.put("DATETIME", System.currentTimeMillis());
-				currentPerformanceData.put("CPU_LOAD_SYSTEM", dataFetcher.getSystemCPULoad());
-				currentPerformanceData.put("CPU_LOAD_PROCESS", dataFetcher.getProcessCPULoad());
+				currentPerformanceData.put("CPU_LOAD_SYSTEM", dataFetcher.roundDouble(dataFetcher.getSystemCPULoad(), 2));
+				currentPerformanceData.put("CPU_LOAD_PROCESS", dataFetcher.roundDouble(dataFetcher.getProcessCPULoad(), 2));
 				currentPerformanceData.put("MEMORY_MAX", dataFetcher.getMaxMemory());
 				currentPerformanceData.put("MEMORY_USED", dataFetcher.getUsedMemory());
 				currentPerformanceData.put("MEMORY_FREE", dataFetcher.getFreeMemory());

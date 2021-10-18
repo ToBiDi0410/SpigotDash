@@ -3,46 +3,89 @@ var dynamicDataManager = {
     dataCategorys: {},
     DOMParser: new DOMParser(),
     cache: {},
-    cacheClearTime: 10
+    cacheClearTime: 10,
+    defaultInterval: 5,
+    ingore: [],
+    running: false
 };
 
+function fillEmptyWithLoading() {
+    for (field of document.querySelectorAll(".dataField:not(.filled)")) {
+        field.innerHTML = '<div class="loader is-loading"></div>';
+    }
+}
+
 async function dynamicDataTask() {
+    if (dynamicDataManager.running) return;
+    dynamicDataManager.running = true;
+
     //console.log("[DATA] Updating Dynamic Data...");
-    for (array of document.querySelectorAll(".dataArray")) {
-        var lastParent = resolveDataParentWithPath(array);
-        var path = lastParent.path;
-        lastParent = lastParent.parent;
+    for (parent of document.querySelectorAll(".dataParent[data-callback]")) {
+        if (!parent.hasAttribute("data-interval")) parent.setAttribute("data-interval", dynamicDataManager.defaultInterval * 1000);
+    }
+    fillEmptyWithLoading();
 
-        var data = await getDataForParent(lastParent);
-        var arrayData = resolvePath(data, path.join("."));
-        var TEMPLATE_HTML = document.querySelector(".dataArrayTemplate[data-arrayid='" + array.getAttribute("data-arrayid") + "']").innerHTML;
+    //---- INGORE PROCESSING ----
+    dynamicDataManager.ignore = Array.from(document.querySelectorAll(".IGNORE"));
 
-        var i = 0;
-        while (i < arrayData.length) {
-            if (array.querySelector(".dataParent[data-path='" + i + "']") == null) {
-                var NEW_DOM = document.createElement("div");
-                NEW_DOM.classList.add("dataParent");
-                NEW_DOM.appendChild(parseHTMLToDOM(TEMPLATE_HTML));
+    //IGNORE INTERVALED FIELDS
+    for (intervaled of document.querySelectorAll("*[data-interval]")) {
+        var INTERVAL = intervaled.getAttribute("data-interval");
+        var LASTUPDATE = intervaled.getAttribute("data-lastupdate");
 
-                NEW_DOM.querySelectorAll(".dataField, .dataFieldIMG, .dataFieldAttrib, .dataFieldClass").forEach((dField) => {
-                    dField.classList.remove("IGNORE");
-                });
-
-                var APPENDED_DOM = array.appendChild(NEW_DOM);
-                APPENDED_DOM.setAttribute("data-path", i);
+        if (LASTUPDATE == null) {
+            intervaled.setAttribute("data-lastupdate", Date.now());
+        } else {
+            var DIFF = Date.now() - LASTUPDATE;
+            if (DIFF <= INTERVAL) {
+                dynamicDataManager.ignore.push(intervaled);
+            } else {
+                intervaled.setAttribute("data-lastupdate", Date.now());
             }
+        }
+    }
 
-            array.querySelectorAll(":scope > .dataParent").forEach((elem) => {
-                if (elem.getAttribute("data-path") >= arrayData.length) {
-                    elem.remove();
+    //ADD CHILDREN OF IGNORED
+    for (ignored of dynamicDataManager.ignore) {
+        dynamicDataManager.ignore = dynamicDataManager.ignore.concat(Array.from(ignored.querySelectorAll("*")));
+    }
+
+
+    //---- DATA INSERTION ----
+    for (array of document.querySelectorAll(".dataArray")) {
+        if (shouldBeUpdated(array)) {
+            var lastParent = resolveDataParentWithPath(array);
+            var path = lastParent.path;
+            lastParent = lastParent.parent;
+
+            var data = await getDataForParent(lastParent);
+            var arrayData = resolvePath(data, path.join("."));
+            var TEMPLATE_HTML = document.querySelector(".dataArrayTemplate[data-arrayid='" + array.getAttribute("data-arrayid") + "']").innerHTML;
+
+            var i = 0;
+            while (i < arrayData.length) {
+                if (array.querySelector(".dataParent[data-path='" + i + "']") == null) {
+                    var NEW_DOM = document.createElement("div");
+                    NEW_DOM.classList.add("dataParent");
+                    var TEMPLATE_HTML_DOM = parseHTMLToDOM(TEMPLATE_HTML);
+                    NEW_DOM.appendChild(TEMPLATE_HTML_DOM);
+
+                    var APPENDED_DOM = array.appendChild(NEW_DOM);
+                    APPENDED_DOM.setAttribute("data-path", i);
                 }
-            });
-            i++;
+
+                array.querySelectorAll(":scope > .dataParent").forEach((elem) => {
+                    if (elem.getAttribute("data-path") >= arrayData.length) {
+                        elem.remove();
+                    }
+                });
+                i++;
+            }
         }
     }
 
     for (dField of document.querySelectorAll(".dataField")) {
-        if (!dField.classList.contains("IGNORE")) {
+        if (shouldBeUpdated(dField)) {
             var lastParent = resolveDataParentWithPath(dField);
             var path = lastParent.path;
             lastParent = lastParent.parent;
@@ -50,19 +93,24 @@ async function dynamicDataTask() {
             var data = await getDataForParent(lastParent);
             data = resolvePath(data, path.join("."));
             if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
-            if (dField.innerText != innerDATA || dField.innerText == "" || dField.innerText == " ") dField.innerText = data;
+            if (dField.innerText != innerDATA || dField.innerText == "" || dField.innerText == " ") {
+                dField.innerText = data;
+                dField.classList.add("filled");
+            }
         }
     }
 
     for (dField of document.querySelectorAll(".dataFieldIMG")) {
-        if (!dField.classList.contains("IGNORE")) {
+        if (shouldBeUpdated(dField)) {
             var lastParent = resolveDataParentWithPath(dField);
             var path = lastParent.path;
             lastParent = lastParent.parent;
 
             if (!dField.hasAttribute("src")) {
                 var data = await getDataForParent(lastParent);
-                dField.setAttribute("data-src", resolvePath(data, path.join(".")));
+                data = resolvePath(data, path.join("."));
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                dField.setAttribute("data-src", data);
                 dField.classList.add("is-loading");
                 dField.classList.add("loader");
                 dField.classList.add("imgLoadSocket");
@@ -71,7 +119,7 @@ async function dynamicDataTask() {
     }
 
     for (dField of document.querySelectorAll(".dataFieldAttrib")) {
-        if (!dField.classList.contains("IGNORE")) {
+        if (shouldBeUpdated(dField)) {
             var lastParent = resolveDataParentWithPath(dField.parentElement);
             var path = lastParent.path;
             path.push(dField.getAttribute("data-attribpath"));
@@ -80,9 +128,9 @@ async function dynamicDataTask() {
             var data = await getDataForParent(lastParent);
             data = resolvePath(data, path.join("."));
             if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
-            var attribName = dField.getAttribute("data-atrrib");
+            var attribName = dField.getAttribute("data-attrib");
 
-            if (!dField.hasAttribute(attribName) || dField.getAttribute(attribName) != data) {
+            if (!attribHasValue(dField, attribName, data)) {
                 dField.setAttribute(dField.getAttribute("data-attrib"), data);
                 if (dField.getAttribute("data-attrib") == "value") {
                     dField.value = data;
@@ -92,7 +140,7 @@ async function dynamicDataTask() {
     }
 
     for (dField of document.querySelectorAll(".dataFieldClass")) {
-        if (!dField.classList.contains("IGNORE")) {
+        if (shouldBeUpdated(dField)) {
             var lastParent = resolveDataParentWithPath(dField.parentElement);
             var path = lastParent.path;
             path.push(dField.getAttribute("data-classpath"));
@@ -103,6 +151,19 @@ async function dynamicDataTask() {
             dField.classList.add(innerDATA);
         }
     }
+
+    dynamicDataManager.running = false;
+}
+
+function shouldBeUpdated(DOM) {
+    return (!dynamicDataManager.ignore.includes(DOM));
+}
+
+function attribHasValue(DOM, Attrib, Value) {
+    if (Attrib == "src") {
+        return (DOM.src == Value);
+    }
+    return (DOM.hasAttribute(Attrib) && DOM.getAttribute(Attrib) == Value);
 }
 
 async function getDataForParent(DOM) {

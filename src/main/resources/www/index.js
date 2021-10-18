@@ -90,7 +90,7 @@ async function init() {
 
     addNewTask("HEIGHTFILL", heightFillRestClass, 500);
     addNewTask("NOTIFICATIONS", refreshNotifications, 1000 * 2);
-    addNewTask("DYNDATA", dynamicDataManager.dynamicDataTask, 1000 * 5);
+    addNewTask("DYNDATA", dynamicDataManager.dynamicDataTask, 1000);
 
     loaderMessageDOM.innerHTML = "%T%INIT_LOAD_BASEPAGE%T%";
     var BASEPAGE_HTML = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.html" });

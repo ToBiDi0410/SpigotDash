@@ -230,7 +230,13 @@ async function evalAsync(scr) {
 }
 
 async function evalAsyncWithScope(code, scope) {
-    return eval("var scopeDat = JSON.parse('" + JSON.stringify(scope) + "'); (async(scope) => {" + code + "})(scopeDat);");
+    try {
+        return eval("var scopeDat = JSON.parse('" + JSON.stringify(scope) + "'); (async(scope) => {" + code + "})(scopeDat);");
+    } catch (err) {
+        console.warn("[EXEC] Failed to Execute Async Code: " + code);
+        console.warn("[EXEC] Provided Data: " + JSON.stringify(scope));
+        console.log(err);
+    }
 }
 
 
@@ -278,6 +284,20 @@ function sizeObj(obj) {
         if (obj.hasOwnProperty(key)) size++;
     }
     return size;
+}
+
+function objectToArray(obj) {
+    var array = [];
+    for (key in obj) {
+        var arrayEntry;
+        if (obj[key] instanceof Object) {
+            arrayEntry = Object.assign(obj[key], { KEY: key });
+        } else {
+            arrayEntry = Object.assign({ VALUE: obj[key] }, { KEY: key });
+        }
+        array.push(arrayEntry);
+    }
+    return array;
 }
 
 var API_URL = "./api";
