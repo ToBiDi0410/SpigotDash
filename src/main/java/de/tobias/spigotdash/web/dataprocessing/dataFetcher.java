@@ -19,6 +19,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,8 +42,8 @@ public class dataFetcher {
 	public static File serverPropFile = new File(serverDir, "server.properties");
 	public static File bukkitPropFile = new File(serverDir, "bukkit.yml");
 
-	public static OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 	public static Runtime runtime = Runtime.getRuntime();
+	public static MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
 	public static long last_tick_time = 0;
 	public static float tps = 0;
@@ -443,31 +447,42 @@ public class dataFetcher {
 	}
 
 	// ** CPU LOAD FUNCTIONS **
-
-	public static double getProcessCPULoad() {
+	public static Double getProcessCPULoad() {
 		try {
-			double value = operatingSystemMXBean.getProcessCpuLoad();
+			ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+			AttributeList list = mbs.getAttributes(name, new String[]{"ProcessCpuLoad"});
 
-			if (value == -1.0) return 0;
-			
-			return ((int) (value * 1000) / 10.0);
+			return Optional.ofNullable(list)
+					.map(l -> l.isEmpty() ? null : l)
+					.map(List::iterator)
+					.map(Iterator::next)
+					.map(Attribute.class::cast)
+					.map(Attribute::getValue)
+					.map(Double.class::cast)
+					.orElse(null);
+
 		} catch (Exception ex) {
-			return 0;
+			return null;
 		}
-
 	}
 
-	public static double getSystemCPULoad() {
+	public static Double getSystemCPULoad() {
 		try {
-			double value = operatingSystemMXBean.getSystemCpuLoad();
+			ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+			AttributeList list = mbs.getAttributes(name, new String[]{"SystemCpuLoad"});
 
-			if (value == -1.0) return 0;
-			
-			return ((int) (value * 1000) / 10.0);
+			return Optional.ofNullable(list)
+					.map(l -> l.isEmpty() ? null : l)
+					.map(List::iterator)
+					.map(Iterator::next)
+					.map(Attribute.class::cast)
+					.map(Attribute::getValue)
+					.map(Double.class::cast)
+					.orElse(null);
+
 		} catch (Exception ex) {
-			return 0;
+			return null;
 		}
-
 	}
 
 	// ** MEMORY FUNCTIONS ** //
