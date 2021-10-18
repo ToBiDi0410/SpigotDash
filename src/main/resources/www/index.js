@@ -9,7 +9,7 @@ async function init() {
     var loaderProgressDOM = document.querySelector('#pageInitLoader_PROGRESS');
 
     loaderMessageDOM.innerHTML = "%T%INIT_EST_CONNECTION%T%";
-    socket = io("ws://localhost:9677");
+    socket = io();
 
     var SOCKET_TRIES = 0;
     while (!socket.connected) {
