@@ -25,7 +25,7 @@ async function openWorldMenu(worldname) {
 
     var data = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_WORLD", WORLD: worldname });
 
-    var entitieCount = menu.getContentfåOM().querySelector(".card-header-title.entities");
+    var entitieCount = menu.getContentDOM().querySelector(".card-header-title.entities");
     var entitieList = menu.getContentDOM().querySelector(".entitieDropDownCont");
     var playerCount = menu.getContentDOM().querySelector(".card-header-title.players");
     var playerList = menu.getContentDOM().querySelector(".playersDropDownCont");
