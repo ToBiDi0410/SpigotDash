@@ -10,6 +10,7 @@ import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.files.translations;
 import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.utils.plugins.pluginManager;
+import org.apache.commons.io.FileSystem;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -478,10 +480,22 @@ public class dataFetcher {
 					.map(Attribute::getValue)
 					.map(Double.class::cast)
 					.orElse(null);
-
 		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	// ** STORAGE FUNCTION ** //
+	public static long getFreeSpace() {
+		return new File("/").getFreeSpace();
+	}
+
+	public static long getTotalSpace() {
+		return new File("/").getTotalSpace();
+	}
+
+	public static long getUsedSpace() {
+		return getTotalSpace() - getFreeSpace();
 	}
 
 	// ** MEMORY FUNCTIONS ** //

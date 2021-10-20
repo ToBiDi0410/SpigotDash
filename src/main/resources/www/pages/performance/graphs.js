@@ -23,7 +23,12 @@ function initCPUChart() {
             align: 'left'
         },
         yaxis: {
-            min: 0
+            min: 0,
+            labels: {
+                formatter: function(value) {
+                    return value.toFixed(2) + "%";
+                }
+            }
         },
     };
 
@@ -47,12 +52,18 @@ function initRAMChart() {
             enabled: false
         },
         title: {
-            text: '%T%RAM_USAGE%T%',
+            text: '%T%RAM%T%/%T%STORAGE%T% %T%USAGE%T%',
             align: 'left'
         },
-        yaxis: {
-            min: 0
-        }
+        yaxis: [{
+            show: false,
+        }, {
+            show: false,
+        }, {
+            show: false,
+        }, {
+            show: false,
+        }]
     };
 
     ramchart = new ApexCharts(document.querySelector("#ramchart"), options);
@@ -115,7 +126,7 @@ function initEngineChart() {
         }, {
             show: false,
         }, {
-            show: false
+            show: false,
         }]
     };
 
@@ -151,21 +162,65 @@ async function updateData() {
 
         var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "GRAPHS" });
 
+        var MIN_STOR = bytesToGB(data[0].USED_SPACE - (data[0].USED_SPACE / 10));
+        var MAX_STOR = bytesToGB(data[0].TOTAL_SPACE);
+
         var RAM_GRAPH = {
             options: {
-                yaxis: {
+                yaxis: [{
                     min: 0,
-                    max: data[0].MEMORY_MAX
-                }
+                    max: data[0].MEMORY_MAX,
+                    show: false,
+                    labels: {
+                        formatter: function(value) {
+                            return value + " MB";
+                        }
+                    },
+                }, {
+                    min: 0,
+                    max: data[0].MEMORY_MAX,
+                    show: false,
+                    labels: {
+                        formatter: function(value) {
+                            return value + " MB";
+                        }
+                    },
+                }, {
+                    show: false,
+                    labels: {
+                        formatter: function(value) {
+                            return value + " GB";
+                        }
+                    },
+                    min: MIN_STOR,
+                    max: MAX_STOR,
+                }, {
+                    show: false,
+                    labels: {
+                        formatter: function(value) {
+                            return value + " GB";
+                        }
+                    },
+                    min: MIN_STOR,
+                    max: MAX_STOR,
+                }]
             },
             series: [{
-                name: "%T%ALLOCATED%T%",
+                name: "%T%RAM_ALLOCATED%T%",
                 data: []
             }, {
-                name: "%T%USED%T%",
+                name: "%T%RAM_USED%T%",
+                data: []
+            }, {
+                name: "%T%STORAGE_TOTAL%T%",
+                data: []
+            }, {
+                name: "%T%STORAGE_USED%T%",
                 data: []
             }]
         }
+
+        console.log(RAM_GRAPH);
 
         var TPS_GRAPH = {
             series: [{
@@ -206,6 +261,8 @@ async function updateData() {
             var elem_date = transformDate(new Date(elem.DATETIME));
             RAM_GRAPH.series[0].data.push({ x: elem_date, y: elem.MEMORY_ALLOCATED });
             RAM_GRAPH.series[1].data.push({ x: elem_date, y: elem.MEMORY_USED });
+            RAM_GRAPH.series[2].data.push({ x: elem_date, y: bytesToGB(elem.TOTAL_SPACE) });
+            RAM_GRAPH.series[3].data.push({ x: elem_date, y: bytesToGB(elem.USED_SPACE) });
 
             TPS_GRAPH.series[0].data.push({ x: elem_date, y: parseFloat(elem.TPS).toFixed(2) });
             if (elem.TPS == 0) elem.TPS = 1;
@@ -228,10 +285,16 @@ async function updateData() {
         cpuchart.updateSeries(CPU_GRAPH.series);
 
         enginechart.updateSeries(ENGINE_GRAPH.series);
-    } catch (err) {}
+    } catch (err) {
+        console.log(err);
+    }
 
 }
 
 function transformDate(date) {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function bytesToGB(bytes) {
+    return parseFloat((bytes / (1000 * 1000 * 1000)).toFixed(2));
 }

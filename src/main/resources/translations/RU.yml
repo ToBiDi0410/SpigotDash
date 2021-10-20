@@ -1,3 +1,14 @@
+Very_Low_Storage_Capacity_Title: Очень низкая емкость хранилища
+Very_Low_Storage_Capacity_Content: В настоящее время для сервера доступно менее <b>1 GB</b> свободного места! Это, вероятно, вызовет сбой системы!
+Low_Storage_Capacity_Title: Низкая емкость хранилища
+Low_Storage_Capacity_Content: В настоящее время на сервере меньше <b>2 GB</b> хранилища! Пожалуйста, освободите место!
+RAM_Allocated: ОЗУ выделено
+RAM_Used: ОЗУ использовано
+Storage_Total: Всего Хранилища
+Storage_Used: Используемое хранилище
+RAM: баран
+STORAGE: хранения
+USAGE: использование
 Wrong_Name_Or_Password: Неверное имя пользователя или пароль
 Login_Success: Вход выполнен успешно
 MSPT_Long: Миллисекунды на тик
@@ -56,7 +67,7 @@ Allocated: Выделено
 Reconnecting: Повторное подключение...
 NOTIFICATION_UNLOADEDJARS_TITLE: Выгруженные файлы JAR
 Enable_End: Включить Эндер мир
-CPU_Usage: Процессор (%)
+CPU_Usage: Процессор
 Game: Игра
 NOTIFICATION_DISABLEDPLUGINS_CONTENT: Один или несколько подключаемых модулей в настоящее
   время <b>отключены или выгружены</b><br>Пожалуйста, проверьте логи на наличие ошибок!

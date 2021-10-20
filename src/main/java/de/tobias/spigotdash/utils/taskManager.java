@@ -29,8 +29,8 @@ public class taskManager {
 
 				HashMap<String, Object> currentPerformanceData = new HashMap<>();
 				currentPerformanceData.put("DATETIME", System.currentTimeMillis());
-				currentPerformanceData.put("CPU_LOAD_SYSTEM", dataFetcher.roundDouble(dataFetcher.getSystemCPULoad(), 2));
-				currentPerformanceData.put("CPU_LOAD_PROCESS", dataFetcher.roundDouble(dataFetcher.getProcessCPULoad(), 2));
+				currentPerformanceData.put("CPU_LOAD_SYSTEM", dataFetcher.roundDouble(dataFetcher.getSystemCPULoad() * 100, 2));
+				currentPerformanceData.put("CPU_LOAD_PROCESS", dataFetcher.roundDouble(dataFetcher.getProcessCPULoad() * 100, 2));
 				currentPerformanceData.put("MEMORY_MAX", dataFetcher.getMaxMemory());
 				currentPerformanceData.put("MEMORY_USED", dataFetcher.getUsedMemory());
 				currentPerformanceData.put("MEMORY_FREE", dataFetcher.getFreeMemory());
@@ -40,6 +40,8 @@ public class taskManager {
 				currentPerformanceData.put("WORLD_ENTITIES", dataFetcher.getTotalEntities());
 				currentPerformanceData.put("WORLD_PLAYERS", dataFetcher.getPlayerCount());
 				currentPerformanceData.put("WORLD_COUNT", dataFetcher.getWorldCount());
+				currentPerformanceData.put("TOTAL_SPACE", dataFetcher.getTotalSpace());
+				currentPerformanceData.put("USED_SPACE", dataFetcher.getUsedSpace());
 				main.cacheFile.jsonTree.get("PERFORMANCE_DATA").getAsJsonArray().add(main.cacheFile.gson.toJsonTree(currentPerformanceData).getAsJsonObject());
 				main.cacheFile.save();
 
@@ -59,6 +61,14 @@ public class taskManager {
 
 				if(updater.update_available) {
 					notificationManager.addNotification("UPDATE_AVAILABLE", "INFO", "SpigotDash", translations.replaceTranslationsInString("%T%NOTIFICATION_UPDATE_TITLE%T%"), translations.replaceTranslationsInString("%T%NOTIFICATION_UPDATE_CONTENT%T%"), -1);
+				}
+
+				if(dataFetcher.getFreeSpace() < 1000 * 1000 * 1000 * 2) {
+					if(dataFetcher.getFreeSpace() < 1000 * 1000 * 1000 * 1) {
+						notificationManager.addNotification("VERY_LOW_STORAGE_CAPACITY", "DANGER", "SpigotDash", translations.replaceTranslationsInString("%T%VERY_LOW_STORAGE_CAPACITY_TITLE%T%"), translations.replaceTranslationsInString("%T%VERY_LOW_STORAGE_CAPACITY_CONTENT%T%"), 30);
+					} else {
+						notificationManager.addNotification("LOW_STORAGE_CAPACITY", "WARNING", "SpigotDash", translations.replaceTranslationsInString("%T%LOW_STORAGE_CAPACITY_TITLE%T%"), translations.replaceTranslationsInString("%T%LOW_STORAGE_CAPACITY_CONTENT%T%"), 30);
+					}
 				}
 
 				lastUpdate = System.currentTimeMillis();

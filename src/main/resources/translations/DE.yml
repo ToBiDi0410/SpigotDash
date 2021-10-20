@@ -1,3 +1,14 @@
+Very_Low_Storage_Capacity_Title: Extrem wenig Speicherplatz
+Very_Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>1GB</b> Speicher für den Server verfügbar! Dies wird vorraussichtlich zu einem Absturz des ganzes Systems führen!
+Low_Storage_Capacity_Title: Wenig Speicherplatz
+Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>2GB</b> Speicher für den Server verfügbar! Bitte mache Platz frei!
+RAM_Allocated: RAM zugewiesen
+RAM_Used: RAM benutzt
+Storage_Total: Insgesamter Speicher
+Storage_Used: Verwendeter Speicher
+RAM: RAM
+STORAGE: Speicher
+USAGE: Nutzung
 Est_Connection_Failed: Fehler beim Aufbauen einer Verbindung!
 Init_Est_Connection: Baue Socket Verbindung auf...
 Init_Load_Basepage: Lade Seite (Grundseite)...
@@ -100,7 +111,7 @@ RAM_Usage: RAM Nutzung (mB)
 CPU_load_host: Host CPU Last
 Allocated: Zugeweisen
 Entities: Entitäten
-CPU_Usage: CPU Nutzung (%)
+CPU_Usage: CPU Nutzung
 Game: Spiel
 Used: Genutzt
 Whitelist: Whitelist

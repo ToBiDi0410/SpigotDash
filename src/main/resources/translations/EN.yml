@@ -1,3 +1,14 @@
+Very_Low_Storage_Capacity_Title: Very low Storage Capacity
+Very_Low_Storage_Capacity_Content: Currently, there is less than <b>1GB</b> Storage free for the Server! This will probably cause the System to crash!
+Low_Storage_Capacity_Title: Low Storage Capacity
+Low_Storage_Capacity_Content: Currently, there is less than <b>2GB</b> Storage for the Server! Please free some space!
+RAM_Allocated: RAM allocated
+RAM_Used: RAM used
+Storage_Total: Total Storage
+Storage_Used: Used Storage
+RAM: RAM
+STORAGE: Storage
+USAGE: Usage
 Est_Connection_Failed: Failed to establish connection!
 Init_Est_Connection: Establishing Socket connection...
 Init_Load_Basepage: Loading Page (BASEPAGE)...
@@ -97,7 +108,7 @@ Reconnecting: Reconnecting...
 NOTIFICATION_UNLOADEDJARS_TITLE: Unloaded JAR Files
 MSPT_Long: Milliseconds per Tick
 Enable_End: Enable End
-CPU_Usage: CPU Usage (%)
+CPU_Usage: CPU Usage
 NOTIFICATION_DISABLEDPLUGINS_CONTENT: One or more Plugins are currently <b>disabled
   or unloaded</b><br>Please check the Log for Errors if this is not intended!
 Login_Required: You need to be logged in, in order to continue!
