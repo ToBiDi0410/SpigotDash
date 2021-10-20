@@ -1,3 +1,13 @@
+Loading_Basepage: Loading the Base Page for you
+Basepage: Basepage
+Scripts: Scripts
+Styling: Styling
+Loading_Page: We are loading the Page for you
+Page: Page
+Require_Auth: In order to continue, you have to approve your Authentication
+Authentication: Authentication
+Trying_To_Connect_To_Server: We are trying to connect you to the Server
+Connection: Connection
 Very_Low_Storage_Capacity_Title: Very low Storage Capacity
 Very_Low_Storage_Capacity_Content: Currently, there is less than <b>1GB</b> Storage free for the Server! This will probably cause the System to crash!
 Low_Storage_Capacity_Title: Low Storage Capacity

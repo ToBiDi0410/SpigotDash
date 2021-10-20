@@ -1,3 +1,13 @@
+Loading_Basepage: Загрузка базовой страницы для вас
+Basepage: Базовая сторона
+Scripts: Скрипты
+Styling: Появление
+Loading_Page: Страница загружается за вас
+Page: страница
+Require_Auth: Нам нужна ваша аутентификация, чтобы продолжить
+Authentication: Аутентификация
+Trying_To_Connect_To_Server: Подключаем вас к серверу
+Connection: ссылка
 Very_Low_Storage_Capacity_Title: Очень низкая емкость хранилища
 Very_Low_Storage_Capacity_Content: В настоящее время для сервера доступно менее <b>1 GB</b> свободного места! Это, вероятно, вызовет сбой системы!
 Low_Storage_Capacity_Title: Низкая емкость хранилища

@@ -10,19 +10,19 @@
 </head>
 
 <body>
-    <div id="pageInitLoader" style="height: 100vh; width: 100vw; position: absolute; z-index: 50;">
-        <section class="hero is-primary is-fullheight">
+    <!-- <div id="pageInitLoader" style="height: 100vh; width: 100vw; position: absolute; z-index: 50;">
+        <section class="hero is-dark is-fullheight">
             <div class="hero-body">
                 <div class="container">
                     <div class="columns is-centered">
-                        <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-                            <article id="pageInitLoader_MESSAGEDOM" class="message is-info">
+                        <div class="column is-5-tablet is-5-desktop is-3-widescreen">
+                            <article id="pageInitLoader_MESSAGEDOM" class="message is-black">
                                 <div class="message-header">
                                     <p>Page load</p>
                                 </div>
                                 <div class="message-body has-text-centered">
                                     <b>%T%PLEASE_WAIT_MOMENT%T%</b><br><br>
-                                    <progress id="pageInitLoader_PROGRESS" class="progress is-small is-warning" max="100">0%</progress>
+                                    <progress id="pageInitLoader_PROGRESS" class="progress is-small is-primary" max="100">0%</progress>
                                     <div id="pageInitLoader_MESSAGE" style="font-size: 75%;">%T%PLEASE_WAIT_MOMENT%T%</div>
                                 </div>
                             </article>
@@ -31,6 +31,184 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <div class="BASEPAGE">
+        <a>Not loaded!</a>
+    </div>
+
+    <div class="VERSION_MARKER" style="position: fixed; z-index: 600; top: calc(100vh - 25px); margin: 0px 0px 10px 10px; float: left; color: red;">
+        0.4.X
+    </div>
+
+    -->
+    <div class="initLoader fullsize background">
+        <div class="loginBox absoluteCenter">
+            <div class="topLoader" style="height: 5%;">
+                <progress class="progress is-small is-primary bulmaProgressNoBack" max="100"></progress>
+            </div>
+            <div class="leftPart inline">
+                <img class="stepIcon absoluteCenter" src="">
+            </div>
+            <div class="rightPart inline">
+                <div class="ctitle"></div>
+                <div class="csubtitle"></div>
+
+                <div class="formIn hidden">
+                    <div class="passwordForm">
+                        <div class="inputLable">Password</div>
+                        <div class="fancyInput">
+                            <input class="inputBox" type="password" placeholder="SecurityIsEverything123">
+                        </div>
+                        <div class="inputInfoLable"></div>
+                    </div>
+
+                    <div class="confirmButton" onclick="tryAuth();">
+                        Check
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            * {
+                overflow: hidden;
+            }
+            
+            body {
+                height: 100vh;
+                width: 100vw;
+            }
+            
+            .fullsize {
+                height: 100%;
+                width: 100%;
+            }
+            
+            .absoluteCenter {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            
+            .inline {
+                display: inline-block;
+            }
+            
+            .background {
+                background-color: gray;
+            }
+            
+            .loginBox {
+                font-size: 80%;
+                background-color: rgb(51, 51, 51);
+                height: 70vh;
+                width: 47vw;
+                border-radius: 10px;
+                color: white;
+            }
+            
+            .leftPart {
+                height: 95%;
+                width: 49.5%;
+                position: relative;
+            }
+            
+            .rightPart {
+                height: 95%;
+                width: 49.5%;
+                position: relative;
+            }
+            
+            .ctitle {
+                padding-top: 10%;
+                width: 100%;
+                font-size: 200%;
+            }
+            
+            .passwordForm {
+                padding-top: 50%;
+            }
+            
+            .passwordForm>* {
+                margin-bottom: 10px;
+            }
+            
+            .fancyInput {
+                width: 70%;
+                height: 35px;
+                border-radius: 10px;
+                background-color: rgb(73, 73, 73);
+                color: white;
+            }
+            
+            .fancyInput>*.inputBox {
+                background-color: transparent;
+                border: none;
+                color: rgb(38 6 135);
+                font-weight: bold;
+                width: 90%;
+                height: 100%;
+                margin-left: 5%;
+                margin-right: 5%;
+                position: relative;
+            }
+            
+            .fancyInput>*.inputBox:focus {
+                outline: none;
+            }
+            
+            .stepIcon {
+                width: 45%;
+            }
+            
+            .confirmButton {
+                background-color: blueviolet;
+                width: fit-content;
+                right: 5%;
+                bottom: 5%;
+                padding: 3% 10%;
+                border-radius: 3px;
+                position: absolute;
+            }
+            
+            .confirmButton:hover {
+                opacity: 0.8;
+            }
+            
+            .hidden {
+                display: none;
+            }
+            
+            .bulmaProgressNoBack {
+                background-color: transparent !important;
+            }
+            
+            .bulmaProgressNoBack:indeterminate {
+                background-image: linear-gradient(to right, #00d1b2 30%, #ededed00 30%) !important;
+            }
+            
+            .bulmaProgressNoBack::-moz-progress-bar {
+                background-color: transparent;
+            }
+            
+            .bulmaProgressNoBack::-webkit-progress-value {
+                background-color: transparent;
+            }
+            
+            .bulmaProgressNoBack {
+                color: transparent;
+            }
+            
+            .progress::-webkit-progress-bar {
+                background-color: transparent;
+            }
+            
+            input:-webkit-autofill {
+                -webkit-background-clip: text;
+            }
+        </style>
     </div>
 
     <div class="BASEPAGE">

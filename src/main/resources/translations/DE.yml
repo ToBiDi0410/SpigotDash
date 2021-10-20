@@ -1,3 +1,13 @@
+Loading_Basepage: Lade die Grundseite für dich
+Basepage: Grundseite
+Scripts: Skripte
+Styling: Aussehen
+Loading_Page: Die Seite wird für dich geladen
+Page: Seite
+Require_Auth: Um fortzufahren benötigen wir deine Authentifizierung
+Authentication: Authentifizierung
+Trying_To_Connect_To_Server: Wir verbinden dich mit dem Server
+Connection: Verbindung
 Very_Low_Storage_Capacity_Title: Extrem wenig Speicherplatz
 Very_Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>1GB</b> Speicher für den Server verfügbar! Dies wird vorraussichtlich zu einem Absturz des ganzes Systems führen!
 Low_Storage_Capacity_Title: Wenig Speicherplatz

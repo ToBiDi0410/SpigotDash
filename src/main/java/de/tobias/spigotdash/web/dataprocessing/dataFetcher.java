@@ -3,6 +3,7 @@ package de.tobias.spigotdash.web.dataprocessing;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.sun.management.OperatingSystemMXBean;
 import de.tobias.spigotdash.listener.JoinTime;
 import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.AltDetector;
@@ -45,7 +46,7 @@ public class dataFetcher {
 	public static File bukkitPropFile = new File(serverDir, "bukkit.yml");
 
 	public static Runtime runtime = Runtime.getRuntime();
-	public static MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+	public static OperatingSystemMXBean mxBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
 	public static long last_tick_time = 0;
 	public static float tps = 0;
@@ -451,7 +452,7 @@ public class dataFetcher {
 	// ** CPU LOAD FUNCTIONS **
 	public static Double getProcessCPULoad() {
 		try {
-			ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+			/*ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
 			AttributeList list = mbs.getAttributes(name, new String[]{"ProcessCpuLoad"});
 
 			return Optional.ofNullable(list)
@@ -461,7 +462,8 @@ public class dataFetcher {
 					.map(Attribute.class::cast)
 					.map(Attribute::getValue)
 					.map(Double.class::cast)
-					.orElse(null);
+					.orElse(null);*/
+			return mxBean.getProcessCpuLoad();
 		} catch (Exception ex) {
 			return null;
 		}
@@ -469,7 +471,7 @@ public class dataFetcher {
 
 	public static Double getSystemCPULoad() {
 		try {
-			ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+			/*ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
 			AttributeList list = mbs.getAttributes(name, new String[]{"SystemCpuLoad"});
 
 			return Optional.ofNullable(list)
@@ -479,7 +481,8 @@ public class dataFetcher {
 					.map(Attribute.class::cast)
 					.map(Attribute::getValue)
 					.map(Double.class::cast)
-					.orElse(null);
+					.orElse(null);*/
+			return mxBean.getSystemCpuLoad();
 		} catch (Exception ex) {
 			return null;
 		}
