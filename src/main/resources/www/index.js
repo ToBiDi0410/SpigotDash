@@ -50,6 +50,8 @@ async function init() {
 
     await requireAuth();
 
+    DOMs[3].value = 10;
+
     DOMs = getDOMs();
 
     socket.on("disconnect", async function() {
@@ -94,7 +96,7 @@ async function init() {
         style.type = 'text/css';
         if (style.styleSheet) { style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); }
 
-        DOMs[3].value += 33.3 / STYLESHEETS.length;
+        DOMs[3].value += 30 / STYLESHEETS.length;
         await timer(25);
     }
 
@@ -107,7 +109,7 @@ async function init() {
 
         appendScript(js, head);
 
-        DOMs[3].value += 33.3 / SCRIPTS.length;
+        DOMs[3].value += 50 / SCRIPTS.length;
         await timer(25);
     }
 
@@ -119,14 +121,14 @@ async function init() {
     DOMs[1].innerHTML = "%T%LOADING_BASEPAGE%T%";
     DOMs[2].src = BASE_ICON;
     var BASEPAGE_HTML = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.html" });
-    DOMs[3].value += 33.3 / 3;
+    DOMs[3].value += 10 / 3;
     var BASEPAGE_JS = await socketIoRequestAwait({ TYPE: "WEBFILE", PATH: "BASEPAGE.js" });
-    DOMs[3].value += 33.3 / 3;
+    DOMs[3].value += 10 / 3;
     document.querySelector(".BASEPAGE").innerHTML = BASEPAGE_HTML;
     appendScript(BASEPAGE_JS, document.querySelector(".BASEPAGE"));
-    DOMs[3].value += 33.3 / 3;
+    DOMs[3].value += 10 / 3;
 
-    await timer(1000);
+    await timer(100);
     document.querySelector(".initLoader").remove();
 }
 

@@ -36,26 +36,36 @@
         </div>
     </div>
 </div>
+
 <div class="hidden worldMenuTemplate">
-    <div class="dataParent IGNORE" data-callback="return getWorldData('world_the_end');" data-interval=5000>
+    <div class="dataParent IGNORE_IN_TEMPLATE" data-callback="return getWorldData('world_the_end');" data-interval=5000>
         <div class="weatherSelector p-2">
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <div class="subitle">%T%WEATHER%T%:</div>
-                    </div>
-                    <div class="level-item">
-                        <button class="button transparentButton weatherTrigger" data-weather="Normal"><div class="material-icons-outlined" style="color: yellow;">wb_sunny</div></button>
-                    </div>
-                    <div class="level-item">
-                        <button class="button transparentButton weatherTrigger" data-weather="Rain"><div class="material-icons-outlined" style="color: blue;">water_drop</div></button>
-                    </div>
-                    <div class="level-item">
-                        <button class="button transparentButton weatherTrigger" data-weather="Thunder"><div class="material-icons-outlined" style="color: orange;">bolt</div></button>
+            <div class="dataFieldToggle" data-togglepath="weather">
+                <div class="level">
+                    <div class="level-left dataFieldAttrib" data-attrib="data-worldname" data-attribpath="name">
+                        <div class="level-item">
+                            <div class="subitle">%T%WEATHER%T%:</div>
+                        </div>
+                        <div class="level-item">
+                            <div class="dataFieldToggleEntry disabled" data-toggleCheck="Normal" onclick="changeWeather(this);">
+                                <button class="button transparentButton weatherTrigger"><div class="material-icons-outlined" style="color: yellow;">wb_sunny</div></button>
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <div class="dataFieldToggleEntry disabled" data-toggleCheck="Rain" onclick="changeWeather(this);">
+                                <button class="button transparentButton weatherTrigger"><div class="material-icons-outlined" style="color: blue;">water_drop</div></button>
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <div class="dataFieldToggleEntry disabled" data-toggleCheck="Thunder" onclick="changeWeather(this);">
+                                <button class="button transparentButton weatherTrigger"><div class="material-icons-outlined" style="color: orange;">bolt</div></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="p-2">
             <div class="days childrenInline">
@@ -64,7 +74,7 @@
             </div>
         </div>
 
-        <div class="timeSelector p-2">
+        <div class="timeSelector p-2 dataFieldAttrib" data-attribpath="name" data-attrib="data-worldname">
             <div class="level">
                 <div class="level-left">
                     <div class="level-item">
@@ -74,72 +84,23 @@
 
                 <div class="level-middle">
                     <div class="level-item">
-                        %T%TIME%T%
+                        %T%NIGHT%T%
                     </div>
                 </div>
 
                 <div class="level-right">
                     <div class="level-item">
-                        %T%NIGHT%T%
+                        %T%DAY%T%
                     </div>
                 </div>
             </div>
-            <input class="timeslider slider is-fullwidth dataFieldAttrib" data-attrib="value" data-attribpath="daytime" step="1000" min="0" max="24000" value="0" type="range">
+            <input class="timeslider slider is-fullwidth dataFieldAttrib" data-attrib="value" data-attribpath="daytime" step="1000" min="0" max="24000" value="0" type="range" oninput="changeTime(this);">
         </div>
 
         <div class="p-2">
             <div class="datapacks childrenInline">
                 <div>%T%DATAPACKS%T%:</div>
                 <div class="dataField" data-path="Datapacks" data-processor="return scope.join(', ');"></div>
-            </div>
-        </div>
-        <div class="card is-fullwidth">
-            <header class="card-header">
-                <div class="card-header-title entities childrenInline">
-                    <div>%T%ENTITIES%T% (</div>
-                    <div class="dataField" data-path="Entities" data-processor="return scope.length;"></div>
-                    <div>)</div>
-                </div>
-                <a class="card-header-icon card-toggle" onclick="toggleExpandCart(this.parentElement.parentElement);">
-                    <span class="material-icons-outlined">expand</span>
-                </a>
-            </header>
-            <div class="card-content is-hiddenc">
-                <div class="content entitieDropDownCont">
-                    <div class="dataArray" data-path="Entities" data-arrayid="entities"></div>
-                    <div class="dataArrayTemplate IGNORE" data-arrayid="entities">
-                        <!-- Template for a Entitie in the Dropdown List -->
-                        <div class="tile is-ancestor">
-                            <div class="tile is-parent">
-                                <article class="tile is-child">
-                                    <div class="content">
-                                        <div class="level">
-                                            <div class="level-left">
-                                                <div class="level-item" style="width: 48px">
-                                                    <img class="dataFieldIMG" style="max-width: 48px; max-height: 48px;" data-path="KEY" data-processor="return 'global/icons/MOBS/' + scope.toLowerCase().capitalizeFirstLetter() + '.png';">
-                                                </div>
-                                                <div class="level-item">
-                                                    <div class="title dataField" data-path="KEY" style="font-size: 120%;"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="level-right">
-                                                <div class="level-item">
-                                                    <div class="subtitle dataField" data-path="VALUE"></div>
-                                                </div>
-                                                <div class="level-item">
-                                                    <div class="button is-danger killEntities dataFieldAttrib" data-attrib="data-type" data-attribpath="KEY">%T%KILL%T%</div>
-                                                </div>
-                                                <div class="level-item"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
-                        <!-- Template for a Entitie in the Dropdown List -->
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -162,7 +123,7 @@
                         <div class="player">
                             <img class="head dataFieldAttrib" data-attrib="src" data-attribpath="UUID" data-processor="return 'https://crafatar.com/avatars/' + scope;">
                             <div class="details">
-                                <div class="dataField" data-path="Displayname"></div>
+                                <div class="dataField" data-path="Displayname" data-processor="return minecraftStringToHTMLString(scope);"></div>
                                 <div class="dataField" data-path="UUID"></div>
                             </div>
                         </div>
@@ -173,6 +134,56 @@
         </div>
 
         <div class="card is-fullwidth">
+            <header class="card-header">
+                <div class="card-header-title entities childrenInline">
+                    <div>%T%ENTITIES%T% (</div>
+                    <div class="dataField" data-path="EntitieCount"></div>
+                    <div>)</div>
+                </div>
+                <a class="card-header-icon card-toggle" onclick="toggleExpandCart(this.parentElement.parentElement);">
+                    <span class="material-icons-outlined">expand</span>
+                </a>
+            </header>
+            <div class="card-content is-hiddenc">
+                <div class="content entitieDropDownCont">
+                    <div class="dataArray dataFieldAttrib" data-path="Entities" data-arrayid="entities" data-attrib="data-worldname" data-attribpath="name"></div>
+                    <div class="dataArrayTemplate IGNORE" data-arrayid="entities">
+                        <!-- Template for a Entitie in the Dropdown List -->
+                        <div class="tile is-ancestor">
+                            <div class="tile is-parent">
+                                <article class="tile is-child">
+                                    <div class="content">
+                                        <div class="level">
+                                            <div class="level-left">
+                                                <div class="level-item" style="width: 48px">
+                                                    <img class="dataFieldIMG" style="max-width: 48px; max-height: 48px;" data-path="KEY" data-processor="return 'global/icons/MOBS/' + scope.toLowerCase().capitalizeFirstLetter() + '.png';">
+                                                </div>
+                                                <div class="level-item">
+                                                    <div class="title dataField" data-path="KEY" style="font-size: 120%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="level-right">
+                                                <div class="level-item">
+                                                    <div class="subtitle dataField" data-path="VALUE"></div>
+                                                </div>
+                                                <div class="level-item">
+                                                    <div class="button is-danger killEntities dataFieldAttrib" data-attrib="data-type" data-attribpath="KEY" onclick="killEntities(this);">%T%KILL%T%</div>
+                                                </div>
+                                                <div class="level-item"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <!-- Template for a Entitie in the Dropdown List -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card is-fullwidth IGNORE hidden">
             <header class="card-header">
                 <div class="card-header-title chunks childrenInline">
                     <div>%T%CHUNKS%T% (</div>
@@ -185,7 +196,8 @@
             </header>
             <div class="card-content is-hiddenc">
                 <div class="content chunksDropDownCont">
-                    <div class="dataArray" data-path="Chunks" data-arrayid="chunks" data-interval=30000></div>
+                    <div class="dataArray IGNORE_IN_TEMPLATE" data-path="Chunks" data-arrayid="chunks" data-interval=30000>
+                    </div>
                     <div class="dataArrayTemplate IGNORE" data-arrayid="chunks">
                         <!-- Template for a Chunk in the Dropdown List -->
                         <div class="tile is-ancestor">

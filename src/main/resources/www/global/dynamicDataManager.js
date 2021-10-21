@@ -26,28 +26,30 @@ async function dynamicDataTask() {
     fillEmptyWithLoading();
 
     //---- INGORE PROCESSING ----
-    dynamicDataManager.ignore = Array.from(document.querySelectorAll(".IGNORE"));
+    dynamicDataManager.ignore = Array.from(document.querySelectorAll(".IGNORE, .IGNORE_IN_TEMPLATE"));
 
     //IGNORE INTERVALED FIELDS
     for (intervaled of document.querySelectorAll("*[data-interval]")) {
-        var INTERVAL = intervaled.getAttribute("data-interval");
-        var LASTUPDATE = intervaled.getAttribute("data-lastupdate");
+        if (!dynamicDataManager.ignore.includes(intervaled)) {
+            var INTERVAL = intervaled.getAttribute("data-interval");
+            var LASTUPDATE = intervaled.getAttribute("data-lastupdate");
 
-        if (LASTUPDATE == null) {
-            intervaled.setAttribute("data-lastupdate", Date.now());
-        } else {
-            var DIFF = Date.now() - LASTUPDATE;
-            if (DIFF <= INTERVAL) {
-                dynamicDataManager.ignore.push(intervaled);
+            if (LASTUPDATE == null) {
+                intervaled.setAttribute("data-lastupdate", Date.now() - INTERVAL);
             } else {
-                intervaled.setAttribute("data-lastupdate", Date.now());
+                var DIFF = Date.now() - LASTUPDATE;
+                if (DIFF <= INTERVAL) {
+                    dynamicDataManager.ignore.push(intervaled);
+                } else {
+                    intervaled.setAttribute("data-lastupdate", Date.now());
+                }
             }
         }
     }
 
     //ADD CHILDREN OF IGNORED
     for (ignored of dynamicDataManager.ignore) {
-        dynamicDataManager.ignore = dynamicDataManager.ignore.concat(Array.from(ignored.querySelectorAll("*")));
+        dynamicDataManager.ignore = dynamicDataManager.ignore.concat(Array.from(ignored.querySelectorAll(".dataField, .dataFieldIMG, .dataFieldAttrib, .dataFieldClass, .dataFieldToggle, .dataArray")));
     }
 
 
@@ -73,14 +75,14 @@ async function dynamicDataTask() {
                     var APPENDED_DOM = array.appendChild(NEW_DOM);
                     APPENDED_DOM.setAttribute("data-path", i);
                 }
-
-                array.querySelectorAll(":scope > .dataParent").forEach((elem) => {
-                    if (elem.getAttribute("data-path") >= arrayData.length) {
-                        elem.remove();
-                    }
-                });
                 i++;
             }
+
+            array.querySelectorAll(":scope > .dataParent").forEach((elem) => {
+                if (elem.getAttribute("data-path") >= i) {
+                    elem.remove();
+                }
+            });
         }
     }
 
@@ -93,8 +95,9 @@ async function dynamicDataTask() {
             var data = await getDataForParent(lastParent);
             data = resolvePath(data, path.join("."));
             if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
-            if (dField.innerText != innerDATA || dField.innerText == "" || dField.innerText == " ") {
-                dField.innerText = data;
+
+            if (dField.innerHTML != innerDATA || dField.innerHTML == "" || dField.innerHTML == " ") {
+                dField.innerHTML = data;
                 dField.classList.add("filled");
             }
         }
@@ -106,14 +109,16 @@ async function dynamicDataTask() {
             var path = lastParent.path;
             lastParent = lastParent.parent;
 
-            if (!dField.hasAttribute("src")) {
-                var data = await getDataForParent(lastParent);
-                data = resolvePath(data, path.join("."));
-                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+            var data = await getDataForParent(lastParent);
+            data = resolvePath(data, path.join("."));
+            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+
+            if (!dField.hasAttribute("data-src") || dField.getAttribute("data-src") != data) {
                 dField.setAttribute("data-src", data);
                 dField.classList.add("is-loading");
                 dField.classList.add("loader");
                 dField.classList.add("imgLoadSocket");
+                dField.removeAttribute("src");
             }
         }
     }
@@ -152,6 +157,33 @@ async function dynamicDataTask() {
         }
     }
 
+    for (dField of document.querySelectorAll(".dataFieldToggle")) {
+        if (shouldBeUpdated(dField)) {
+            var lastParent = resolveDataParentWithPath(dField.parentElement);
+            var path = lastParent.path;
+            path.push(dField.getAttribute("data-togglepath"));
+            lastParent = lastParent.parent;
+
+            var data = await getDataForParent(lastParent);
+            data = resolvePath(data, path.join("."));
+
+            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+
+            var CHILDREN = dField.querySelectorAll(".dataFieldToggleEntry");
+            for (dFieldEntry of CHILDREN) {
+                if (dFieldEntry.hasAttribute("data-toggleCheck")) {
+                    if (data == dFieldEntry.getAttribute("data-toggleCheck")) {
+                        dFieldEntry.classList.add("active");
+                        dFieldEntry.classList.remove("disabled");
+                    } else {
+                        dFieldEntry.classList.add("disabled");
+                        dFieldEntry.classList.remove("active");
+                    }
+                }
+            }
+        }
+    }
+
     dynamicDataManager.running = false;
 }
 
@@ -173,10 +205,15 @@ async function getDataForParent(DOM) {
         var evaluatedData = await evalAsync(DOM.getAttribute("data-callback"));
         dynamicDataManager.cache[intid] = { time: Date.now(), data: evaluatedData };
         console.log("[DATA] [CACHE] Built: " + intid);
+
+        var DELETE_TIME = 5000;
+        if (DOM.hasAttribute("data-interval")) {
+            DELETE_TIME = DOM.getAttribute("data-interval");
+        }
         setTimeout(function() {
             delete dynamicDataManager.cache[intid];
             console.log("[DATA] [CACHE] Deleted: " + intid);
-        }, dynamicDataManager.cacheClearTime * 1000);
+        }, DELETE_TIME - 100);
     }
     var finalData = dynamicDataManager.cache[intid].data;
     return finalData;

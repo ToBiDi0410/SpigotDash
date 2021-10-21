@@ -388,17 +388,20 @@ public class dataFetcher {
 			HashMap<Object, Integer> entityCounts = new HashMap<>();
 			for(Entity ent : chunk.getEntities()) {
 				String type = ent.getType().name();
-				if(entityCounts.containsKey(type)) {
-					entityCounts.replace(type, entityCounts.get(type) + 1);
-				} else {
-					entityCounts.put(type, 1);
+				if(ent.getType() != EntityType.PLAYER) {
+					if(entityCounts.containsKey(type)) {
+						entityCounts.replace(type, entityCounts.get(type) + 1);
+					} else {
+						entityCounts.put(type, 1);
+					}
+
+					if(entityCountsWorld.containsKey(type)) {
+						entityCountsWorld.replace(type, entityCountsWorld.get(type) + 1);
+					} else {
+						entityCountsWorld.put(type, 1);
+					}
 				}
-				
-				if(entityCountsWorld.containsKey(type)) {
-					entityCountsWorld.replace(type, entityCountsWorld.get(type) + 1);
-				} else {
-					entityCountsWorld.put(type, 1);
-				}
+
 			}
 			entityCounts = sortByValue(entityCounts);
 			chunkValues.put("Entities", entityCounts);

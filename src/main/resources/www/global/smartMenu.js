@@ -47,6 +47,7 @@ class smartMenu {
         this.opened = false;
         this.closed = false;
         this.DOMChild = null;
+        this.animTime = 0;
     }
 
     open() {
@@ -74,6 +75,7 @@ class smartMenu {
         DOM.setAttribute("data-id", this.id);
         DOM.setAttribute("data-number", smartMenuHelpers.MENU_PATH.length);
         var child = cont.appendChild(DOM);
+        this.animTime = Date.now();
 
         this.opened = true;
         this.DOMChild = child;
@@ -110,6 +112,13 @@ class smartMenu {
     getContentDOM() {
         if (this.DOMChild != null) return this.DOMChild.querySelector(".content");
         return null;
+    }
+
+    async awaitAnimation() {
+        while (Date.now() - this.animTime <= 500) {
+            await timer(100);
+        }
+        return;
     }
 }
 
