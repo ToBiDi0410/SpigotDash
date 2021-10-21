@@ -10,28 +10,6 @@ async function getCurrentData() {
 }
 
 async function showInfos(uuid) {
-    /*var player = players.find(function(elem) { return (elem.UUID == uuid); });
-    var new_html = replaceObjectKeyInString(player, TEMPLATE_PLAYER_MENU);
-
-    var menu = new smartMenu("PLAYERINFO", player.Name, player.Displayname);
-    menu.open();
-    menu.setHTML(new_html);
-    menu.update();
-
-    while (!menu.closed) {
-        var thisPlayer = players.find(function(elem) { return (elem.UUID == player.UUID); });
-        if (thisPlayer == null || thisPlayer == undefined) {
-            menu.setHTML(menu.html + '<br><a class="has-text-danger"><b>%T%PLAYER_LEFT_SERVER%T%</b></a>');
-            break;
-        }
-
-        if (!JSONMatches(thisPlayer, player)) {
-            menu.setHTML(replaceObjectKeyInString(thisPlayer, TEMPLATE_PLAYER_MENU));
-            player = thisPlayer;
-        }
-
-        await timer(1000);
-    }*/
     var player = await getCurrentData();
     player = player.players.find(function(elem) { return (elem.UUID == uuid); });
     var menu = new smartMenu("PLAYERINFO", player.Name, minecraftStringToHTMLString(player.Displayname));

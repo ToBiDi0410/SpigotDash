@@ -17,7 +17,6 @@ async function getCurrentData() {
         }
     }
 
-    console.log(data);
     return data;
 }
 
@@ -30,7 +29,6 @@ async function togglePlugin(elem) {
 
     if (data == "SUCCESS") {
         elem.removeAttribute("disabled");
-        updatePlugins();
     } else {
         elem.classList.add("is-danger");
         elem.innerHTML = "Failed";

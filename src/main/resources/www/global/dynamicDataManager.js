@@ -55,132 +55,176 @@ async function dynamicDataTask() {
 
     //---- DATA INSERTION ----
     for (array of document.querySelectorAll(".dataArray")) {
-        if (shouldBeUpdated(array)) {
-            var lastParent = resolveDataParentWithPath(array);
-            var path = lastParent.path;
-            lastParent = lastParent.parent;
+        try {
+            if (shouldBeUpdated(array)) {
+                var lastParent = resolveDataParentWithPath(array);
+                var path = lastParent.path;
+                lastParent = lastParent.parent;
 
-            var data = await getDataForParent(lastParent);
-            var arrayData = resolvePath(data, path.join("."));
-            var TEMPLATE_HTML = document.querySelector(".dataArrayTemplate[data-arrayid='" + array.getAttribute("data-arrayid") + "']").innerHTML;
+                var data = await getDataForParent(lastParent);
+                var arrayData = resolvePath(data, path.join("."));
+                var TEMPLATE_HTML = document.querySelector(".dataArrayTemplate[data-arrayid='" + array.getAttribute("data-arrayid") + "']").innerHTML;
 
-            var i = 0;
-            while (i < arrayData.length) {
-                if (array.querySelector(".dataParent[data-path='" + i + "']") == null) {
-                    var NEW_DOM = document.createElement("div");
-                    NEW_DOM.classList.add("dataParent");
-                    var TEMPLATE_HTML_DOM = parseHTMLToDOM(TEMPLATE_HTML);
-                    NEW_DOM.appendChild(TEMPLATE_HTML_DOM);
+                var i = 0;
+                while (i < arrayData.length) {
+                    if (array.querySelector(".dataParent[data-path='" + i + "']") == null) {
+                        var NEW_DOM = document.createElement("div");
+                        NEW_DOM.classList.add("dataParent");
+                        var TEMPLATE_HTML_DOM = parseHTMLToDOM(TEMPLATE_HTML);
+                        NEW_DOM.appendChild(TEMPLATE_HTML_DOM);
 
-                    var APPENDED_DOM = array.appendChild(NEW_DOM);
-                    APPENDED_DOM.setAttribute("data-path", i);
+                        var APPENDED_DOM = array.appendChild(NEW_DOM);
+                        APPENDED_DOM.setAttribute("data-path", i);
+                    }
+                    i++;
                 }
-                i++;
+
+                array.querySelectorAll(":scope > .dataParent").forEach((elem) => {
+                    if (elem.getAttribute("data-path") >= i) {
+                        elem.remove();
+                    }
+                });
             }
-
-            array.querySelectorAll(":scope > .dataParent").forEach((elem) => {
-                if (elem.getAttribute("data-path") >= i) {
-                    elem.remove();
-                }
-            });
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(array);
+            console.warn(err);
         }
     }
 
     for (dField of document.querySelectorAll(".dataField")) {
-        if (shouldBeUpdated(dField)) {
-            var lastParent = resolveDataParentWithPath(dField);
-            var path = lastParent.path;
-            lastParent = lastParent.parent;
+        try {
+            if (shouldBeUpdated(dField)) {
+                var lastParent = resolveDataParentWithPath(dField);
+                var path = lastParent.path;
+                lastParent = lastParent.parent;
 
-            var data = await getDataForParent(lastParent);
-            data = resolvePath(data, path.join("."));
-            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                var data = await getDataForParent(lastParent);
+                data = resolvePath(data, path.join("."));
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
 
-            if (dField.innerHTML != innerDATA || dField.innerHTML == "" || dField.innerHTML == " ") {
-                dField.innerHTML = data;
-                dField.classList.add("filled");
+                if (dField.innerHTML != innerDATA || dField.innerHTML == "" || dField.innerHTML == " ") {
+                    dField.innerHTML = data;
+                    dField.classList.add("filled");
+                }
             }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(dField);
+            console.warn(err);
         }
     }
 
     for (dField of document.querySelectorAll(".dataFieldIMG")) {
-        if (shouldBeUpdated(dField)) {
-            var lastParent = resolveDataParentWithPath(dField);
-            var path = lastParent.path;
-            lastParent = lastParent.parent;
+        try {
+            if (shouldBeUpdated(dField)) {
+                var lastParent = resolveDataParentWithPath(dField);
+                var path = lastParent.path;
+                lastParent = lastParent.parent;
 
-            var data = await getDataForParent(lastParent);
-            data = resolvePath(data, path.join("."));
-            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                var data = await getDataForParent(lastParent);
+                data = resolvePath(data, path.join("."));
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
 
-            if (!dField.hasAttribute("data-src") || dField.getAttribute("data-src") != data) {
-                dField.setAttribute("data-src", data);
-                dField.classList.add("is-loading");
-                dField.classList.add("loader");
-                dField.classList.add("imgLoadSocket");
-                dField.removeAttribute("src");
+                if (!dField.hasAttribute("data-src") || dField.getAttribute("data-src") != data) {
+                    dField.setAttribute("data-src", data);
+                    dField.classList.add("is-loading");
+                    dField.classList.add("loader");
+                    dField.classList.add("imgLoadSocket");
+                    dField.removeAttribute("src");
+                }
             }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(dField);
+            console.warn(err);
         }
     }
 
     for (dField of document.querySelectorAll(".dataFieldAttrib")) {
-        if (shouldBeUpdated(dField)) {
-            var lastParent = resolveDataParentWithPath(dField.parentElement);
-            var path = lastParent.path;
-            path.push(dField.getAttribute("data-attribpath"));
-            lastParent = lastParent.parent;
+        try {
+            if (shouldBeUpdated(dField)) {
+                var lastParent = resolveDataParentWithPath(dField.parentElement);
+                var path = lastParent.path;
+                path.push(dField.getAttribute("data-attribpath"));
+                lastParent = lastParent.parent;
 
-            var data = await getDataForParent(lastParent);
-            data = resolvePath(data, path.join("."));
-            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
-            var attribName = dField.getAttribute("data-attrib");
+                var data = await getDataForParent(lastParent);
+                data = resolvePath(data, path.join("."));
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                var attribName = dField.getAttribute("data-attrib");
 
-            if (!attribHasValue(dField, attribName, data)) {
-                dField.setAttribute(dField.getAttribute("data-attrib"), data);
-                if (dField.getAttribute("data-attrib") == "value") {
-                    dField.value = data;
+                if (!attribHasValue(dField, attribName, data)) {
+                    dField.setAttribute(dField.getAttribute("data-attrib"), data);
+                    if (dField.getAttribute("data-attrib") == "value") {
+                        dField.value = data;
+                    }
                 }
             }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(dField);
+            console.warn(err);
         }
     }
 
     for (dField of document.querySelectorAll(".dataFieldClass")) {
-        if (shouldBeUpdated(dField)) {
-            var lastParent = resolveDataParentWithPath(dField.parentElement);
-            var path = lastParent.path;
-            path.push(dField.getAttribute("data-classpath"));
-            lastParent = lastParent.parent;
+        try {
+            if (shouldBeUpdated(dField)) {
+                var lastParent = resolveDataParentWithPath(dField.parentElement);
+                var path = lastParent.path;
+                path.push(dField.getAttribute("data-classpath"));
+                lastParent = lastParent.parent;
 
-            var data = await getDataForParent(lastParent);
-            var innerDATA = resolvePath(data, path.join("."));
-            dField.classList.add(innerDATA);
+                var data = await getDataForParent(lastParent);
+                var innerDATA = resolvePath(data, path.join("."));
+
+                if (!dField.classList.contains(innerDATA)) {
+                    dField.classList.add(innerDATA);
+                    if (dField.hasAttribute("data-setclass")) {
+                        dField.classList.remove(dField.getAttribute("data-setclass"));
+                    }
+                    dField.setAttribute("data-setclass", innerDATA);
+                }
+            }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(dField);
+            console.warn(err);
         }
+
     }
 
     for (dField of document.querySelectorAll(".dataFieldToggle")) {
-        if (shouldBeUpdated(dField)) {
-            var lastParent = resolveDataParentWithPath(dField.parentElement);
-            var path = lastParent.path;
-            path.push(dField.getAttribute("data-togglepath"));
-            lastParent = lastParent.parent;
+        try {
+            if (shouldBeUpdated(dField)) {
+                var lastParent = resolveDataParentWithPath(dField.parentElement);
+                var path = lastParent.path;
+                path.push(dField.getAttribute("data-togglepath"));
+                lastParent = lastParent.parent;
 
-            var data = await getDataForParent(lastParent);
-            data = resolvePath(data, path.join("."));
+                var data = await getDataForParent(lastParent);
+                data = resolvePath(data, path.join("."));
 
-            if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
 
-            var CHILDREN = dField.querySelectorAll(".dataFieldToggleEntry");
-            for (dFieldEntry of CHILDREN) {
-                if (dFieldEntry.hasAttribute("data-toggleCheck")) {
-                    if (data == dFieldEntry.getAttribute("data-toggleCheck")) {
-                        dFieldEntry.classList.add("active");
-                        dFieldEntry.classList.remove("disabled");
-                    } else {
-                        dFieldEntry.classList.add("disabled");
-                        dFieldEntry.classList.remove("active");
+                var CHILDREN = dField.querySelectorAll(".dataFieldToggleEntry");
+                for (dFieldEntry of CHILDREN) {
+                    if (dFieldEntry.hasAttribute("data-toggleCheck")) {
+                        if (data == dFieldEntry.getAttribute("data-toggleCheck")) {
+                            dFieldEntry.classList.add("active");
+                            dFieldEntry.classList.remove("disabled");
+                        } else {
+                            dFieldEntry.classList.add("disabled");
+                            dFieldEntry.classList.remove("active");
+                        }
                     }
                 }
             }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(dField);
+            console.warn(err);
         }
     }
 
