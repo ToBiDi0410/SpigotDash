@@ -1,3 +1,74 @@
 <div class="players">
+    <div class="dataParent" data-callback="return getCurrentData();">
+        <div class="dataArray" data-path="players" data-arrayid="players"></div>
+        <div class="dataArrayTemplate IGNORE" data-arrayid="players">
+            <!-- Template for a Player in the List -->
+            <div class="player dataFieldAttrib" data-attrib="data-uuid" data-attribpath="UUID" onclick="showInfos(this.getAttribute('data-uuid'));">
+                <img class="head dataFieldAttrib" data-attrib="src" data-attribpath="UUID" data-processor="return 'https://crafatar.com/avatars/' + scope;">
+                <div class="details">
+                    <div class="dataField" data-path="Displayname" data-processor="return minecraftStringToHTMLString(scope);"></div>
+                    <div class="dataField" data-path="UUID"></div>
+                </div>
+            </div>
+            <!-- Template for a Player in the List -->
+        </div>
+    </div>
+</div>
 
+<div class="playerMenuTemplate hidden IGNORE_IN_TEMPLATE">
+    <div class="dataParent" data-callback="return getCurrentData();" data-processor="return scope.players.find(function(elem) { return (elem.UUID == '%UUID%'); });">
+        <div class="childrenInline">
+            <div><b>%T%DISPLAYNAME%T%: </b></div>
+            <div class="dataField" data-path="Displayname" data-processor="return minecraftStringToHTMLString(scope);"></div>
+            <span class="material-icons-outlined copyClipboardBtn dataFieldAttrib" data-attrib="onclick" data-attribpath="Name" data-processor="return 'copyClipboard(\'' + scope + '\');'">content_copy</span>
+        </div>
+        <div class="childrenInline">
+            <div><b>UUID: </b></div>
+            <div class="dataField" data-path="UUID"></div>
+            <span class="material-icons-outlined copyClipboardBtn dataFieldAttrib" data-attrib="onclick" data-attribpath="UUID" data-processor="return 'copyClipboard(\'' + scope + '\');'">content_copy</span>
+        </div>
+        <div class="childrenInline">
+            <div><b>%T%GAMEMODE%T%: </b></div>
+            <div class="dataField" data-path="Gamemode"></div>
+        </div>
+        <div class="childrenInline">
+            <div><b>%T%HEALTH%T%: </b></div>
+            <div class="dataField" data-path="Health"></div>
+            <div>/</div>
+            <div class="dataField" data-path="Health_Max"></div>
+        </div>
+        <div class="childrenInline">
+            <div><b>%T%FOOD%T%: </b></div>
+            <div class="dataField" data-path="Food"></div>
+            <div>/20</div>
+        </div>
+        <div class="childrenInline">
+            <div><b>%T%XP%T%: </b></div>
+            <div class="dataField" data-path="XPLevel"></div>
+            <div>%T%LEVEL%T% (%T%XP_REQUIRED_FOR_NEXT_LEVEL%T%: </div>
+            <div class="dataField" data-path="XPHasForNextLevel"></div>
+            <div>/</div>
+            <div class="dataField" data-path="XPForNextLevel"></div>
+            <div> %T%XP%T%)</div>
+        </div>
+        <div class="childrenInline">
+            <div><b>%T%ALT_ACCOUNTS%T%: </b></div>
+            <div class="dataField" data-path="ALTS"></div>
+        </div>
+        <div class="button is-info m-1 dataFieldAttrib" onclick="sendMessageClick(this.getAttribute('data-uuid'))" data-attrib="data-uuid" data-attribpath="UUID">%T%ACTION_MESSAGE%T%</div>
+        <div class="button is-danger m-1 dataFieldAttrib" onclick="kickClick(this.getAttribute('data-uuid'))" data-attrib="data-uuid" data-attribpath="UUID">%T%ACTION_KICK%T%</div>
+        <!--
+        <!--<span class="material-icons-outlined copyClipboardBtn" onclick="copyClipboard('%NAME%');">content_copy</span><br>!--
+        <a><b>UUID: </b>%UUID%</a>
+        <!--<span class="material-icons-outlined copyClipboardBtn" onclick="copyClipboard('%UUID%');">content_copy</span>!--<br>
+        <a><b>%T%GAMEMODE%T%: </b>%GAMEMODE%</a><br><br>
+        <a><b>%T%POSITION%T%: </b>X: %X%, Y: %Y%, Z: %Z% %T%IN%T% %WORLD%</a><br>
+        <a><b>%T%HEALTH%T%: </b>%HEALTH%/%HEALTH_MAX%</a><br>
+        <a><b>%T%FOOD%T%: </b>%FOOD%/20</a><br>
+        <a><b>%T%XP%T%: </b>%XPLEVEL% %T%LEVEL%T% (%T%XP_REQUIRED_FOR_NEXT_LEVEL%T%: %XPHASFORNEXTLEVEL%/%XPFORNEXTLEVEL% %T%XP%T%)</a><br>
+        <a><b>%T%ALT_ACCOUNTS%T%: </b>%ALTS%</a><br>
+        <div class="button is-info m-1" onclick="sendMessageClick(this.getAttribute('data-uuid'))" data-uuid="%UUID%">%T%ACTION_MESSAGE%T%</div>
+        <div class="button is-danger m-1" onclick="kickClick(this.getAttribute('data-uuid'))" data-uuid="%UUID%">%T%ACTION_KICK%T%</div>
+        !-->
+    </div>
 </div>

@@ -1,50 +1,16 @@
 var players = [{ Location: { x: 0, y: 0, z: 0, YAW: 0, PITCH: 0, WORLD: "TEST" } }];
 
 async function initPage() {
-    curr_task = updatePlayerList;
+    //curr_task = updatePlayerList;
 }
 
-async function updatePlayerList() {
-    var temp_players = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "PLAYERS" });
-    temp_players.forEach(generatePlayerEntry);
-    if (JSONMatches(temp_players, players)) return;
-    players = temp_players;
-
-
-    var cont = document.querySelector(".players");
-
-    if (players.length <= 0) {
-        cont.innerHTML = '<a class="has-text-danger">%T%NO_PLAYERS_ONLINE%T%</a>';
-        return;
-    }
-
-    if (cont.innerHTML.includes('%T%NO_PLAYERS_ONLINE%T%')) {
-        cont.innerHTML = "";
-    }
-
-    var DOMsToRemove = Array.from(cont.querySelectorAll(".player"));
-
-    players.forEach((elem) => {
-        var currDom = cont.querySelector(".player[data-uuid='" + elem.UUID + "']");
-
-        if (currDom == null) {
-            //IF PLAYER NOT IN LSIT
-            var child = cont.appendChild(generatePlayerEntry(elem));
-            child.addEventListener("click", function() {
-                showInfos(this.getAttribute("data-uuid"));
-            });
-        } else {
-            //IF PLAYER IN LIST, REMOVE OUT OF DELETION BECAUSE THE PLAYER IS ONLINE (PLAYERS CONTAINS HIM)
-            DOMsToRemove = DOMsToRemove.filter(function(el) { return el != currDom });
-        }
-    });
-
-    DOMsToRemove.forEach((elem) => { elem.remove() });
-    return;
+async function getCurrentData() {
+    var data = await getDataFromAPI({ TYPE: 'PAGEDATA', PAGE: 'PLAYERS' });
+    return { players: data };
 }
 
 async function showInfos(uuid) {
-    var player = players.find(function(elem) { return (elem.UUID == uuid); });
+    /*var player = players.find(function(elem) { return (elem.UUID == uuid); });
     var new_html = replaceObjectKeyInString(player, TEMPLATE_PLAYER_MENU);
 
     var menu = new smartMenu("PLAYERINFO", player.Name, player.Displayname);
@@ -65,7 +31,18 @@ async function showInfos(uuid) {
         }
 
         await timer(1000);
-    }
+    }*/
+    var player = await getCurrentData();
+    player = player.players.find(function(elem) { return (elem.UUID == uuid); });
+    var menu = new smartMenu("PLAYERINFO", player.Name, minecraftStringToHTMLString(player.Displayname));
+    menu.open();
+
+    var TEMPLATE_DOM = (new DOMParser()).parseFromString(TEMPLATE_PLAYER_MENU.innerHTML, "text/html");
+    TEMPLATE_DOM.querySelectorAll(".IGNORE_IN_TEMPLATE").forEach((elem) => { elem.classList.remove("IGNORE_IN_TEMPLATE"); });
+    TEMPLATE_DOM = TEMPLATE_DOM.body.firstChild;
+
+    TEMPLATE_DOM.setAttribute("data-processor", TEMPLATE_DOM.getAttribute("data-processor").replace("%UUID%", uuid));
+    menu.setHTML(TEMPLATE_DOM.outerHTML);
 };
 
 async function sendMessageClick(uuid) {
@@ -128,15 +105,4 @@ async function kickClick(uuid) {
     }
 }
 
-var TEMPLATE_PLAYER_MENU = '\
-<a><b>%T%DISPLAYNAME%T%: </b>%DISPLAYNAME%</a><span class="material-icons-outlined copyClipboardBtn" onclick="copyClipboard(\'%NAME%\');">content_copy</span><br>\
-<a><b>UUID: </b>%UUID%</a><span class="material-icons-outlined copyClipboardBtn" onclick="copyClipboard(\'%UUID%\');">content_copy</span><br>\
-<a><b>%T%GAMEMODE%T%: </b>%GAMEMODE%</a><br><br>\
-<a><b>%T%POSITION%T%: </b>X: %X%, Y: %Y%, Z: %Z% %T%IN%T% %WORLD%</a><br>\
-<a><b>%T%HEALTH%T%: </b>%HEALTH%/%HEALTH_MAX%</a><br>\
-<a><b>%T%FOOD%T%: </b>%FOOD%/20</a><br>\
-<a><b>%T%XP%T%: </b>%XPLEVEL% %T%LEVEL%T% (%T%XP_REQUIRED_FOR_NEXT_LEVEL%T%: %XPHASFORNEXTLEVEL%/%XPFORNEXTLEVEL% %T%XP%T%)</a><br>\
-<a><b>%T%ALT_ACCOUNTS%T%: </b>%ALTS%</a><br>\
-<div class="button is-info m-1" onclick="sendMessageClick(this.getAttribute(\'data-uuid\'))" data-uuid="%UUID%">%T%ACTION_MESSAGE%T%</div>\
-<div class="button is-danger m-1" onclick="kickClick(this.getAttribute(\'data-uuid\'))" data-uuid="%UUID%">%T%ACTION_KICK%T%</div>\
-';
+var TEMPLATE_PLAYER_MENU = document.querySelector(".playerMenuTemplate");

@@ -203,6 +203,10 @@ async function getDataForParent(DOM) {
     var intid = DOM.getAttribute("data-intid");
     if (dynamicDataManager.cache[intid] == null) {
         var evaluatedData = await evalAsync(DOM.getAttribute("data-callback"));
+        if (DOM.hasAttribute("data-processor")) {
+            evaluatedData = await evalAsyncWithScope(DOM.getAttribute("data-processor"), evaluatedData);
+        }
+
         dynamicDataManager.cache[intid] = { time: Date.now(), data: evaluatedData };
         console.log("[DATA] [CACHE] Built: " + intid);
 

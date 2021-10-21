@@ -220,8 +220,6 @@ async function updateData() {
             }]
         }
 
-        console.log(RAM_GRAPH);
-
         var TPS_GRAPH = {
             series: [{
                 name: "%T%TPS_LONG%T%",
