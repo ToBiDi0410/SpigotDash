@@ -10,16 +10,16 @@ Authentication: Аутентификация
 Trying_To_Connect_To_Server: Подключаем вас к серверу
 Connection: ссылка
 Very_Low_Storage_Capacity_Title: Очень низкая емкость хранилища
-Very_Low_Storage_Capacity_Content: В настоящее время для сервера доступно менее <b>1 GB</b> свободного места! Это, вероятно, вызовет сбой системы!
+Very_Low_Storage_Capacity_Content: В настоящее время для сервера доступно менее <b>1 ГБ</b> свободного места! Это, вероятно, вызовет сбой системы!
 Low_Storage_Capacity_Title: Низкая емкость хранилища
-Low_Storage_Capacity_Content: В настоящее время на сервере меньше <b>2 GB</b> хранилища! Пожалуйста, освободите место!
-RAM_Allocated: ОЗУ выделено
-RAM_Used: ОЗУ использовано
-Storage_Total: Всего Хранилища
-Storage_Used: Используемое хранилище
-RAM: баран
-STORAGE: хранения
-USAGE: использование
+Low_Storage_Capacity_Content: В настоящее время для сервера меньше <b>2 ГБ</b> хранилища! Пожалуйста, освободите место!
+RAM_Allocated: Выделено RAM
+RAM_Used: Используется RAM
+Storage_Total: Общий объем хранилища
+Storage_Used: Использованное хранилище
+RAM: RAM
+STORAGE: Хранение
+USAGE: Использование
 Wrong_Name_Or_Password: Неверное имя пользователя или пароль
 Login_Success: Вход выполнен успешно
 MSPT_Long: Миллисекунды на тик
