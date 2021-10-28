@@ -190,11 +190,16 @@
         <a>Not loaded!</a>
     </div>
 
-    <div class="VERSION_MARKER" style="position: fixed; z-index: 600; top: calc(100vh - 25px); margin: 0px 0px 10px 10px; float: left; color: red;">
+    <div class="VERSION_MARKER" onclick="showPluginInfo();" style="position: fixed; z-index: 600; top: calc(100vh - 25px); margin: 0px 0px 10px 10px; float: left; color: red;">
         0.4.X
     </div>
 
     <script src="index.js"></script>
+    <script>
+        async function showPluginInfo() {
+            return;
+        }
+    </script>
 </body>
 
 </html>

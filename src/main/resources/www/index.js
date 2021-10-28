@@ -1,6 +1,6 @@
 var socket;
 var STYLESHEETS = ["global.css", "minecraftColors.css", "smartMenu.css", "other-license/bulma.min.css", "other-license/bulma-extensions.min.css", "other-license/hightlightjs.railcasts.min.css", "other-license/materialIcons.css", "other-license/vanillatoasts.css"];
-var SCRIPTS = ["other-license/sweetalert2.min.js", "global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/vanillatoasts.js", "socketRessourceManager.js", "notificationManager.js", "dynamicDataManager.js"]
+var SCRIPTS = ["other-license/sweetalert2.min.js", "global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/vanillatoasts.js", "socketRessourceManager.js", "notificationManager.js", "dynamicDataManager.js", "pluginInfoDialogue.js"]
 var MAX_SOCKET_TRIES = 15;
 var theme;
 
