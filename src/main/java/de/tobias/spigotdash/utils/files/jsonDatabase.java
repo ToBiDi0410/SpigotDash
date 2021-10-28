@@ -3,6 +3,7 @@ package de.tobias.spigotdash.utils.files;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
+import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileUtils;
 
 import com.google.gson.Gson;
@@ -22,13 +23,17 @@ public class jsonDatabase {
 		this.gson = new Gson();
 	}
 	
-	public boolean read() {
+	public boolean read(String fallbackJSON) {
 		if(file.exists() && file.canRead()) {
 			try {
 				String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 				this.jsonTree = jpar.parse(content).getAsJsonObject();
 				return true;
-			} catch(Exception ex) { ex.printStackTrace(); }
+			} catch(Exception ex) {
+				this.jsonTree = jpar.parse(fallbackJSON).getAsJsonObject();
+				ex.printStackTrace();
+				pluginConsole.sendMessage("&cFailed to read JSON File '" + this.file.getName() + "'! Using provided Fallback!");
+			}
 
 		}
 		return false;

@@ -54,7 +54,7 @@ public class main extends JavaPlugin {
 			File cache = new File(main.pl.getDataFolder(), "cache.json");
 			if(!cache.exists()) { cache.getParentFile().mkdirs(); cache.createNewFile(); FileUtils.write(cache, "{PERFORMANCE_DATA: []}", StandardCharsets.UTF_8);}
 			cacheFile = new jsonDatabase(cache);
-			cacheFile.read();
+			cacheFile.read("{\"PERFORMANCE_DATA\":[]}");
 			pluginConsole.sendMessage("&aCache File loaded!");
 
 			//JETTY SERVER
