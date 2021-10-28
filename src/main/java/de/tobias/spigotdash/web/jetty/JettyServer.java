@@ -60,6 +60,7 @@ public class JettyServer {
     }
 
     public void registerRoutes() {
+        handler.addServlet(FaviconServlet.class, "/favicon.ico");
         handler.addServlet(IndexServlet.class, "/");
         handler.addServlet(MainServlet.class, "/web/*");
     }

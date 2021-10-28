@@ -29,11 +29,14 @@ public class MainServlet extends HttpServlet {
         OutputStream outputStream = response.getOutputStream();
         String extension = FilenameUtils.getExtension(res.getPath());
 
-        String fileContent = Resources.toString(res, StandardCharsets.UTF_8);
-
-        if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("js") || extension.equalsIgnoreCase("css"))
+        byte[] fileContentBytes;
+        if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("js") || extension.equalsIgnoreCase("css")) {
+            String fileContent = Resources.toString(res, StandardCharsets.UTF_8);
             fileContent = translations.replaceTranslationsInString(fileContent);
-        byte[] fileContentBytes = fileContent.getBytes(StandardCharsets.UTF_8);
+            fileContentBytes = fileContent.getBytes(StandardCharsets.UTF_8);
+        } else {
+            fileContentBytes = Resources.toByteArray(res);
+        }
         response.setStatus(HttpServletResponse.SC_OK);
         outputStream.write(fileContentBytes);
         outputStream.flush();
