@@ -77,7 +77,11 @@ async function dialogueUpdater() {
                 insertElem["BTN_TEXT"] = "+ %T%INSTALL%T%";
                 insertElem["WARNINGS"] = "";
 
-                if (elem.file.type != ".jar") {
+                if (elem.file.type == ".jar") {
+
+                } else if (elem.file.type == ".sk") {
+
+                } else {
                     insertElem["BTN_TEXT"] = '<a class="has-text-danger">%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%</a>';
                     insertElem["BTN_ATTRIBS"] = "disabled";
                 }

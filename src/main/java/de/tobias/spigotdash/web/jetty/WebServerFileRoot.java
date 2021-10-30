@@ -22,7 +22,7 @@ public class WebServerFileRoot {
     }
 
     public byte[] getBytesOfFile(String path) {
-        pluginConsole.sendMessage("REQ: " + path);
+        //pluginConsole.sendMessage("REQ: " + path);
         try {
             if(this.type.equalsIgnoreCase("FILE")) {
                 File f = (File) base;

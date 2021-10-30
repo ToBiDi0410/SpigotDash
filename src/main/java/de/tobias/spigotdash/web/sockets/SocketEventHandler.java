@@ -27,6 +27,8 @@ import org.eclipse.jetty.http.HttpStatus;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -459,6 +461,14 @@ public class SocketEventHandler {
     public static void handleDataRequest(SocketRequest req) {
         JsonObject json = req.json;
         String method = json.get("METHOD").getAsString();
+
+        if(method.equalsIgnoreCase("GET_INTEGRATIONS")) {
+            HashMap<String, Object> integrationObjects = new HashMap<>();
+            integrationObjects.put("SKRIPT", main.skriptIntegration.getIntegrationObject());
+
+            req.setResponse(200, "TEXT", integrationObjects);
+            return;
+        }
 
         if (method.equalsIgnoreCase("GET_FILES_IN_PATH")) {
             if (json.has("PATH")) {

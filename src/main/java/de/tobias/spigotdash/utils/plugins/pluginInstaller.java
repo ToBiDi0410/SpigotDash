@@ -53,13 +53,26 @@ public class pluginInstaller {
 				con.disconnect();
 				return "FAILED_RESSOURCE_NOT_FOUND";
 			}
-			
+
+			String fileType = details.get("file").getAsJsonObject().get("type").getAsString();
+
+			File base = main.pl.getDataFolder();
+			if(fileType.equalsIgnoreCase(".sk")) {
+				base = new File(main.pl.getDataFolder().getParentFile(), "Skript/scripts");
+			}
+
+			base.mkdirs();
+
 			//WRITING OF FILE
-			File dest = new File(main.pl.getDataFolder().getParentFile(), id + ".SpigotDashDownload" + details.get("file").getAsJsonObject().get("type").getAsString());
+			File dest = new File(base, id + ".SpigotDashDownload" + fileType);
 			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Writing Response to File (" + dest.getAbsolutePath() + ")...");
 			writeBytesFromInputStreamIntoFile(con.getInputStream(), dest);
-			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Finished! Loading Plugin...");
-			pluginManager.load(FilenameUtils.removeExtension(dest.getName()));
+			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Finished!");
+
+			if(fileType.equalsIgnoreCase(".jar")) {
+				pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Trying to load Plugin...");
+				pluginManager.load(FilenameUtils.removeExtension(dest.getName()));
+			}
 
 			con.disconnect();
 			return "INSTALLED";

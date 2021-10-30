@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import de.tobias.spigotdash.integrations.SkriptIntegration;
 import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 import de.tobias.spigotdash.web.jetty.WebServerFileRoot;
 import de.tobias.spigotdash.web.sockets.SocketIoManager;
@@ -33,13 +34,15 @@ public class main extends JavaPlugin {
 	public static Metrics metrics;
 	public static long latestStart = 0;
 	public static WebServerFileRoot webroot;
+
+	public static SkriptIntegration skriptIntegration;
 	
 	public void onEnable() {
 		try {
 			pl = this;
 			pluginConsole.sendMessage("&7----------- [  " + pluginConsole.CONSOLE_PREFIX + "&7] -----------");
 			pluginConsole.sendMessage("&7Author(s): &b" + this.getDescription().getAuthors());
-			pluginConsole.sendMessage("&7Version: &6" + this.getDescription().getVersion() + " &7(API: &6" + this.getDescription().getAPIVersion() + "&7)");
+			pluginConsole.sendMessage("&7Version: &6" + this.getDescription().getVersion()/* + " &7(API: &6" + this.getDescription().getAPIVersion() + "&7)"*/);
 			pluginConsole.sendMessage("&cThank you for using this Plugin <3");
 			pluginConsole.sendMessage("&7----------- [  " + pluginConsole.CONSOLE_PREFIX + "&7] -----------");
 
@@ -94,6 +97,9 @@ public class main extends JavaPlugin {
 
 			//COMMANDS
 			Objects.requireNonNull(Bukkit.getPluginCommand("dashurl")).setExecutor(new dashurl());
+
+			//INTEGRATIONS
+			skriptIntegration = new SkriptIntegration();
 
 			pluginConsole.sendMessage("&5Everything (seems to be) done!");
 			latestStart = System.currentTimeMillis();

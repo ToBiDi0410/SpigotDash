@@ -4,5 +4,7 @@ version: 0.4.2 BETA
 main: de.tobias.spigotdash.main
 api-version: 1.13
 author: Tobias Dickes
+softdepend:
+    - Skript
 commands:
     dashurl:

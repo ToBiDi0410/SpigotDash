@@ -20,6 +20,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>njol-repo</id>
+            <url>http://maven.njol.ch/repo/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -80,6 +84,13 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.njol</groupId>
+            <artifactId>skript</artifactId>
+            <version>2.0.1</version><!-- Use whatever version you want to depend on -->
+            <scope>provided</scope>
         </dependency>
 
         <!-- Jetty !-->
