@@ -24,7 +24,7 @@
                 <div class="csubtitle"></div>
 
                 <div class="formIn hidden">
-                    <form id="loginFORM" action="index.html" method="GET">
+                    <form onkeydown="return onEnter(event);" onkeypress="return onEnter(event);" id="loginFORM">
                         <div class="passwordForm">
                             <div class="inputLable">Password</div>
                             <div class="fancyInput">
@@ -196,6 +196,20 @@
 
     <script src="index.js"></script>
     <script>
+        function onEnter(event) {
+            var code = 0;
+            code = event.keyCode;
+            if (code == 13) {
+                try {
+                    tryAuth();
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+            return false;
+
+        }
+
         async function showPluginInfo() {
             return;
         }
