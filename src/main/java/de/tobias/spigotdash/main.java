@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
+import de.tobias.spigotdash.web.jetty.WebServerFileRoot;
 import de.tobias.spigotdash.web.sockets.SocketIoManager;
 import de.tobias.spigotdash.web.jetty.JettyServer;
 import org.apache.commons.io.FileUtils;
@@ -30,6 +32,7 @@ public class main extends JavaPlugin {
 	public static Plugin pl;
 	public static Metrics metrics;
 	public static long latestStart = 0;
+	public static WebServerFileRoot webroot;
 	
 	public void onEnable() {
 		try {
@@ -39,6 +42,15 @@ public class main extends JavaPlugin {
 			pluginConsole.sendMessage("&7Version: &6" + this.getDescription().getVersion() + " &7(API: &6" + this.getDescription().getAPIVersion() + "&7)");
 			pluginConsole.sendMessage("&cThank you for using this Plugin <3");
 			pluginConsole.sendMessage("&7----------- [  " + pluginConsole.CONSOLE_PREFIX + "&7] -----------");
+
+			File thisFile = dataFetcher.getPluginFile(this);
+			pluginConsole.sendMessage("Processing Executable Name: " + thisFile.getName());
+			if(thisFile.getName().contains("--extweb")) {
+				pluginConsole.sendMessage("&6[NOTE] Using External Folder for Webserver as specified with --extweb");
+				webroot = new WebServerFileRoot("FILE", new File(this.getDataFolder(), "/www/"));
+			} else {
+				webroot = new WebServerFileRoot("RES", "/www");
+			}
 
 			pluginConsole.sendMessage("Starting Metrics...");
 			metrics = new Metrics(this, 11869);

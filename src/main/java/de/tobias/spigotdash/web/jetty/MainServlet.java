@@ -1,6 +1,7 @@
 package de.tobias.spigotdash.web.jetty;
 
 import com.google.common.io.Resources;
+import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.files.translations;
 import org.apache.commons.io.FilenameUtils;
 
@@ -20,25 +21,23 @@ public class MainServlet extends HttpServlet {
             path = "/index.html";
         }
 
-        String classpath = "/www" + path;
-        URL res = getClass().getResource(classpath);
-
-        if (res == null) response.sendRedirect("404.html");
-        res = getClass().getResource(classpath);
+        byte[] content = main.webroot.getBytesOfFile(path);
+        if(content == null) {
+            response.sendRedirect("404.html");
+            return;
+        }
 
         OutputStream outputStream = response.getOutputStream();
-        String extension = FilenameUtils.getExtension(res.getPath());
+        String extension = FilenameUtils.getExtension(path);
 
-        byte[] fileContentBytes;
         if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("js") || extension.equalsIgnoreCase("css")) {
-            String fileContent = Resources.toString(res, StandardCharsets.UTF_8);
+            String fileContent = new String(content, StandardCharsets.UTF_8);
             fileContent = translations.replaceTranslationsInString(fileContent);
-            fileContentBytes = fileContent.getBytes(StandardCharsets.UTF_8);
-        } else {
-            fileContentBytes = Resources.toByteArray(res);
+            content = fileContent.getBytes(StandardCharsets.UTF_8);
         }
+
         response.setStatus(HttpServletResponse.SC_OK);
-        outputStream.write(fileContentBytes);
+        outputStream.write(content);
         outputStream.flush();
         outputStream.close();
     }

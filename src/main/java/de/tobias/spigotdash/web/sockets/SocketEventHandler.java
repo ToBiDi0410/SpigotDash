@@ -122,12 +122,17 @@ public class SocketEventHandler {
     public static void handleWebfileRequest(SocketRequest req) throws Exception {
         if(req.json.has("PATH")) {
             String file = req.json.get("PATH").getAsString();
-            URL res = main.pl.getClass().getResource("/www/" + file);
+            byte[] content = main.webroot.getBytesOfFile("/" + file);
+
+            if(content == null) {
+                req.setResponse(404, "TEXT", "ERR_FILE_NOT_FOUND");
+                return;
+            }
 
             if(file.toLowerCase().indexOf(".html") > 0 || file.toLowerCase().indexOf(".css") > 0 || file.toLowerCase().indexOf(".js") > 0) {
-                req.setResponse(200, "TEXT", translations.replaceTranslationsInString(Resources.toString(res, StandardCharsets.UTF_8)));
+                req.setResponse(200, "TEXT", translations.replaceTranslationsInString(new String(content, StandardCharsets.UTF_8)));
             } else {
-                req.setResponse(200, "RESOURCE", res);
+                req.setResponse(200, "BYTES", content);
             }
         } else {
             req.setResponse(400, "TEXT", "ERR_MISSING_FILE");
