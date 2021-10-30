@@ -1,59 +1,18 @@
 var curr_path = "./";
 
-var FILE_TEMPLATE_FOLDER = '<tr onclick="fileListClickEntry(this);" data-relative-path="%RELPATH%">\
-    <th><span class="material-icons-outlined">folder</span></th >\
-    <td>%NAME%</td>\
-    <td>%MODF%</td>\
-    <td></td>\
-    <tr>';
+function initPage() {}
 
-var FILE_TEMPLATE_FILE = '<tr onclick="fileListClickEntry(this);" data-relative-path="%RELPATH%">\
-    <th><span class="material-icons-outlined">insert_drive_file</span></th>\
-    <td>%NAME%</td>\
-    <td>%MODF%</td>\
-    <td><div class="button is-success buttonDownload" onclick="downloadFile(event)" data-relative-path="%RELPATH%"><span class="material-icons-outlined">file_download</span></div></td>\
-    <tr>';
-
-var FILE_TEMPLATE_BACK = '<tr onclick="goBackPath();">\
-    <th><span class="material-icons-outlined">undo</span></th >\
-    <td>%T%PREVIOUS_FOLDER%T%</td>\
-    <td></td>\
-    <tr>';
-
-async function refreshFiles() {
+async function getCurrentData() {
     var files = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_FILES_IN_PATH", PATH: curr_path });
+    for (file of files) {
+        if (file.DIR) {
+            file.NAME += "/";
+        }
+    }
     files = files.sort((a, b) => (a.DIR == false) ? 1 : -1);
-    var table_body = document.getElementsByTagName("tbody")[0];
-    table_body.innerHTML = "";
-
-    files.forEach((elem) => {
-        table_body.innerHTML += getHTMLForFile(elem);
-    });
-
-    if (curr_path != "./") table_body.innerHTML = FILE_TEMPLATE_BACK + table_body.innerHTML;
-
     return files;
 }
 
-function initPage() {
-    refreshFiles();
-}
-
-function getHTMLForFile(FILE_OBJ) {
-    var html = "";
-    if (FILE_OBJ.DIR == true) {
-        html = FILE_TEMPLATE_FOLDER;
-        FILE_OBJ.NAME += "/";
-    } else {
-        html = FILE_TEMPLATE_FILE;
-    }
-
-    html = html.replaceAll("%NAME%", FILE_OBJ.NAME);
-    html = html.replaceAll("%MODF%", (new Date(FILE_OBJ.LAST_CHANGED)).toLocaleString());
-    html = html.replaceAll("%RELPATH%", curr_path + FILE_OBJ.NAME);
-
-    return html;
-}
 
 async function fileListClickEntry(elem) {
     var path = elem.getAttribute("data-relative-path");
@@ -67,6 +26,12 @@ async function fileListClickEntry(elem) {
     }
 }
 
+async function refreshFiles() {
+    document.querySelector(".dataParent[data-callback]").setAttribute("data-lastupdate", 0);
+    dynamicDataManager.cache = {};
+    dynamicDataManager.dynamicDataTask();
+}
+
 
 async function downloadFile(event) {
     event.stopPropagation();
@@ -74,7 +39,7 @@ async function downloadFile(event) {
     elem.classList.add("is-loading");
 
     try {
-        var path = elem.getAttribute("data-relative-path");
+        var path = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
 
         var bytes = await getDataFromAPI({ TYPE: "SYSFILE", PATH: path });
         var ascii = new Uint8Array(bytes);
@@ -94,6 +59,7 @@ async function downloadFile(event) {
 
 async function openFileInViewer(path) {
     var extension = path.split(".").latest();
+    var name = path.split("/").latest();
     var content = "";
     var error = false;
     var error_text = false;
@@ -126,11 +92,9 @@ async function openFileInViewer(path) {
             html: '%T%ERROR_OCCURED%T%<br><div style="background-color: var(--lt-color-gray-400); width: fit-content; padding: 2%; left: 0; right: 0; margin: auto; border-radius: 5%; font-style: italic; font-size: 75%; font-decoration: cursive;">' + error_text + '</div>'
         });
     } else {
-        Swal.fire({
-            title: path.split("/").latest(),
-            customClass: 'swal-fileviewc',
-            html: '<code class="fileView_Content language-' + extension + '">' + content + '</code>'
-        });
+        var menu = new smartMenu("FILEVIEWER", name, name);
+        menu.setHTML('<code class="fileView_Content language-' + extension + '">' + content + '</code>');
+        menu.open();
         hljs.highlightAll();
     }
 
@@ -141,15 +105,4 @@ function goBackPath() {
     curr_path = curr_path.split("/")[0];
     if (curr_path == ".") curr_path = "./";
     refreshFiles();
-}
-
-function toggleFileViewer(state) {
-    var fileviewer = document.querySelector(".fileview");
-    if (!state) {
-        fileviewer.classList.remove("shown")
-        fileviewer.classList.add("hidden");
-    } else {
-        fileviewer.classList.add("shown")
-        fileviewer.classList.remove("hidden");
-    }
 }

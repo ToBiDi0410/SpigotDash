@@ -26,6 +26,15 @@
     width: 100%;
 }
 
+.FILEACTIONS.true {
+    display: none;
+}
+
+.tile.is-ancestor {
+    position: relative;
+    width: 100%;
+}
+
 @keyframes SCROLL_IN {
     from {
         transform: translateY(100vh);
