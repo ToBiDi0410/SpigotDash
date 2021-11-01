@@ -41,7 +41,7 @@ async function downloadFile(event) {
     try {
         var path = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
 
-        var bytes = await getDataFromAPI({ TYPE: "SYSFILE", PATH: path });
+        var bytes = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "GET", PATH: path });
         var ascii = new Uint8Array(bytes);
 
         var a = window.document.createElement('a');
@@ -50,6 +50,114 @@ async function downloadFile(event) {
         document.body.appendChild(a);
         a.click();
         a.remove();
+    } catch (err) {
+        console.error(err);
+    }
+
+    elem.classList.remove("is-loading");
+}
+
+async function deleteFile(event) {
+    event.stopPropagation();
+    var elem = event.target.parentElement.parentElement.querySelector(".buttonDelete");
+    elem.classList.add("is-loading");
+
+    try {
+        var path = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
+        var SWAL_RES = await Swal.fire({
+            title: "Are you sure?",
+            html: "Do you really want to the delete the File?<br>This cannot be undone!",
+            showCancelButton: true,
+            cancelButtonText: "No",
+            confirmButtonText: "Yes",
+            confirmButtonColor: '#d33',
+            cancelButtonColor: 'green',
+        });
+
+        if (SWAL_RES.isConfirmed) {
+            Swal.fire({
+                title: "Deleting File...",
+            });
+            Swal.enableLoading();
+
+            var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "DELETE", PATH: path });
+
+            if (res == "DELETED") {
+                Swal.fire({
+                    title: "Deleted",
+                    icon: "success",
+                    html: "It´s done! The File was deleted!",
+                    timer: 2000
+                });
+            } else {
+                Swal.fire({
+                    title: "Oh no",
+                    icon: "error",
+                    html: "We were not able to delete the File!<br>Please delete it manually or try again!",
+                    timer: 2000
+                });
+            }
+
+            refreshFiles();
+
+        }
+
+
+    } catch (err) {
+        console.error(err);
+    }
+
+    elem.classList.remove("is-loading");
+}
+
+async function renameFile(event) {
+    event.stopPropagation();
+    var elem = event.target.parentElement.parentElement.querySelector(".buttonRename");
+    elem.classList.add("is-loading");
+
+    try {
+        var path = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
+        var SWAL_RES = await Swal.fire({
+            title: "Rename",
+            html: "How should the File be called?",
+            input: "text",
+            inputValue: path.split("/").latest(),
+            inputAttributes: {
+                autocapitalize: "off"
+            },
+            showCancelButton: true,
+            cancelButtonText: "Cancel"
+        });
+
+        console.log(SWAL_RES);
+        if (SWAL_RES.isConfirmed) {
+            var name = SWAL_RES.value;
+            //if (!path.split("/").latest().startsWith(".") && !new_path.includes(".")) { new_path = new_path + "." + path.split(".").latest() }
+
+            Swal.fire({
+                title: "Renaming File...",
+            });
+            Swal.enableLoading();
+
+            var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "RENAME", PATH: path, NEWNAME: name });
+            if (res == "RENAMED") {
+                Swal.fire({
+                    title: "Renamed",
+                    icon: "success",
+                    html: "The File was renamed successfully",
+                    timer: 2000
+                });
+            } else {
+                Swal.fire({
+                    title: "Oh no",
+                    icon: "error",
+                    html: "We were not able to rename the File!<br>Please delete it manually or try again!",
+                    timer: 2000
+                });
+            }
+
+            refreshFiles();
+        }
     } catch (err) {
         console.error(err);
     }
@@ -70,7 +178,7 @@ async function openFileInViewer(path) {
         }
 
 
-        var data = await socketIoRequestAwaitFull({ TYPE: "SYSFILE", PATH: path });
+        var data = await socketIoRequestAwaitFull({ TYPE: "SYSFILE", METHOD: "GET", PATH: path });
 
         if (data.CODE != 200) {
             throw new Error(await data.DATA);

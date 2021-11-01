@@ -1,6 +1,5 @@
 package de.tobias.spigotdash.web.sockets;
 
-import com.google.common.io.Resources;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
@@ -16,6 +15,7 @@ import de.tobias.spigotdash.web.dataprocessing.pageDataFetcher;
 import de.tobias.spigotdash.web.dataprocessing.webBundler;
 import io.socket.socketio.server.SocketIoSocket;
 import net.md_5.bungee.api.ChatColor;
+import org.apache.commons.io.FileDeleteStrategy;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -25,9 +25,11 @@ import org.bukkit.plugin.Plugin;
 import org.eclipse.jetty.http.HttpStatus;
 
 import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -61,9 +63,9 @@ public class SocketEventHandler {
         if(type.equalsIgnoreCase("EXECUTE") || type.equalsIgnoreCase("DATA") || type.equalsIgnoreCase("PAGEDATA")) {
             Bukkit.getScheduler().runTask(main.pl, () -> {
                 try {
-                    if(type.equalsIgnoreCase("EXECUTE")) {
+                    if(type.equalsIgnoreCase("EXECUTE") && hasMethod(jsonobj)) {
                         handleExecutionRequest(req);
-                    } else if(type.equalsIgnoreCase("DATA")) {
+                    } else if(type.equalsIgnoreCase("DATA") && hasMethod(jsonobj)) {
                         handleDataRequest(req);
                     } else if(type.equalsIgnoreCase("PAGEDATA")) {
                         handlePageDataRequest(req);
@@ -84,7 +86,7 @@ public class SocketEventHandler {
                     handlePageRequest(req);
                 } else if(type.equalsIgnoreCase("WEBFILE")) {
                     handleWebfileRequest(req);
-                } else if(type.equalsIgnoreCase("SYSFILE")) {
+                } else if(type.equalsIgnoreCase("SYSFILE") && hasMethod(jsonobj)) {
                     handleSysfileRequest(req);
                 }
             } catch(Exception ex) {
@@ -93,6 +95,10 @@ public class SocketEventHandler {
             }
             ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
         }
+    }
+
+    public static boolean hasMethod(JsonObject json) {
+        return json.has("METHOD");
     }
 
     public static void authRequest(SocketIoSocket soc, Object[] args) {
@@ -142,21 +148,92 @@ public class SocketEventHandler {
     }
 
     public static void handleSysfileRequest(SocketRequest req) {
+        JsonObject json = req.json;
+        String method = json.get("METHOD").getAsString();
+
         if(req.json.has("PATH")) {
             String file = req.json.get("PATH").getAsString();
             File f = dataFetcher.getFileWithPath(file);
-            if (f.exists()) {
-                if (f.isFile()) {
-                    req.setResponse(200, "FILE", f);
+
+            if(dataFetcher.isFileInsideServerFolder(f)) {
+                if (f.exists()) {
+                    if(method.equalsIgnoreCase("GET")) {
+                        if (f.isFile()) {
+                            req.setResponse(200, "FILE", f);
+                        } else {
+                            req.setResponse(400, "TEXT","ERR_FILE_IS_DIR");
+                        }
+                    }
+
+                    if(method.equalsIgnoreCase("DELETE")) {
+                        if(f.isFile()) {
+                            try {
+                                FileDeleteStrategy.FORCE.delete(f);
+                                req.setResponse(200, "TEXT","DELETED");
+                            } catch (IOException e) {
+                                req.setResponse(500, "TEXT","ERR_FILE_DELETE_FAILED");
+                            }
+                        }
+                    }
+
+                    if(method.equalsIgnoreCase("RENAME")) {
+                        if(req.json.has("NEWNAME")) {
+                            File newF = new File(f.getParentFile(), req.json.get("NEWNAME").getAsString());
+                            if(!newF.exists()) {
+                                f.renameTo(newF);
+                                req.setResponse(200, "TEXT", "RENAMED");
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_FILE_ALREADY_EXISTS");
+                            }
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_NEWNAME");
+                        }
+                    }
+
+                    if(method.equalsIgnoreCase("MOVE")) {
+                        if(req.json.has("NEWPATH")) {
+                            File newF = dataFetcher.getFileWithPath(req.json.get("NEWPATH").getAsString());
+                            if(!newF.exists()) {
+                                f.renameTo(newF);
+                                req.setResponse(200, "TEXT", "MOVED");
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_FILE_ALREADY_EXISTS");
+                            }
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_NEWNAME");
+                        }
+                    }
+
+                    if(method.equalsIgnoreCase("COPY")) {
+                        if(req.json.has("NEWPATH")) {
+                            File newF = dataFetcher.getFileWithPath(req.json.get("NEWPATH").getAsString());
+                            if(!newF.exists()) {
+                                try {
+                                    Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(newF.getAbsolutePath()));
+                                    req.setResponse(200, "TEXT", "COPIED");
+                                } catch (IOException e) {
+                                    req.setResponse(500, "TEXT", "ERR_COPY_FAILED");
+                                }
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_FILE_ALREADY_EXISTS");
+                            }
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_NEWNAME");
+                        }
+                    }
                 } else {
-                    req.setResponse(400, "TEXT","ERR_FILE_IS_DIR");
+                    req.setResponse(404, "TEXT", "ERR_FILE_NOT_FOUND");
                 }
             } else {
-                req.setResponse(404, "TEXT", "ERR_FILE_NOT_FOUND");
+                req.setResponse(404, "TEXT", "ERR_FILE_INSECURE");
             }
+
         } else {
             req.setResponse(400, "TEXT", "ERR_MISSING_FILE");
         }
+
+
+
     }
 
     public static void handleExecutionRequest(SocketRequest req) {

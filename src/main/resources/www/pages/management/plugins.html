@@ -12,7 +12,7 @@
                     <div>%T%FROM%T%</div>
                     <div class="dataField" data-path="authors"></div>
                 </div>
-                <div class="plugin-state childrenInline dataFieldClass" data-classpath="enabled">
+                <div class="plugin-state childrenInline dataFieldClass hideWhenFalse" data-classpath="showstate" data-classpath="enabled">
                     <div>(</div>
                     <div class="dataField" data-path="enabled_text"></div>
                     <div>)</div>
@@ -20,7 +20,7 @@
                 <div class="plugin-version dataField" data-path="version"></div>
                 <div class="plugin-description dataField" data-path="description"></div>
                 <a class="plugin-website dataField dataFieldAttrib" data-attrib="href" data-attribpath="website" data-path="website"></a>
-                <div class="plugin-toggle button is-warning dataFieldAttrib" data-attrib="data-plugin" data-attribpath="name" onclick="togglePlugin(this);">
+                <div class="plugin-toggle button is-warning hideWhenFalse dataFieldAttrib dataFieldClass" data-classpath="showtoggle" data-attrib="data-plugin" data-attribpath="name" onclick="togglePlugin(this);">
                     <span class="material-icons-outlined dataField" data-path="enabled_toggle_onoff"></span>
                     <div class="dataField" data-path="enabled_toggle_text"></div>
                 </div>

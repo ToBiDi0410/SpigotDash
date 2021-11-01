@@ -60,9 +60,10 @@
 
                         <div class="tile is-parent is-6 FILEACTIONS dataFieldClass" data-classpath="DIR">
                             <div class="button is-success buttonDownload" onclick="downloadFile(event)"><span class="material-icons-outlined">file_download<span></div>
-                            <!--<div class="button is-warning buttonDownload" onclick="copyFile(event)" data-relative-path="%RELPATH%"><span class="material-icons-outlined">copy</span></div>
-                            <div class="button is-warning buttonDownload" onclick="cutFile(event)" data-relative-path="%RELPATH%"><span class="material-icons-outlined">cut</span></div>
-                            <div class="button is-danger buttonDownload" onclick="deleteFile(event)" data-relative-path="%RELPATH%"><span class="material-icons-outlined">delete</span></div>!-->
+                            <div class="button is-danger buttonDelete" onclick="deleteFile(event)"><span class="material-icons-outlined">delete</span></div>
+                            <div class="button is-info buttonRename" onclick="renameFile(event)"><span class="material-icons-outlined">edit</span></div>
+                            <!--<div class="button is-warning buttonDownload" onclick="copyFile(event)"><span class="material-icons-outlined">copy</span></div>
+                            <div class="button is-warning buttonDownload" onclick="cutFile(event)"><span class="material-icons-outlined">cut</span></div>!-->
                         </div>
                     </div>
                 </div>

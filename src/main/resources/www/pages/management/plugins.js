@@ -3,12 +3,22 @@ function initPage() {}
 async function getCurrentData() {
     var data = await getDataFromAPI({ TYPE: "PAGEDATA", PAGE: "PLUGINS" });
 
+    if (INTEGRATIONS["SKRIPT"].ENABLED) {
+        for (script of INTEGRATIONS["SKRIPT"].SCRIPTS) {
+            data.push({ name: script, authors: ["SKRIPT"], description: "", version: "", enabled: false, showtoggle: false, showstate: false });
+        }
+    }
+
     for (value of data) {
         value.enabled_icon = value.enabled ? "done" : "highlight_off";
         value.enabled_text = value.enabled ? "%T%ENABLED%T%" : "%T%DISABLED%T%";
         value.enabled_toggle_text = !value.enabled ? "%T%ENABLE%T%" : "%T%DISABLE%T%";
         value.enabled_toggle_onoff = !value.enabled ? "on" : "off";
         value.enabled_toggle_onoff = "toggle_" + value.enabled_toggle_onoff;
+
+        if (value.showtoggle == null) value.showtoggle = true;
+        if (value.showstate == null) value.showstate = true;
+
         if (!value.description) { value.description = ""; }
         if (!value.website) { value.website = ""; }
 
@@ -16,6 +26,7 @@ async function getCurrentData() {
             value.authors = value.authors.join(",").substring(0, 40);
         }
     }
+
 
     return data;
 }
@@ -79,14 +90,19 @@ async function dialogueUpdater() {
 
                 if (elem.file.type == ".jar") {
 
-                } else if (elem.file.type == ".sk") {
+                } else if (elem.file.type == ".sk" && INTEGRATIONS["SKRIPT"].ENABLED) {
 
                 } else {
                     insertElem["BTN_TEXT"] = '<a class="has-text-danger">%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%</a>';
                     insertElem["BTN_ATTRIBS"] = "disabled";
                 }
 
-                if (pluginIDS.includes("" + elem.id)) {
+                var INSTALLED = false;
+
+                if (pluginIDS.includes("" + elem.id)) INSTALLED = true;
+                if (INTEGRATIONS["SKRIPT"].ENABLED && INTEGRATIONS["SKRIPT"].SCRIPTS.filter(r => r.includes("" + elem.id)).length > 0) INSTALLED = true;
+
+                if (INSTALLED) {
                     insertElem["BTN_ATTRIBS"] = "disabled";
                     insertElem["BTN_TEXT"] = '<span class="material-icons-outlined pr-1">done</span>%T%INSTALLED%T%';
                 }

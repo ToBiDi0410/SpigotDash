@@ -636,4 +636,9 @@ public class dataFetcher {
 		DecimalFormat df = new DecimalFormat("#." + "#".repeat(places));
 		return Double.parseDouble(df.format(val).replace(",", "."));
 	}
+
+	public static boolean isFileInsideServerFolder(File f) {
+		String parent = Bukkit.getWorldContainer().getAbsolutePath();
+		return f.getAbsolutePath().startsWith(parent);
+	}
 }

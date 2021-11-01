@@ -11,6 +11,8 @@ var PAGE_NAMES = {
     files: "%T%FILES%T%"
 }
 
+var INTEGRATIONS;
+
 async function initBASEPAGE() {
     document.querySelectorAll(".menu-list>li>a").forEach((elem) => {
         elem.addEventListener("click", function(event) {
@@ -19,6 +21,10 @@ async function initBASEPAGE() {
     });
 
     openPageInMenu("overview/overview");
+
+    addNewTask("INTEGRATIONSUPDATER", async function() {
+        INTEGRATIONS = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_INTEGRATIONS" });
+    }, 1000);
 }
 
 async function openPageInMenu(path) {
