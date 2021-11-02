@@ -1,4 +1,22 @@
 <div class="filescontent">
+    <div class="">
+        <div class="button is-info" onclick="uploadFile();">
+            <div class="material-icons-outlined">file_upload</div>
+            %T%UPLOAD%T%
+        </div>
+        <div class="button is-info pasteButton" onclick="pasteEvent(event);">
+            <div class="material-icons-outlined">paste</div>
+            %T%PASTE%T% (
+            <div class="filePasteID">
+
+            </div>
+            ) (
+            <div class="filePasteType">
+
+            </div>
+            )
+        </div>
+    </div>
     <div class="tile is-ancestor has-text-primary" style="padding-top: 2%;">
         <div class="tile is-vertical">
             <div class="tile">
@@ -62,8 +80,8 @@
                             <div class="button is-success buttonDownload" onclick="downloadFile(event)"><span class="material-icons-outlined">file_download<span></div>
                             <div class="button is-danger buttonDelete" onclick="deleteFile(event)"><span class="material-icons-outlined">delete</span></div>
                             <div class="button is-info buttonRename" onclick="renameFile(event)"><span class="material-icons-outlined">edit</span></div>
-                            <!--<div class="button is-warning buttonDownload" onclick="copyFile(event)"><span class="material-icons-outlined">copy</span></div>
-                            <div class="button is-warning buttonDownload" onclick="cutFile(event)"><span class="material-icons-outlined">cut</span></div>!-->
+                            <div class="button is-warning buttonDownload" onclick="copyFile(event)"><span class="material-icons-outlined">copy</span></div>
+                            <div class="button is-warning buttonDownload" onclick="cutFile(event)"><span class="material-icons-outlined">cut</span></div>
                         </div>
                     </div>
                 </div>

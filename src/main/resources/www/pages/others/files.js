@@ -1,4 +1,6 @@
 var curr_path = "./";
+var editPath = "";
+var editType = "";
 
 function initPage() {}
 
@@ -65,18 +67,18 @@ async function deleteFile(event) {
     try {
         var path = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
         var SWAL_RES = await Swal.fire({
-            title: "Are you sure?",
-            html: "Do you really want to the delete the File?<br>This cannot be undone!",
+            title: "%T%ARE_YOU_SURE%T%",
+            html: "%T%REALLY_DELETE_FILE%T%<br>%T%CANNOT_BE_UNDONE%T%",
             showCancelButton: true,
-            cancelButtonText: "No",
-            confirmButtonText: "Yes",
+            cancelButtonText: "%T%NO_WORD%T%".capitalizeFirstLetter(),
+            confirmButtonText: "%T%YES_WORD%T%".capitalizeFirstLetter(),
             confirmButtonColor: '#d33',
             cancelButtonColor: 'green',
         });
 
         if (SWAL_RES.isConfirmed) {
             Swal.fire({
-                title: "Deleting File...",
+                title: "%T%DELETING_FILE%T%...".capitalizeFirstLetter(),
             });
             Swal.enableLoading();
 
@@ -84,16 +86,16 @@ async function deleteFile(event) {
 
             if (res == "DELETED") {
                 Swal.fire({
-                    title: "Deleted",
+                    title: "%T%DELETED%T%".capitalizeFirstLetter(),
                     icon: "success",
-                    html: "It´s done! The File was deleted!",
+                    html: "%T%FILE_DELETED_SUCCESSFULLY%T%".capitalizeFirstLetter(),
                     timer: 2000
                 });
             } else {
                 Swal.fire({
-                    title: "Oh no",
+                    title: "%T%OH_NO%T%",
                     icon: "error",
-                    html: "We were not able to delete the File!<br>Please delete it manually or try again!",
+                    html: "%T%WERE_NOT_ABLE_TO%T% %T%DELETE_THE_FILE%T%!<br>%T%PLEASE_DO_MANUALLY_OR_TRY_AGAIN%T%".capitalizeFirstLetter(),
                     timer: 2000
                 });
             }
@@ -118,40 +120,37 @@ async function renameFile(event) {
     try {
         var path = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
         var SWAL_RES = await Swal.fire({
-            title: "Rename",
-            html: "How should the File be called?",
+            title: "%T%RENAME%T%".capitalizeFirstLetter(),
+            html: "%T%HOW_SHOULD_FILE_BE_CALLED%T%",
             input: "text",
             inputValue: path.split("/").latest(),
             inputAttributes: {
                 autocapitalize: "off"
             },
             showCancelButton: true,
-            cancelButtonText: "Cancel"
+            cancelButtonText: "%T%CANCEL%T%".capitalizeFirstLetter()
         });
 
-        console.log(SWAL_RES);
         if (SWAL_RES.isConfirmed) {
             var name = SWAL_RES.value;
-            //if (!path.split("/").latest().startsWith(".") && !new_path.includes(".")) { new_path = new_path + "." + path.split(".").latest() }
-
             Swal.fire({
-                title: "Renaming File...",
+                title: "%T%RENAMING_FILE%T%...",
             });
             Swal.enableLoading();
 
             var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "RENAME", PATH: path, NEWNAME: name });
             if (res == "RENAMED") {
                 Swal.fire({
-                    title: "Renamed",
+                    title: "%T%RENAMED%T%".capitalizeFirstLetter(),
                     icon: "success",
-                    html: "The File was renamed successfully",
+                    html: "%T%FILE_RENAMED_SUCCESSFULLY%T%",
                     timer: 2000
                 });
             } else {
                 Swal.fire({
-                    title: "Oh no",
+                    title: "%T%OH_NO%T%",
                     icon: "error",
-                    html: "We were not able to rename the File!<br>Please delete it manually or try again!",
+                    html: "%T%WERE_NOT_ABLE_TO%T% %T%RENAME_THE_FILE%T%!<br>%T%PLEASE_DO_MANUALLY_OR_TRY_AGAIN%T%",
                     timer: 2000
                 });
             }
@@ -162,6 +161,77 @@ async function renameFile(event) {
         console.error(err);
     }
 
+    elem.classList.remove("is-loading");
+}
+
+async function pasteEvent(event) {
+    var elem = document.querySelector(".pasteButton");
+    elem.classList.add("is-loading");
+    var newPath = curr_path + editPath.split("/").latest();
+
+    if (editType == "copy") {
+        Swal.fire({
+            title: "%T%COPYING_FILE%T%...",
+            html: "%T%FILE_IS_BEEING_COPIED_TO%T% <b>" + newPath + "</b>...",
+        });
+        Swal.enableLoading();
+
+        var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "COPY", PATH: editPath, NEWPATH: newPath });
+
+        if (res == "COPIED") {
+            Swal.fire({
+                title: "%T%COPIED%T%".capitalizeFirstLetter(),
+                icon: "success",
+                html: ("%T%FILE_COPIED_SUCCESSFULLY%T% %T%TO%T% <b>" + newPath + "</b>").capitalizeFirstLetter(),
+                timer: 2000
+            });
+        } else {
+            Swal.fire({
+                title: "%T%OH_NO%T%",
+                icon: "error",
+                html: "%T%WERE_NOT_ABLE_TO%T% %T%COPY_THE_FILE%T%!<br>%T%PLEASE_DO_MANUALLY_OR_TRY_AGAIN%T%".capitalizeFirstLetter(),
+                timer: 2000
+            });
+        }
+
+        refreshFiles();
+    } else if (editType == "cut") {
+        Swal.fire({
+            title: ("%T%MOVING_FILE%T%...").capitalizeFirstLetter(),
+            html: ("%T%FILE_IS_BEEING_MOVED_TO%T% <b>" + newPath + "</b>...").capitalizeFirstLetter(),
+        });
+        Swal.enableLoading();
+
+        var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "MOVE", PATH: editPath, NEWPATH: newPath });
+
+        if (res == "MOVED") {
+            Swal.fire({
+                title: "%T%MOVED%T%".capitalizeFirstLetter(),
+                icon: "success",
+                html: ("%T%FILE_MOVED_SUCCESSFULLY%T% %T%TO%T% <b>" + newPath + "</b>"),
+                timer: 2000
+            });
+            editPath = "";
+            editType = "";
+            updatePasteButton();
+        } else {
+            Swal.fire({
+                title: "%T%OH_NO%T%",
+                icon: "error",
+                html: "%T%WERE_NOT_ABLE_TO%T% %T%MOVE_THE_FILE%T%!<br>%T%PLEASE_DO_MANUALLY_OR_TRY_AGAIN%T%",
+                timer: 2000
+            });
+        }
+
+        refreshFiles();
+    } else {
+        await Swal.fire({
+            title: "%T%INVALID%T%".capitalizeFirstLetter(),
+            icon: "warning",
+            html: "%T%NOTHING_SELECTED_TO_CUT_OR_COPY%T%",
+            timer: 2000
+        });
+    }
     elem.classList.remove("is-loading");
 }
 
@@ -206,6 +276,93 @@ async function openFileInViewer(path) {
         hljs.highlightAll();
     }
 
+}
+
+async function uploadFile() {
+    var res = await Swal.fire({
+        title: "%T%UPLOAD_FILE%T%".capitalizeFirstLetter(),
+        input: 'file',
+        inputAttributes: {
+            'accept': '*',
+            'aria-label': '%T%UPLOAD_FILE%T%'
+        },
+        showCancelButton: true,
+        cancelButtonText: "%T%CANCEL%T%".capitalizeFirstLetter()
+    });
+
+    if (res.value) {
+        Swal.fire({
+            title: "%T%UPLOADING_FILE%T%"
+        });
+        Swal.enableLoading();
+
+        var formData = new FormData();
+        formData.append("FILE", res.value);
+
+        var ID = await fetch("../fileupload", { method: "POST", body: formData });
+        ID = await ID.json();
+        ID = ID.ID;
+
+        var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "UPLOAD", PATH: curr_path, ID: ID });
+
+        if (res == "WRITTEN") {
+            Swal.fire({
+                title: "%T%UPLOADED%T%".capitalizeFirstLetter(),
+                icon: "success",
+                html: "%T%FILE_UPLOADED_SUCCESSFULLY%T%",
+                timer: 2000
+            });
+            editPath = "";
+            editType = "";
+            updatePasteButton();
+        } else {
+            Swal.fire({
+                title: "%T%OH_NO%T%",
+                icon: "error",
+                html: "%T%WERE_NOT_ABLE_TO%T% %T%UPLOAD_THE_FILE%T%!<br>%T%PLEASE_DO_MANUALLY_OR_TRY_AGAIN%T%",
+                timer: 2000
+            });
+        }
+
+        refreshFiles();
+    }
+}
+
+async function copyFile(event) {
+    event.stopPropagation();
+    var elem = event.target.parentElement.parentElement.querySelector(".buttonRename");
+    editPath = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
+    editType = "copy";
+    updatePasteButton();
+}
+
+async function cutFile(event) {
+    event.stopPropagation();
+    var elem = event.target.parentElement.parentElement.querySelector(".buttonRename");
+    editPath = elem.parentElement.parentElement.parentElement.parentElement.getAttribute("data-relative-path");
+    editType = "cut";
+    updatePasteButton();
+}
+
+function updatePasteButton() {
+    document.querySelector(".filePasteID").innerHTML = editPath;
+    document.querySelector(".filePasteType").innerHTML = editType;
+}
+
+async function readFileAsBytes(file) {
+    return new Promise((resolve, reject) => {
+        var reader = new FileReader();
+
+        reader.onload = function() {
+            resolve(new Uint8Array(this.result))
+        }
+
+        reader.onerror = function() {
+            resolve(null);
+        }
+
+        reader.readAsArrayBuffer(file);
+    })
 }
 
 function goBackPath() {

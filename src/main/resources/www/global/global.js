@@ -300,4 +300,11 @@ function objectToArray(obj) {
     return array;
 }
 
+function getBaseURL() {
+    var PARTS = window.location.href.split("/");
+    PARTS.pop();
+
+    return PARTS.join("/");
+}
+
 var API_URL = "./api";
