@@ -46,10 +46,9 @@ public class main extends JavaPlugin {
 			pluginConsole.sendMessage("&cThank you for using this Plugin <3");
 			pluginConsole.sendMessage("&7----------- [  " + pluginConsole.CONSOLE_PREFIX + "&7] -----------");
 
-			File thisFile = dataFetcher.getPluginFile(this);
-			pluginConsole.sendMessage("Processing Executable Name: " + thisFile.getName());
-			if(thisFile.getName().contains("--extweb")) {
-				pluginConsole.sendMessage("&6[NOTE] Using External Folder for Webserver as specified with --extweb");
+			pluginConsole.sendMessage("Processing Debug Files...");
+			if(new File(this.getDataFolder(), "EXTWEB").exists()) {
+				pluginConsole.sendMessage("&6[NOTE] Using External Folder because of EXTWEB File in Plugin Folder");
 				webroot = new WebServerFileRoot("FILE", new File(this.getDataFolder(), "/www/"));
 			} else {
 				webroot = new WebServerFileRoot("RES", "/www");

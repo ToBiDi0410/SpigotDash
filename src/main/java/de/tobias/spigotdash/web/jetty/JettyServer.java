@@ -13,11 +13,13 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.websocket.server.WebSocketUpgradeFilter;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 public class JettyServer {
@@ -60,6 +62,7 @@ public class JettyServer {
     }
 
     public void registerRoutes() {
+        handler.addServlet(FileUploadServlet.class, "/fileupload").getRegistration().setMultipartConfig(new MultipartConfigElement(""));
         handler.addServlet(FaviconServlet.class, "/favicon.ico");
         handler.addServlet(IndexServlet.class, "/");
         handler.addServlet(MainServlet.class, "/web/*");
