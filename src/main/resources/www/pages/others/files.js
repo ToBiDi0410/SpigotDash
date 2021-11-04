@@ -243,10 +243,10 @@ async function openFileInViewer(path) {
     var error_text = false;
 
     try {
-        if (!(path.includes("yml") || path.includes("yaml") || path.includes("json") || path.includes("txt") || path.includes("propertities"))) {
+        var TYPE = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "GET_TYPE", PATH: path });
+        if (!TYPE.includes("text/")) {
             throw new Error("%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%");
         }
-
 
         var data = await socketIoRequestAwaitFull({ TYPE: "SYSFILE", METHOD: "GET", PATH: path });
 
