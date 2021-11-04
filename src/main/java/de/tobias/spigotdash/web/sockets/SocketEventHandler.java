@@ -169,6 +169,14 @@ public class SocketEventHandler {
                         }
                     }
 
+                    if(method.equalsIgnoreCase("GET_TYPE")) {
+                        if(f.isFile()) {
+                            req.setResponse(200, "TEXT", dataFetcher.getMimeType(f));
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_FILE_IS_DIR");
+                        }
+                    }
+
                     if (method.equalsIgnoreCase("DELETE")) {
                         if (f.isFile()) {
                             try {

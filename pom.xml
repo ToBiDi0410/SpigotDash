@@ -94,6 +94,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
         <!-- Jetty !-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

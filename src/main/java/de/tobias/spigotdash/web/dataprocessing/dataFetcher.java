@@ -13,6 +13,7 @@ import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.utils.plugins.pluginManager;
 import org.apache.commons.io.FileSystem;
 import org.apache.commons.io.input.ReversedLinesFileReader;
+import org.apache.tika.Tika;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -47,6 +48,7 @@ public class dataFetcher {
 
 	public static Runtime runtime = Runtime.getRuntime();
 	public static OperatingSystemMXBean mxBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+	public static Tika tika = new Tika();
 
 	public static long last_tick_time = 0;
 	public static float tps = 0;
@@ -139,6 +141,15 @@ public class dataFetcher {
 	}
 	
 	// ** FILES **
+
+	public static String getMimeType(File f) {
+		if(f.exists() && f.isFile()) {
+			try {
+				return tika.detect(f);
+			} catch (IOException e) {}
+		}
+		return "content/unknown";
+	}
 	public static ArrayList<HashMap<String, Object>> getFilesInPath(String path) {
 		File dir = new File(main.pl.getDataFolder().getParentFile().getParent(), path);
 		ArrayList<HashMap<String, Object>> files = new ArrayList<>();
