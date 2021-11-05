@@ -244,6 +244,10 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+String.prototype.replaceLast = function(search, replace) {
+    return this.replace(new RegExp(search + "([^" + search + "]*)$"), replace + "$1");
+}
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);

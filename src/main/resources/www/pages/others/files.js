@@ -244,7 +244,8 @@ async function openFileInViewer(path) {
 
     try {
         var TYPE = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "GET_TYPE", PATH: path });
-        if (!TYPE.includes("text/")) {
+        console.log(TYPE);
+        if (!TYPE.includes("text/") && !TYPE.includes("application/json")) {
             throw new Error("%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%");
         }
 
@@ -255,7 +256,6 @@ async function openFileInViewer(path) {
         }
 
         content = byteArrayToString(data.DATA);
-        content = content.replaceAll("\n", "<br>")
         extension = extension.replace("yml", "yaml");
     } catch (err) {
         error = true;
@@ -271,9 +271,25 @@ async function openFileInViewer(path) {
         });
     } else {
         var menu = new smartMenu("FILEVIEWER", name, name);
-        menu.setHTML('<code class="fileView_Content language-' + extension + '">' + content + '</code>');
+        //menu.setHTML('<code class="fileView_Content language-' + extension + '">' + content + '</code>');
+        //menu.setHTML('<div id="editor" class="heightFill fileView_Content">' + content + '</div>');
+
+        menu.setHTML("The Editor saves the File automatically!");
         menu.open();
-        hljs.highlightAll();
+
+        var editor = new hljsEditor(menu.getContentDOM());
+
+        editor.registerCustomUpdateCallback(function(text) {
+            console.log(text);
+        });
+
+        editor.init();
+        editor.setLanguage(extension);
+        editor.setContent(content);
+        //hljs.highlightAll();
+        /*var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/javascript");*/
     }
 
 }

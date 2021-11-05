@@ -18,11 +18,7 @@
 }
 
 .fileView_Content {
-    text-align: left;
-    padding: 1%;
-    background-color: transparent;
     white-space: pre;
-    position: absolute;
     width: 100%;
 }
 
