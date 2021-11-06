@@ -35,8 +35,6 @@ public class SocketRequest {
     }
 
     public boolean respondWithPermErrorIfFalse(boolean has) {
-        System.out.println("Permission: " + has);
-
         if(!has) {
             this.setResponse(HttpStatus.METHOD_NOT_ALLOWED_405, "TEXT", "ERR_PERM_MISSING");
         }
