@@ -274,22 +274,27 @@ async function openFileInViewer(path) {
         //menu.setHTML('<code class="fileView_Content language-' + extension + '">' + content + '</code>');
         //menu.setHTML('<div id="editor" class="heightFill fileView_Content">' + content + '</div>');
 
-        menu.setHTML("The Editor saves the File automatically!");
+        menu.setHTML("<a>Autosave: ON</a>");
         menu.open();
 
         var editor = new hljsEditor(menu.getContentDOM());
 
-        editor.registerCustomUpdateCallback(function(text) {
-            console.log(text);
+        editor.registerCustomSaveCallback(async function(text) {
+            var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "SAVE_EDIT", PATH: path, TEXT: text });
+
+            if (res != "WRITTEN") {
+                alert("Failed to save File! Please be careful when closing the Site!");
+            }
         });
 
         editor.init();
         editor.setLanguage(extension);
         editor.setContent(content);
-        //hljs.highlightAll();
-        /*var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/javascript");*/
+        editor.autoSaveTask();
+
+        menu.setCloseCallback(async function() {
+            editor.destroy();
+        });
     }
 
 }

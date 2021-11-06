@@ -178,6 +178,22 @@ public class SocketEventHandler {
                         }
                     }
 
+                    if (method.equalsIgnoreCase("SAVE_EDIT") && req.respondWithPermErrorIfFalse(req.perms.FILES_EDIT)) {
+                        if (f.isFile()) {
+                            if(json.has("TEXT")) {
+                                String text = json.get("TEXT").getAsString();
+                                try {
+                                    Files.write(Paths.get(f.getPath()), text.getBytes(StandardCharsets.UTF_8));
+                                    req.setResponse(200, "TEXT", "WRITTEN");
+                                } catch(Exception ex) {
+                                    req.setResponse(500, "TEXT", "ERR_WRITE_FAIL");
+                                }
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_MISSING_TEXT");
+                            }
+                        }
+                    }
+
                     if (method.equalsIgnoreCase("DELETE") && req.respondWithPermErrorIfFalse(req.perms.FILES_EDIT)) {
                         if (f.isFile()) {
                             try {

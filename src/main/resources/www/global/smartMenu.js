@@ -48,6 +48,7 @@ class smartMenu {
         this.closed = false;
         this.DOMChild = null;
         this.animTime = 0;
+        this.closecallback = async function() {}
     }
 
     open() {
@@ -82,8 +83,13 @@ class smartMenu {
         smartMenuHelpers.currentlyConstructed.push(this);
     }
 
+    setCloseCallback(fc) {
+        this.closecallback = fc;
+    }
+
     async close() {
         if (this.opened) {
+            await this.closecallback();
             this.DOMChild.classList.add("disappear");
             await timer(500);
             this.DOMChild.remove();

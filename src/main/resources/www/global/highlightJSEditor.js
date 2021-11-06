@@ -1,3 +1,5 @@
+var LAST_SAVED = 0;
+
 class hljsEditor {
     constructor(DOM) {
         this.DOM = DOM;
@@ -16,10 +18,6 @@ class hljsEditor {
                 if (highlightHTML.endsWith("<br>")) highlightHTML = highlightHTML.replaceLast("<br>", "<br>&nbsp;");
                 OUTPUT.innerHTML = highlightHTML;
                 hljs.highlightAll();
-
-                for (var callb of CALLBACKS) {
-                    callb(this.value);
-                }
             }
 
             this.getEditAreaDOM().onscroll = function() {
@@ -31,7 +29,19 @@ class hljsEditor {
         }
     }
 
-    registerCustomUpdateCallback(cb) {
+    async autoSaveTask() {
+        this.save();
+        await timer(5000);
+        this.autoSaveTask();
+    }
+
+    save() {
+        for (var callb of this.callbacks) {
+            callb(this.getEditAreaDOM().value);
+        }
+    }
+
+    registerCustomSaveCallback(cb) {
         this.callbacks.push(cb);
     }
 
@@ -60,6 +70,7 @@ class hljsEditor {
     }
 
     destroy() {
+        this.save();
         this.DOM.remove();
         this.inited = false;
     }
