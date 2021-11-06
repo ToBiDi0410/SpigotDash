@@ -6,7 +6,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.pluginConsole;
+import de.tobias.spigotdash.web.PermissionSet;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jetty.http.HttpStatus;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +23,25 @@ public class SocketRequest {
     public Integer repCode;
     public String repType;
     public Object repData;
+    public PermissionSet perms;
 
     public SocketRequest(JsonObject data) {
         this.json = data;
+        this.perms = new PermissionSet();
+    }
+
+    public void setPermissionSet(JsonObject permissions) {
+        this.perms.loadFromJsonObject(permissions);
+    }
+
+    public boolean respondWithPermErrorIfFalse(boolean has) {
+        System.out.println("Permission: " + has);
+
+        if(!has) {
+            this.setResponse(HttpStatus.METHOD_NOT_ALLOWED_405, "TEXT", "ERR_PERM_MISSING");
+        }
+
+        return has;
     }
 
     public void setResponse(Integer code, String type, Object data) {

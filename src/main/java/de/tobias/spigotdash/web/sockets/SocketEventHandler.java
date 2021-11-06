@@ -62,6 +62,7 @@ public class SocketEventHandler {
         JsonObject jsonobj = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
         SocketRequest req = new SocketRequest(jsonobj);
         String type = req.json.get("TYPE").getAsString();
+        req.perms.setAllTo(true); //ALLOW EVERYTHING
 
         //SYNC OPERATIONS
         if(type.equalsIgnoreCase("EXECUTE") || type.equalsIgnoreCase("DATA") || type.equalsIgnoreCase("PAGEDATA")) {
@@ -90,7 +91,7 @@ public class SocketEventHandler {
                     handlePageRequest(req);
                 } else if(type.equalsIgnoreCase("WEBFILE")) {
                     handleWebfileRequest(req);
-                } else if(type.equalsIgnoreCase("SYSFILE") && hasMethod(jsonobj)) {
+                } else if(type.equalsIgnoreCase("SYSFILE") && hasMethod(jsonobj) && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) {
                     handleSysfileRequest(req);
                 }
             } catch(Exception ex) {
@@ -161,7 +162,7 @@ public class SocketEventHandler {
 
             if(dataFetcher.isFileInsideServerFolder(f)) {
                 if (f.exists()) {
-                    if (method.equalsIgnoreCase("GET")) {
+                    if (method.equalsIgnoreCase("GET") && req.respondWithPermErrorIfFalse(req.perms.FILES_VIEW)) {
                         if (f.isFile()) {
                             req.setResponse(200, "FILE", f);
                         } else {
@@ -169,7 +170,7 @@ public class SocketEventHandler {
                         }
                     }
 
-                    if(method.equalsIgnoreCase("GET_TYPE")) {
+                    if(method.equalsIgnoreCase("GET_TYPE") && req.respondWithPermErrorIfFalse(req.perms.FILES_VIEW)) {
                         if(f.isFile()) {
                             req.setResponse(200, "TEXT", dataFetcher.getMimeType(f));
                         } else {
@@ -177,7 +178,7 @@ public class SocketEventHandler {
                         }
                     }
 
-                    if (method.equalsIgnoreCase("DELETE")) {
+                    if (method.equalsIgnoreCase("DELETE") && req.respondWithPermErrorIfFalse(req.perms.FILES_EDIT)) {
                         if (f.isFile()) {
                             try {
                                 FileDeleteStrategy.FORCE.delete(f);
@@ -188,7 +189,7 @@ public class SocketEventHandler {
                         }
                     }
 
-                    if (method.equalsIgnoreCase("RENAME")) {
+                    if (method.equalsIgnoreCase("RENAME") && req.respondWithPermErrorIfFalse(req.perms.FILES_EDIT)) {
                         if (req.json.has("NEWNAME")) {
                             File newF = new File(f.getParentFile(), req.json.get("NEWNAME").getAsString());
                             if (!newF.exists()) {
@@ -202,7 +203,7 @@ public class SocketEventHandler {
                         }
                     }
 
-                    if (method.equalsIgnoreCase("MOVE")) {
+                    if (method.equalsIgnoreCase("MOVE") && req.respondWithPermErrorIfFalse(req.perms.FILES_EDIT)) {
                         if (req.json.has("NEWPATH")) {
                             File newF = dataFetcher.getFileWithPath(req.json.get("NEWPATH").getAsString());
                             if (!newF.exists()) {
@@ -216,7 +217,7 @@ public class SocketEventHandler {
                         }
                     }
 
-                    if (method.equalsIgnoreCase("COPY")) {
+                    if (method.equalsIgnoreCase("COPY") && req.respondWithPermErrorIfFalse(req.perms.FILES_EDIT)) {
                         if (req.json.has("NEWPATH")) {
                             File newF = dataFetcher.getFileWithPath(req.json.get("NEWPATH").getAsString());
                             if (!newF.exists()) {
@@ -234,7 +235,7 @@ public class SocketEventHandler {
                         }
                     }
 
-                    if (method.equalsIgnoreCase("UPLOAD")) {
+                    if (method.equalsIgnoreCase("UPLOAD") && req.respondWithPermErrorIfFalse(req.perms.FILES_UPLOAD)) {
                         if (req.json.has("ID")) {
                             String id = req.json.get("ID").getAsString();
 
@@ -275,7 +276,7 @@ public class SocketEventHandler {
         JsonObject json = req.json;
         String method = json.get("METHOD").getAsString();
 
-        if (method.equalsIgnoreCase("EXEC_COMMAND")) {
+        if (method.equalsIgnoreCase("EXEC_COMMAND") && req.respondWithPermErrorIfFalse(req.perms.CONSOLE_EXECUTE)) {
             if (json.has("COMMAND")) {
                 try {
                     pluginConsole.sendMessage("Executing: &6/" + json.get("COMMAND").getAsString());
@@ -292,7 +293,7 @@ public class SocketEventHandler {
             }
         }
 
-        if (method.equalsIgnoreCase("TOGGLE_PLUGIN")) {
+        if (method.equalsIgnoreCase("TOGGLE_PLUGIN") && req.respondWithPermErrorIfFalse(req.perms.PLUGINS_TOGGLE)) {
             if (json.has("PLUGIN")) {
                 Plugin pl = pluginManager.getPlugin(json.get("PLUGIN").getAsString());
                 if (pl.isEnabled()) {
@@ -310,22 +311,22 @@ public class SocketEventHandler {
             }
         }
 
-        if(method.equalsIgnoreCase("CONTROL")) {
+        if(method.equalsIgnoreCase("CONTROL") && req.respondWithPermErrorIfFalse(req.perms.TAB_CONTROLS)) {
             if(json.has("ACTION")) {
                 String action = json.get("ACTION").getAsString();
-                if(action.equalsIgnoreCase("STOP")) {
+                if(action.equalsIgnoreCase("STOP") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_STOP)) {
                     req.setResponse(200, "TEXT", "SUCCESS");
                     Bukkit.shutdown();
                     return;
                 }
 
-                if(action.equalsIgnoreCase("RELOAD")) {
+                if(action.equalsIgnoreCase("RELOAD") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_RELOAD)) {
                     req.setResponse(200, "TEXT", "SUCCESS");
                     Bukkit.reload();
                     return;
                 }
 
-                if(action.equalsIgnoreCase("TOGGLE_NETHER")) {
+                if(action.equalsIgnoreCase("TOGGLE_NETHER")  && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_WORLD_NETHER)) {
                     boolean current = Boolean.parseBoolean(dataFetcher.getServerPropertie("allow-nether"));
                     dataFetcher.setServerPropertie("allow-nether", String.valueOf(!current));
                     notificationManager.setNeedReload(true);
@@ -333,7 +334,7 @@ public class SocketEventHandler {
                     return;
                 }
 
-                if(action.equalsIgnoreCase("TOGGLE_WHITELIST")) {
+                if(action.equalsIgnoreCase("TOGGLE_WHITELIST")  && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_WHITELIST_TOGGLE)) {
                     boolean current = Bukkit.hasWhitelist();
 
                     Bukkit.setWhitelist(!current);
@@ -343,7 +344,7 @@ public class SocketEventHandler {
                     return;
                 }
 
-                if(action.equalsIgnoreCase("WHITELIST_ADD")) {
+                if(action.equalsIgnoreCase("WHITELIST_ADD") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_WHITELIST_EDIT)) {
                     if (json.has("PLAYER")) {
                         String uuid = json.get("PLAYER").getAsString();
                         Bukkit.getOfflinePlayer(uuid).setWhitelisted(true);
@@ -355,7 +356,7 @@ public class SocketEventHandler {
                     }
                 }
 
-                if(action.equalsIgnoreCase("WHITELIST_REMOVE")) {
+                if(action.equalsIgnoreCase("WHITELIST_REMOVE") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_WHITELIST_EDIT)) {
                     if (json.has("PLAYER")) {
                         String uuid = json.get("PLAYER").getAsString();
                         UUID uuidObj = dataFetcher.uuidFromUUIDWithoutDashes(uuid.replaceAll("-", ""));
@@ -368,7 +369,7 @@ public class SocketEventHandler {
                     }
                 }
 
-                if(action.equalsIgnoreCase("OPERATOR_ADD")) {
+                if(action.equalsIgnoreCase("OPERATOR_ADD") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_OPS_EDIT)) {
                     if (json.has("PLAYER")) {
                         String uuid = json.get("PLAYER").getAsString();
                         Bukkit.getOfflinePlayer(uuid).setOp(true);
@@ -380,7 +381,7 @@ public class SocketEventHandler {
                     }
                 }
 
-                if(action.equalsIgnoreCase("OPERATOR_REMOVE")) {
+                if(action.equalsIgnoreCase("OPERATOR_REMOVE") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_OPS_EDIT)) {
                     if (json.has("PLAYER")) {
                         String uuid = json.get("PLAYER").getAsString();
                         UUID uuidObj = dataFetcher.uuidFromUUIDWithoutDashes(uuid.replaceAll("-", ""));
@@ -393,7 +394,7 @@ public class SocketEventHandler {
                     }
                 }
 
-                if(action.equalsIgnoreCase("TOGGLE_END")) {
+                if(action.equalsIgnoreCase("TOGGLE_END") && req.respondWithPermErrorIfFalse(req.perms.CONTROLS_WORLD_END)) {
                     boolean current = (Bukkit.getWorld("world_the_end") != null);
                     boolean suc = dataFetcher.modifyBukkitPropertie("settings.allow-end", !current);
                     notificationManager.setNeedReload(true);
@@ -407,6 +408,7 @@ public class SocketEventHandler {
             }
         }
 
+        // TODO: 06.11.2021 Add Permissions
         if(method.equalsIgnoreCase("CONTROL_WORLD")) {
             if(json.has("WORLD")) {
                 if(json.has("ACTION")) {
@@ -479,7 +481,7 @@ public class SocketEventHandler {
             }
         }
 
-        if (method.equalsIgnoreCase("PLAYER_ACTION")) {
+        if (method.equalsIgnoreCase("PLAYER_ACTION")  && req.respondWithPermErrorIfFalse(req.perms.TAB_PLAYERS)) {
             if (json.has("PLAYER")) {
                 String uuid = json.get("PLAYER").getAsString();
                 Player p = Bukkit.getPlayer(UUID.fromString(uuid));
@@ -488,7 +490,7 @@ public class SocketEventHandler {
                     if (json.has("ACTION")) {
                         String action = json.get("ACTION").getAsString();
 
-                        if (action.equalsIgnoreCase("MESSAGE")) {
+                        if (action.equalsIgnoreCase("MESSAGE") && req.respondWithPermErrorIfFalse(req.perms.PLAYERS_MESSAGE)) {
                             if (json.has("MESSAGE")) {
                                 String message = json.get("MESSAGE").getAsString();
                                 message = "&cServer &a--> &6You: &7" + message;
@@ -503,7 +505,7 @@ public class SocketEventHandler {
                             }
                         }
 
-                        if (action.equalsIgnoreCase("KICK")) {
+                        if (action.equalsIgnoreCase("KICK") && req.respondWithPermErrorIfFalse(req.perms.PLAYERS_KICK)) {
                             if (json.has("MESSAGE")) {
                                 String message = json.get("MESSAGE").getAsString();
                                 message = "&cKicked from the Server:\n&b" + message;
@@ -531,7 +533,7 @@ public class SocketEventHandler {
             }
         }
 
-        if (method.equalsIgnoreCase("INSTALL_PLUGIN")) {
+        if (method.equalsIgnoreCase("INSTALL_PLUGIN") && req.respondWithPermErrorIfFalse(req.perms.PLUGINS_INSTALL)) {
             if (json.has("ID")) {
                 String install_state = pluginInstaller.installPlugin(json.get("ID").getAsString());
                 int code = install_state.equalsIgnoreCase("INSTALLED") ? 200 : 500;
@@ -543,6 +545,7 @@ public class SocketEventHandler {
             }
         }
 
+        // TODO: 06.11.2021 Add Permission
         if (method.equalsIgnoreCase("NOTIFICATION_CLOSED")) {
             if (json.has("UUID")) {
                 notificationManager.closeNotification(json.get("UUID").getAsString());
@@ -554,7 +557,7 @@ public class SocketEventHandler {
             }
         }
 
-        if (method.equalsIgnoreCase("TOGGLE_PLUGIN")) {
+        if (method.equalsIgnoreCase("TOGGLE_PLUGIN") && req.respondWithPermErrorIfFalse(req.perms.PLUGINS_TOGGLE)) {
             if (json.has("PLUGIN")) {
                 Plugin pl = pluginManager.getPlugin(json.get("PLUGIN").getAsString());
                 if (pl.isEnabled()) {
@@ -574,6 +577,7 @@ public class SocketEventHandler {
         JsonObject json = req.json;
         String method = json.get("METHOD").getAsString();
 
+        // TODO: 06.11.2021 Add Permission 
         if(method.equalsIgnoreCase("GET_INTEGRATIONS")) {
             HashMap<String, Object> integrationObjects = new HashMap<>();
             integrationObjects.put("SKRIPT", main.skriptIntegration.getIntegrationObject());
@@ -582,7 +586,7 @@ public class SocketEventHandler {
             return;
         }
 
-        if (method.equalsIgnoreCase("GET_FILES_IN_PATH")) {
+        if (method.equalsIgnoreCase("GET_FILES_IN_PATH") && req.respondWithPermErrorIfFalse(req.perms.TAB_FILES)) {
             if (json.has("PATH")) {
                 String path = json.get("PATH").getAsString();
                 req.setResponse(200, "TEXT", dataFetcher.getFilesInPath(path));
@@ -593,7 +597,7 @@ public class SocketEventHandler {
             }
         }
 
-        if(method.equalsIgnoreCase("GET_WORLD")) {
+        if(method.equalsIgnoreCase("GET_WORLD") && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) {
             if (json.has("WORLD")) {
                 if(Bukkit.getWorld(json.get("WORLD").getAsString()) == null) {
                     req.setResponse(200,"TEXT", "ERR_NOTFOUND_WORLD");
@@ -621,41 +625,41 @@ public class SocketEventHandler {
     public static void handlePageDataRequest(SocketRequest req) {
         if(req.json.has("PAGE")) {
             String page = req.json.get("PAGE").getAsString();
-            if(page.equalsIgnoreCase("OVERVIEW")) {
+            if(page.equalsIgnoreCase("OVERVIEW") && req.respondWithPermErrorIfFalse(req.perms.TAB_OVERVIEW)) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_OVERVIEW());
                 return;
             }
 
-            if(page.equalsIgnoreCase("GRAPHS")) {
+            if(page.equalsIgnoreCase("GRAPHS") && req.respondWithPermErrorIfFalse(req.perms.TAB_GRAPHS)) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_GRAPHS());
                 return;
             }
 
-            if(page.equalsIgnoreCase("WORLDS")) {
+            if(page.equalsIgnoreCase("WORLDS") && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_WORLDS());
                 return;
             }
 
-            if(page.equalsIgnoreCase("CONSOLE")) {
+            if(page.equalsIgnoreCase("CONSOLE") && req.respondWithPermErrorIfFalse(req.perms.TAB_CONSOLE)) {
                 req.setResponse(200, "TEXT", dataFetcher.getLog(100));
                 return;
             }
 
-            if(page.equalsIgnoreCase("CONTROLS")) {
+            if(page.equalsIgnoreCase("CONTROLS") && req.respondWithPermErrorIfFalse(req.perms.TAB_CONTROLS)) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_CONTROLS());
                 return;
             }
 
-            if(page.equalsIgnoreCase("PLUGINS")) {
+            if(page.equalsIgnoreCase("PLUGINS") && req.respondWithPermErrorIfFalse(req.perms.TAB_PLUGINS)) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_PLUGINS());
                 return;
             }
 
-            if(page.equalsIgnoreCase("PLAYERS")) {
+            if(page.equalsIgnoreCase("PLAYERS") && req.respondWithPermErrorIfFalse(req.perms.TAB_PLAYERS)) {
                 req.setResponse(200, "TEXT", pageDataFetcher.GET_PAGE_PLAYERS());
             }
         } else {
-            req.setResponse(400, "TEXT", "ERR_PAGE");
+            req.setResponse(400, "TEXT", "ERR_MISSING_PAGE");
         }
     }
 

@@ -1,0 +1,85 @@
+package de.tobias.spigotdash.web;
+
+import com.google.gson.JsonObject;
+
+public class PermissionSet {
+
+    public boolean LOGIN = false;
+
+    //TAB
+    public boolean TAB_OVERVIEW = false;
+
+    public boolean TAB_GRAPHS = false;
+    public boolean TAB_WORLDS = false;
+
+    public boolean TAB_CONSOLE = false;
+    public boolean TAB_CONTROLS = false;
+    public boolean TAB_PLUGINS = false;
+
+    public boolean TAB_PLAYERS = false;
+    public boolean TAB_FILES = false;
+
+    //CONSOLE
+    public boolean CONSOLE_VIEW = false;
+    public boolean CONSOLE_EXECUTE = false;
+
+    //CONTROLS
+    public boolean CONTROLS_WHITELIST_EDIT = false;
+    public boolean CONTROLS_WHITELIST_TOGGLE = false;
+    public boolean CONTROLS_OPS_EDIT = false;
+    public boolean CONTROLS_RELOAD = false;
+    public boolean CONTROLS_STOP = false;
+    public boolean CONTROLS_WORLD_NETHER = false;
+    public boolean CONTROLS_WORLD_END = false;
+
+    //PLUGINS
+    public boolean PLUGINS_TOGGLE = false;
+    public boolean PLUGINS_INSTALL = false;
+
+    //PLAYERS
+    public boolean PLAYERS_KICK = false;
+    public boolean PLAYERS_MESSAGE = false;
+    public boolean PLAYERS_DETAILS = false;
+
+    //FILES
+    public boolean FILES_VIEW = false;
+    public boolean FILES_EDIT = false;
+    public boolean FILES_UPLOAD = false;
+
+    public PermissionSet() {}
+
+    public void setAllTo(boolean t) {
+        this.TAB_OVERVIEW = t;
+        this.TAB_GRAPHS = t;
+        this.TAB_WORLDS = t;
+        this.TAB_CONSOLE = t;
+        this.TAB_CONTROLS = t;
+        this.TAB_PLUGINS = t;
+        this.TAB_PLAYERS = t;
+        this.TAB_FILES = t;
+
+        this.CONSOLE_VIEW = t;
+        this.CONSOLE_EXECUTE = t;
+
+        this.CONTROLS_WHITELIST_EDIT = t;
+        this.CONTROLS_WHITELIST_TOGGLE = t;
+        this.CONTROLS_OPS_EDIT = t;
+        this.CONTROLS_RELOAD = t;
+        this.CONTROLS_STOP = t;
+        this.CONTROLS_WORLD_NETHER = t;
+        this.CONTROLS_WORLD_END = t;
+
+        this.PLUGINS_TOGGLE = t;
+        this.PLUGINS_INSTALL = t;
+
+        this.PLAYERS_KICK = t;
+        this.PLAYERS_MESSAGE = t;
+        this.PLAYERS_DETAILS = t;
+
+        this.FILES_VIEW = t;
+        this.FILES_EDIT = t;
+        this.FILES_UPLOAD = t;
+    }
+
+    public void loadFromJsonObject(JsonObject permissions) {}
+}
