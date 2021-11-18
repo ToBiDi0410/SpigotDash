@@ -1,5 +1,10 @@
 package de.tobias.spigotdash.web;
 
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -10,6 +15,7 @@ import com.github.alexdlaird.ngrok.protocol.Proto;
 import com.github.alexdlaird.ngrok.protocol.Tunnel;
 
 import de.tobias.spigotdash.utils.errorCatcher;
+import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.pluginConsole;
 
 public class NgrokManager {
@@ -17,7 +23,9 @@ public class NgrokManager {
 	public Integer port;
 	public NgrokClient ngrokClient;
 	public Tunnel httpTunnel;
-	
+	public HttpClient pushClient = HttpClient.newHttpClient();
+
+
 	public NgrokManager(Integer port) {
 		this.port = port;
 		constructClient();
@@ -36,6 +44,7 @@ public class NgrokManager {
 			httpTunnel = ngrokClient.connect(new CreateTunnel.Builder().withAddr(port).withProto(Proto.HTTP).build());
 			pluginConsole.sendMessage("&aConnected to NGrok Servers!");
 			pluginConsole.sendMessage("&6URL: " + httpTunnel.getPublicUrl());
+			pushCurrentAddress();
 		} catch(Exception ex) {
 			pluginConsole.sendMessage("&cConnection to NGrok Servers failed!");
 			errorCatcher.catchException(ex, false);
@@ -52,6 +61,24 @@ public class NgrokManager {
 			}
 		});
 	}
+
+	public void pushCurrentAddress() {
+		if(configuration.yaml_cfg.getBoolean("NGROK_PUSH_UPDATES")) {
+			try {
+				String url = httpTunnel.getPublicUrl();
+				String host = url.replace("http://", "");
+				String insertedURL = configuration.yaml_cfg.getString("NGROK_PUSH_URL").replace("%HOST%", host).replace("%URL%", url);
+				HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(insertedURL)).build();
+				HttpResponse<String> resp = pushClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+				System.out.println(insertedURL);
+				pluginConsole.sendMessage("&2Pushed new NGrok URL (CODE: " + resp.statusCode() + ")");
+			} catch(Exception ex) {
+				pluginConsole.sendMessage("cFailed to push NGrok URL to specified Address:");
+				ex.printStackTrace();
+			}
+		}
+	}
 	
 	public void reopen() {
 		if(httpTunnel != null) {
@@ -59,6 +86,7 @@ public class NgrokManager {
 			constructClient();
 			httpTunnel = ngrokClient.connect(new CreateTunnel.Builder().withAddr(port).withProto(Proto.HTTP).build());
 			pluginConsole.sendMessage("&6New NGrok URL (force reconnect): " + httpTunnel.getPublicUrl());
+			pushCurrentAddress();
 		}
 	}
 	

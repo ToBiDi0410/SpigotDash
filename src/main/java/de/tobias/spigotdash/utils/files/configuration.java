@@ -13,7 +13,7 @@ import de.tobias.spigotdash.main;
 
 public class configuration {
 	
-	public static String current_ver = "0.7";
+	public static String current_ver = "0.8";
 	
 	public static File cfg_file = new File(main.pl.getDataFolder(), "config.yml");
 	public static YamlConfiguration yaml_cfg = null;
@@ -37,6 +37,9 @@ public class configuration {
 		//0.7
 		CFG.put("USE_NGROK", false);
 		CFG.put("NGROK_AUTH", "");
+		//0.8
+		CFG.put("NGROK_GET_UPDATES", false);
+		CFG.put("NGROK_GET_URL", "https://www.ddnss.de/upd.php?key=<YOUR_KEY>&host=<YOUR_HOST>&ip=%HOST%");
 		
 		pluginConsole.sendMessage("Initializing Config File...");
 		if(!cfg_file.exists()) {
@@ -67,7 +70,7 @@ public class configuration {
 		}
 		
 		//WARN ON WRONG_VERSIONS
-		if(!Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase(current_ver)) {
+		if(!yaml_cfg.getString("FILE_VERSION").equalsIgnoreCase(current_ver)) {
 			if(!tryUpgrade(yaml_cfg)) {
 				pluginConsole.sendMessage("&6WARNING: Your Config File Version is not the newest (" + current_ver + ")");
 				pluginConsole.sendMessage("&cTo fix this, you should delete the current Config and Restart the Server to generate a new one!");	
@@ -123,6 +126,14 @@ public class configuration {
 			yaml_cfg.set("USE_NGROK", false);
 			yaml_cfg.set("NGROK_AUTH", "");
 			yaml_cfg.set("FILE_VERSION", "0.7");
+			save();
+			migrated = true;
+		}
+
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.7")) {
+			yaml_cfg.set("NGROK_GET_UPDATES", false);
+			yaml_cfg.set("NGROK_GET_URL", "https://www.ddnss.de/upd.php?key=<YOUR_KEY>&host=<YOUR_HOST>&ip=%HOST%");
+			yaml_cfg.set("FILE_VERSION", "0.8");
 			save();
 			migrated = true;
 		}
