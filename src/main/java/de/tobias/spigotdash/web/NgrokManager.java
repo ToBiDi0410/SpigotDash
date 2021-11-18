@@ -71,7 +71,6 @@ public class NgrokManager {
 				HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(insertedURL)).build();
 				HttpResponse<String> resp = pushClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-				System.out.println(insertedURL);
 				pluginConsole.sendMessage("&2Pushed new NGrok URL (CODE: " + resp.statusCode() + ")");
 			} catch(Exception ex) {
 				pluginConsole.sendMessage("cFailed to push NGrok URL to specified Address:");
