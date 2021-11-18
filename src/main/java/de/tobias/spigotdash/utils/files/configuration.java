@@ -13,14 +13,16 @@ import de.tobias.spigotdash.main;
 
 public class configuration {
 	
-	public static String current_ver = "0.8";
+	public static String current_ver = "0.9";
 	
 	public static File cfg_file = new File(main.pl.getDataFolder(), "config.yml");
 	public static YamlConfiguration yaml_cfg = null;
 	
 	public static HashMap<String, Object> CFG = new HashMap<>();
 	public static boolean dark = false;
-	
+
+	public static HashMap<String, String> exampleHeaders = new HashMap<>();
+
 	public static boolean init() {
 		boolean created = false;
 		CFG.put("PORT", 9678);
@@ -40,7 +42,11 @@ public class configuration {
 		//0.8
 		CFG.put("NGROK_GET_UPDATES", false);
 		CFG.put("NGROK_GET_URL", "https://www.ddnss.de/upd.php?key=<YOUR_KEY>&host=<YOUR_HOST>&ip=%HOST%");
-		
+		//0.9
+		exampleHeaders.put("X-Auth-Email", "yourEmail@hoster.com");
+		CFG.put("NGROK_GET_HEADERS", exampleHeaders);
+
+
 		pluginConsole.sendMessage("Initializing Config File...");
 		if(!cfg_file.exists()) {
 			try {
@@ -55,7 +61,7 @@ public class configuration {
 		}
 		
 		yaml_cfg = YamlConfiguration.loadConfiguration(cfg_file);
-		
+
 		//LOAD ONLY NEEDED KEYS
 		for(String s : CFG.keySet()) {
 			if(yaml_cfg.contains(s)) {
@@ -84,7 +90,7 @@ public class configuration {
 		pluginConsole.sendMessage("&aConfiguration loaded from File!");
 		
 		dark = yaml_cfg.getBoolean("darkMode");
-		
+
 		return true;
 		
 	}
@@ -134,6 +140,13 @@ public class configuration {
 			yaml_cfg.set("NGROK_GET_UPDATES", false);
 			yaml_cfg.set("NGROK_GET_URL", "https://www.ddnss.de/upd.php?key=<YOUR_KEY>&host=<YOUR_HOST>&ip=%HOST%");
 			yaml_cfg.set("FILE_VERSION", "0.8");
+			save();
+			migrated = true;
+		}
+
+		if(Objects.requireNonNull(yaml_cfg.getString("FILE_VERSION")).equalsIgnoreCase("0.8")) {
+			yaml_cfg.set("NGROK_GET_HEADERS", exampleHeaders);
+			yaml_cfg.set("FILE_VERSION", "0.9");
 			save();
 			migrated = true;
 		}
