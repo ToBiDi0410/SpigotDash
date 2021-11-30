@@ -1,6 +1,9 @@
 package de.tobias.spigotdash.web;
 
 import com.google.gson.JsonObject;
+import de.tobias.spigotdash.utils.pluginConsole;
+
+import java.lang.reflect.Field;
 
 public class PermissionSet {
 
@@ -81,5 +84,33 @@ public class PermissionSet {
         this.FILES_UPLOAD = t;
     }
 
-    public void loadFromJsonObject(JsonObject permissions) {}
+    public static void loadIntoFromJsonObject(JsonObject permissions, PermissionSet set) {
+        Field[] declaredFields = set.getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            if(permissions != null && permissions.has(field.getName())) {
+                try {
+                    field.setBoolean(set, permissions.get(field.getName()).getAsBoolean());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                pluginConsole.sendMessage(set.toString() + " Internal Violation: JsonObject is missing Permission '" + field.getName() + "'");
+            }
+        }
+    }
+
+    public static JsonObject getAsJsonObject(PermissionSet set) {
+        JsonObject obj = new JsonObject();
+
+        Field[] declaredFields = set.getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            try {
+                obj.addProperty(field.getName(), field.getBoolean(set));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return obj;
+    }
 }
