@@ -3,6 +3,7 @@ package de.tobias.spigotdash.utils.files;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
+import com.google.gson.GsonBuilder;
 import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileUtils;
 
@@ -20,7 +21,7 @@ public class jsonDatabase {
 	public jsonDatabase(File f) {
 		this.file = f;
 		this.jpar = new JsonParser();
-		this.gson = new Gson();
+		this.gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 	
 	public boolean read(String fallbackJSON) {
@@ -43,7 +44,7 @@ public class jsonDatabase {
 		if(file.exists() && file.canWrite()) {
 			try {
 				if(jsonTree != null) {
-					String json = jsonTree.toString();
+					String json = gson.toJson(jsonTree);
 					FileUtils.write(file, json, StandardCharsets.UTF_8);
 					return true;
 				}
