@@ -30,10 +30,6 @@ public class SocketRequest {
         this.perms = new PermissionSet();
     }
 
-    public void setPermissionSet(JsonObject permissions) {
-        this.perms.loadFromJsonObject(permissions);
-    }
-
     public boolean respondWithPermErrorIfFalse(boolean has) {
         if(!has) {
             this.setResponse(HttpStatus.METHOD_NOT_ALLOWED_405, "TEXT", "ERR_PERM_MISSING");
