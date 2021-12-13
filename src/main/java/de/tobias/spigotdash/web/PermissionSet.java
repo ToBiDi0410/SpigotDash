@@ -94,7 +94,7 @@ public class PermissionSet {
                     e.printStackTrace();
                 }
             } else {
-                pluginConsole.sendMessage(set.toString() + " Internal Violation: JsonObject is missing Permission '" + field.getName() + "'");
+                pluginConsole.sendMessage(set + " Internal Violation: JsonObject is missing Permission '" + field.getName() + "'");
             }
         }
     }

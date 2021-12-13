@@ -138,6 +138,7 @@ async function init() {
     document.querySelector(".initLoader").remove();
 }
 
+
 async function requireAuth() {
     var DOMs = getDOMs();
     DOMs[0].innerHTML = "%T%AUTHENTICATION%T%";
@@ -145,7 +146,7 @@ async function requireAuth() {
     DOMs[2].src = LOCK_ICON;
     DOMs[4].classList.remove("hidden");
 
-    while ((await socketIoRequestAwait({ METHOD: "STATE" }, "AUTH") == false)) {
+    while ((await socketIoRequestAwait({ TYPE: "ACCOUNT", METHOD: "LOGGED_IN" }) == false)) {
         await timer(1000);
     }
 
@@ -166,7 +167,7 @@ async function tryAuth() {
 
     var valBefore = DOMs[3].value;
     DOMs[3].removeAttribute("value");
-    var res = await socketIoRequestAwaitFull({ METHOD: "AUTHENTICATE", USERNAME: USERNAME, PASSWORD: PASSWORD }, "AUTH");
+    var res = await socketIoRequestAwaitFull({ TYPE: "ACCOUNT", METHOD: "LOGIN", USERNAME: USERNAME, PASSWORD: PASSWORD });
     DOMs[3].value = valBefore;
 
     if (res.CODE != 200) {

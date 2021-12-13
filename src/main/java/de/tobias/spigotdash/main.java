@@ -63,6 +63,8 @@ public class main extends JavaPlugin {
 			configuration.init();
 			translations.load();
 
+			// TODO: 13.12.21 USERS FILE
+
 			//DATABASE
 			pluginConsole.sendMessage("Loading Cache File...");
 			File cache = new File(main.pl.getDataFolder(), "cache.json");

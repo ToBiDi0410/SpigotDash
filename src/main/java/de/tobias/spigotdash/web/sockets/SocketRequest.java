@@ -7,11 +7,13 @@ import com.google.gson.JsonObject;
 import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.web.PermissionSet;
+import io.socket.socketio.server.SocketIoSocket;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.http.HttpStatus;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -19,15 +21,23 @@ public class SocketRequest {
 
     public static Gson internalGSON = (new GsonBuilder()).serializeNulls().create();
     public JsonObject json;
+    public String type;
+    public String method;
 
     public Integer repCode;
     public String repType;
     public Object repData;
     public PermissionSet perms;
+    public SocketIoSocket socket;
 
-    public SocketRequest(JsonObject data) {
+    public SocketRequest(SocketIoSocket soc, JsonObject data) {
         this.json = data;
-        this.perms = new PermissionSet();
+        this.socket = soc;
+
+        this.perms = null;
+        if(data.has("TYPE") && !data.get("TYPE").isJsonNull() && data.get("TYPE").getAsString() != null) this.type = data.get("TYPE").getAsString();
+        if(data.has("METHOD") && !data.get("METHOD").isJsonNull() && data.get("METHOD").getAsString() != null) this.method = data.get("METHOD").getAsString();
+
     }
 
     public boolean respondWithPermErrorIfFalse(boolean has) {

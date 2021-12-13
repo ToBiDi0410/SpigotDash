@@ -60,10 +60,6 @@ public class users {
         }
     }
 
-    public boolean usersExists(String name) {
-        return getJsonByName(name) != null;
-    }
-
     public boolean validPassword(String name, String password) {
         JsonObject obj = getJsonByName(name);
         if(obj != null) {
@@ -83,6 +79,22 @@ public class users {
                 }
             }
         }
+        return null;
+    }
+
+    public boolean usersExists(String name) {
+        return getJsonByName(name) != null;
+    }
+
+    public PermissionSet getPermissionsByName(String name) {
+        JsonObject json = getJsonByName(name);
+        if(json != null && json.has("permissions")) {
+            JsonObject perms = json.get("permissions").getAsJsonObject();
+            PermissionSet newSet = new PermissionSet();
+            PermissionSet.loadIntoFromJsonObject(perms, newSet);
+            return newSet;
+        }
+
         return null;
     }
 }

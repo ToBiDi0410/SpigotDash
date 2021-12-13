@@ -1,6 +1,5 @@
 package de.tobias.spigotdash.web.sockets;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
@@ -11,6 +10,7 @@ import de.tobias.spigotdash.utils.notificationManager;
 import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.utils.plugins.pluginInstaller;
 import de.tobias.spigotdash.utils.plugins.pluginManager;
+import de.tobias.spigotdash.web.PermissionSet;
 import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 import de.tobias.spigotdash.web.dataprocessing.pageDataFetcher;
 import de.tobias.spigotdash.web.dataprocessing.webBundler;
@@ -31,9 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -41,87 +39,74 @@ import java.util.UUID;
 public class SocketEventHandler {
 
     public static void handleSocketEvent(SocketIoSocket soc, String eventName, Object[] args) {
-        if(eventName.equalsIgnoreCase("AUTH")) {
-            authRequest(soc, args);
-        }
+        //ONLY ALLOW REQUESTS
+        if(!eventName.equalsIgnoreCase("REQUEST")) ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement("INVALID_METHOD");
 
-        if(SocketAuthManager.isAuthed(soc)) {
-            if(eventName.equalsIgnoreCase("REQUEST")) {
-                request(args, soc);
-            }
-        } else {
-            try {
-                SocketRequest req = new SocketRequest(new JsonObject());
-                req.setResponse(HttpStatus.UNAUTHORIZED_401, "TEXT", "ERR_REQUIRE_AUTH");
-                ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
-            } catch(Exception IGNORE) {}
-        }
-    }
-
-    public static void request(Object[] args, SocketIoSocket soc) {
-        JsonObject jsonobj = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
-        SocketRequest req = new SocketRequest(jsonobj);
-        String type = req.json.get("TYPE").getAsString();
-        req.perms.setAllTo(true); //ALLOW EVERYTHING
-
-        //SYNC OPERATIONS
-        if(type.equalsIgnoreCase("EXECUTE") || type.equalsIgnoreCase("DATA") || type.equalsIgnoreCase("PAGEDATA")) {
-            Bukkit.getScheduler().runTask(main.pl, () -> {
-                try {
-                    if(type.equalsIgnoreCase("EXECUTE") && hasMethod(jsonobj)) {
-                        handleExecutionRequest(req);
-                    } else if(type.equalsIgnoreCase("DATA") && hasMethod(jsonobj)) {
-                        handleDataRequest(req);
-                    } else if(type.equalsIgnoreCase("PAGEDATA")) {
-                        handlePageDataRequest(req);
-                    } else {
-                        req.setResponse(404, "TEXT", "NOT_HANDLED");
-                    }
-                } catch(Exception ex) {
-                    errorCatcher.catchException(ex, false);
-                    req.setResponse(500, "TEXT", "INTERNAL_ERROR");
-                }
-                ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
-            });
-
-        //ASYNC OPERATIONS
-        } else {
-            try {
-                if(type.equalsIgnoreCase("PAGE")) {
-                    handlePageRequest(req);
-                } else if(type.equalsIgnoreCase("WEBFILE")) {
-                    handleWebfileRequest(req);
-                } else if(type.equalsIgnoreCase("SYSFILE") && hasMethod(jsonobj) && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) {
-                    handleSysfileRequest(req);
-                }
-            } catch(Exception ex) {
-                errorCatcher.catchException(ex, false);
-                req.setResponse(500, "TEXT", "INTERNAL_ERROR");
-            }
-            ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
-        }
-    }
-
-    public static boolean hasMethod(JsonObject json) {
-        return json.has("METHOD");
-    }
-
-    public static void authRequest(SocketIoSocket soc, Object[] args) {
+        //CONSTRUCT REQUEST AND SET DEFAULT RESPONSE
+        SocketRequest req;
         JsonObject json = new JsonParser().parse(String.valueOf(args[0])).getAsJsonObject();
-        SocketRequest req = new SocketRequest(json);
+        req = new SocketRequest(soc, json);
 
-        String method = req.json.get("METHOD").getAsString();
-        if(method.equalsIgnoreCase("STATE")) {
+        //LOAD PERMISSIONS IF LOGGED IN
+        if(SocketAuthManager.isAuthed(soc)) {
+            req.perms = SocketAuthManager.getPermissions(soc);
+        }
+
+        String type = req.type;
+        if(req.perms != null) {
+            if(needsSync(req)) {
+                Bukkit.getScheduler().runTask(main.pl, () -> {
+                    if(type.equalsIgnoreCase("EXECUTE") && req.method != null) handleExecutionRequest(req);
+                    if(type.equalsIgnoreCase("DATA") && req.method != null) handleDataRequest(req);
+                    if(type.equalsIgnoreCase("PAGEDATA")) handlePageDataRequest(req);
+
+                    ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
+                });
+                return; //NEED TO ABORT BECAUSE ACKNOWLEDGEMENT IS SENT BY TASK
+            } else {
+                if(type.equalsIgnoreCase("PAGE")) handlePageRequest(req);
+                if(type.equalsIgnoreCase("WEBFILE")) handleWebfileRequest(req);
+                //if(type.equalsIgnoreCase("SYSFILE") && req.method != null && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) handleWebfileRequest(req);
+            }
+
+        } else {
+            if(type.equalsIgnoreCase("ACCOUNT")) { accountRequest(req); }
+            else { req.setResponse(401, "TEXT", "ERR_REQUIRE_AUTH"); }
+        }
+
+        ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
+
+    }
+
+    public static boolean needsSync(SocketRequest req) {
+        if(req.type == null) return true;
+        if(req.type.equalsIgnoreCase("EXECUTE") || req.type.equalsIgnoreCase("DATA") || req.type.equalsIgnoreCase("PAGEDATA")) return true;
+        return false;
+    }
+
+    public static void accountRequest(SocketRequest req) {
+        String method = req.method;
+        SocketIoSocket soc = req.socket;
+
+        if (method.equalsIgnoreCase("LOGGED_IN")) {
             req.setResponse(200, "BOOLEAN", SocketAuthManager.isAuthed(soc));
-        } else if(method.equalsIgnoreCase("AUTHENTICATE")) {
-            if (json.has("USERNAME") && json.has("PASSWORD")) {
-                SocketAuthManager.authSocket(json.get("USERNAME").getAsString(), json.get("PASSWORD").getAsString(), soc, req);
+        }
+
+        if(method.equalsIgnoreCase("PERMISSIONS")) {
+            if(SocketAuthManager.isAuthed(soc)) {
+                req.setResponse(400, "TEXT", PermissionSet.getAsJsonObject(SocketAuthManager.getPermissions(soc)));
+            } else {
+                req.setResponse(400, "TEXT", "ERR_AUTH_REQUIRED");
+            }
+        }
+
+        if(method.equalsIgnoreCase("LOGIN")) {
+            if (req.json.has("USERNAME") && req.json.has("PASSWORD")) {
+                SocketAuthManager.authSocket(req.json.get("USERNAME").getAsString(), req.json.get("PASSWORD").getAsString(), soc, req);
             } else {
                 req.setResponse(400, "TEXT", "ERR_MISSING_NAME_OR_PASSWORD");
             }
         }
-
-        ((SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[1]).sendAcknowledgement(req.getResponseAsJson());
     }
 
     public static void handlePageRequest(SocketRequest req) {
@@ -132,7 +117,7 @@ public class SocketEventHandler {
         }
     }
 
-    public static void handleWebfileRequest(SocketRequest req) throws Exception {
+    public static void handleWebfileRequest(SocketRequest req) {
         if(req.json.has("PATH")) {
             String file = req.json.get("PATH").getAsString();
             byte[] content = main.webroot.getBytesOfFile("/" + file);
