@@ -12,6 +12,7 @@ var PAGE_NAMES = {
 }
 
 var INTEGRATIONS;
+var PERMISSIONS;
 
 async function initBASEPAGE() {
     document.querySelectorAll(".menu-list>li>a").forEach((elem) => {
@@ -24,6 +25,7 @@ async function initBASEPAGE() {
 
     addNewTask("INTEGRATIONSUPDATER", async function() {
         INTEGRATIONS = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_INTEGRATIONS" });
+        PERMISSIONS = await getDataFromAPI({TYPE: "ACCOUNT", METHOD: "PERMISSIONS"});
     }, 1000);
 }
 

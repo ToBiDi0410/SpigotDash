@@ -64,6 +64,7 @@ public class SocketEventHandler {
                 });
                 return; //NEED TO ABORT BECAUSE ACKNOWLEDGEMENT IS SENT BY TASK
             } else {
+                if(type.equalsIgnoreCase("ACCOUNT")) { accountRequest(req); }
                 if(type.equalsIgnoreCase("PAGE")) handlePageRequest(req);
                 if(type.equalsIgnoreCase("WEBFILE")) handleWebfileRequest(req);
                 //if(type.equalsIgnoreCase("SYSFILE") && req.method != null && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) handleWebfileRequest(req);
