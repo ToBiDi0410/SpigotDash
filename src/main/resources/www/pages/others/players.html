@@ -3,7 +3,7 @@
         <div class="dataArray" data-path="players" data-arrayid="players"></div>
         <div class="dataArrayTemplate IGNORE" data-arrayid="players">
             <!-- Template for a Player in the List -->
-            <div class="player dataFieldAttrib" data-attrib="data-uuid" data-attribpath="UUID" onclick="showInfos(this.getAttribute('data-uuid'));">
+            <div class="player dataFieldAttrib showWithPerm onlyDisallowClick" data-permission="PLAYERS_DETAILS" data-attrib="data-uuid" data-attribpath="UUID" onclick="showInfos(this.getAttribute('data-uuid'));">
                 <img class="head dataFieldAttrib" data-attrib="src" data-attribpath="UUID" data-processor="return 'https://crafatar.com/avatars/' + scope;">
                 <div class="details">
                     <div class="dataField" data-path="Displayname" data-processor="return minecraftStringToHTMLString(scope);"></div>
@@ -75,8 +75,8 @@
             <div class="dataField" data-path="ALTS"></div>
         </div>
 
-        <div class="button is-info m-1 dataFieldAttrib" onclick="sendMessageClick(this.getAttribute('data-uuid'))" data-attrib="data-uuid" data-attribpath="UUID">%T%ACTION_MESSAGE%T%</div>
-        <div class="button is-danger m-1 dataFieldAttrib" onclick="kickClick(this.getAttribute('data-uuid'))" data-attrib="data-uuid" data-attribpath="UUID">%T%ACTION_KICK%T%</div>
+        <div class="button is-info m-1 dataFieldAttrib showWithPerm" data-permission="PLAYERS_MESSAGE" onclick="sendMessageClick(this.getAttribute('data-uuid'))" data-attrib="data-uuid" data-attribpath="UUID">%T%ACTION_MESSAGE%T%</div>
+        <div class="button is-danger m-1 dataFieldAttrib showWithPerm" data-permission="PLAYERS_KICK" onclick="kickClick(this.getAttribute('data-uuid'))" data-attrib="data-uuid" data-attribpath="UUID">%T%ACTION_KICK%T%</div>
         <!--
         <!--<span class="material-icons-outlined copyClipboardBtn" onclick="copyClipboard('%NAME%');">content_copy</span><br>!--
         <a><b>UUID: </b>%UUID%</a>

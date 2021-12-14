@@ -89,6 +89,14 @@
     display: inline;
 }
 
+.hiddenBecausePerm {
+    opacity: 0.2;
+}
+
+.disallowPointer {
+    pointer-events: none;
+}
+
 html {
     --theme-graphs-backcolor: #ffffff;
 }

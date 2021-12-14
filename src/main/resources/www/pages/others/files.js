@@ -236,6 +236,7 @@ async function pasteEvent(event) {
 }
 
 async function openFileInViewer(path) {
+    if(!PERMISSIONS["FILES_VIEW"]) return;
     var extension = path.split(".").latest();
     var name = path.split("/").latest();
     var content = "";
@@ -279,13 +280,15 @@ async function openFileInViewer(path) {
 
         var editor = new hljsEditor(menu.getContentDOM());
 
-        editor.registerCustomSaveCallback(async function(text) {
-            var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "SAVE_EDIT", PATH: path, TEXT: text });
-
-            if (res != "WRITTEN") {
-                alert("Failed to save File! Please be careful when closing the Site!");
-            }
-        });
+        if(PERMISSIONS["FILES_EDIT"]) {
+            editor.registerCustomSaveCallback(async function(text) {
+                var res = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "SAVE_EDIT", PATH: path, TEXT: text });
+    
+                if (res != "WRITTEN") {
+                    alert("Failed to save File! Please be careful when closing the Site!");
+                }
+            });
+        }
 
         editor.init();
         editor.setLanguage(extension);

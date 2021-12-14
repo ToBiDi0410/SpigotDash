@@ -1,30 +1,30 @@
 <div class="m-1">
     <div>%T%GENERAL%T%</div>
-    <div class="button is-danger m-1" onclick='executeAPIRequestWithButton(this, {TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "STOP" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">stop_circle</span>%T%STOP%T%</div>
-    <div class="button is-danger m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "RELOAD" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">refresh</span>%T%RELOAD%T%</div>
+    <div class="button is-danger m-1 showWithPerm" data-permission="CONTROLS_STOP" onclick='executeAPIRequestWithButton(this, {TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "STOP" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">stop_circle</span>%T%STOP%T%</div>
+    <div class="button is-danger m-1 showWithPerm" data-permission="CONTROLS_RELOAD" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "RELOAD" }, function(data) { return(data == "SUCCESS") });'><span class="material-icons-outlined">refresh</span>%T%RELOAD%T%</div>
 </div>
 
 <div class="m-1">
     <div>%T%WHITELIST%T%</div>
-    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_WHITELIST" }, function(data) { return(data == "SUCCESS") });'>
+    <div class="button is-info m-1 showWithPerm" data-permission="CONTROLS_WHITELIST_TOGGLE" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_WHITELIST" }, function(data) { return(data == "SUCCESS") });'>
         <span class="material-icons-outlined">power_settings_new</span>
         <div data-apiobj="WHITELIST_TOGGLE_TEXT"></div>
     </div>
-    <div class="button is-success m-1" onclick="showWhiteListEditor();"><span class="material-icons-outlined">edit</span>%T%EDIT_WHITELIST%T%</div>
+    <div class="button is-success m-1 showWithPerm" data-permission="CONTROLS_WHITELIST_EDIT" onclick="showWhiteListEditor();"><span class="material-icons-outlined">edit</span>%T%EDIT_WHITELIST%T%</div>
 </div>
 
 <div class="m-1">
     <div>%T%ADMINISTRATION%T%</div>
-    <div class="button is-success m-1" onclick="showOperatorEditor();"><span class="material-icons-outlined">edit</span>%T%EDIT_OPERATORS%T%</div>
+    <div class="button is-success m-1 showWithPerm" data-permission="CONTROLS_OPS_EDIT" onclick="showOperatorEditor();"><span class="material-icons-outlined">edit</span>%T%EDIT_OPERATORS%T%</div>
 </div>
 
 <div class="m-1">
     <div>%T%GAME%T%</div>
-    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_NETHER" }, function(data) { return(data == "SUCCESS") });'>
+    <div class="button is-info m-1 showWithPerm" data-permission="CONTROLS_WORLD_NETHER" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_NETHER" }, function(data) { return(data == "SUCCESS") });'>
         <span class="material-icons-outlined">power_settings_new</span>
         <div data-apiobj="NETHER_TOGGLE_TEXT"></div>
     </div>
-    <div class="button is-info m-1" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_END" }, function(data) { return(data == "SUCCESS") });'>
+    <div class="button is-info m-1 showWithPerm" data-permission="CONTROLS_WORLD_END" onclick='executeAPIRequestWithButton(this, { TYPE: "EXECUTE", METHOD: "CONTROL", ACTION: "TOGGLE_END" }, function(data) { return(data == "SUCCESS") });'>
         <span class="material-icons-outlined">power_settings_new</span>
         <div data-apiobj="END_TOGGLE_TEXT"></div>
     </div>

@@ -228,6 +228,27 @@ async function dynamicDataTask() {
         }
     }
 
+    for (permField of document.querySelectorAll(".showWithPerm")) {
+        var perm = permField.getAttribute("data-permission");
+        
+        if(PERMISSIONS != null && PERMISSIONS[perm] != null) {
+            if(PERMISSIONS[perm] == true) {
+                permField.classList.remove("hiddenBecausePerm");
+                permField.classList.remove("IGNORE");
+                permField.classList.remove("disabled");
+                permField.classList.remove("disallowPointer");            
+            } else {
+                permField.classList.add("disallowPointer");
+
+                if(!perm.classList.contains("onlyDisallowClick")) {
+                    permField.classList.add("hiddenBecausePerm");
+                    permField.classList.add("IGNORE");
+                    permField.classList.add("disabled");
+                }
+            }
+        }
+    }
+
     dynamicDataManager.running = false;
 }
 

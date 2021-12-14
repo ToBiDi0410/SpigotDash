@@ -1,10 +1,10 @@
 <div class="filescontent">
     <div class="">
-        <div class="button is-info" onclick="uploadFile();">
+        <div class="button is-info showWithPerm" data-permission="FILES_UPLOAD" onclick="uploadFile();">
             <div class="material-icons-outlined">file_upload</div>
             %T%UPLOAD%T%
         </div>
-        <div class="button is-info pasteButton" onclick="pasteEvent(event);">
+        <div class="button is-info pasteButton showWithPerm" data-permission="FILES_EDIT" onclick="pasteEvent(event);">
             <div class="material-icons-outlined">paste</div>
             %T%PASTE%T% (
             <div class="filePasteID">
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="dataArrayTemplate IGNORE" data-arrayid="files">
-            <div class="tile is-ancestor dataFieldAttrib" onclick="fileListClickEntry(this);" data-attribpath="NAME" data-processor="return curr_path + scope;" data-attrib="data-relative-path">
+            <div class="tile is-ancestor dataFieldAttrib showWithPerm" onclick="fileListClickEntry(this);" data-attribpath="NAME" data-processor="return curr_path + scope;" data-attrib="data-relative-path">
                 <div class="tile is-vertical">
                     <div class="tile">
                         <div class="tile is-parent is-2">
@@ -76,7 +76,7 @@
                         </div>
 
 
-                        <div class="tile is-parent is-6 FILEACTIONS dataFieldClass" data-classpath="DIR">
+                        <div class="tile is-parent is-6 FILEACTIONS dataFieldClass showWithPerm" data-permission="FILES_EDIT" data-classpath="DIR">
                             <div class="button is-success buttonDownload" onclick="downloadFile(event)"><span class="material-icons-outlined">file_download<span></div>
                             <div class="button is-danger buttonDelete" onclick="deleteFile(event)"><span class="material-icons-outlined">delete</span></div>
                             <div class="button is-info buttonRename" onclick="renameFile(event)"><span class="material-icons-outlined">edit</span></div>

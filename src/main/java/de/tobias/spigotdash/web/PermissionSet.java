@@ -45,9 +45,9 @@ public class PermissionSet {
     public boolean PLAYERS_DETAILS = false;
 
     //FILES
-    public boolean FILES_VIEW = false;
     public boolean FILES_EDIT = false;
     public boolean FILES_UPLOAD = false;
+    public boolean FILES_VIEW = false;
 
     public PermissionSet() {}
 
@@ -79,9 +79,9 @@ public class PermissionSet {
         this.PLAYERS_MESSAGE = t;
         this.PLAYERS_DETAILS = t;
 
-        this.FILES_VIEW = t;
         this.FILES_EDIT = t;
         this.FILES_UPLOAD = t;
+        this.FILES_VIEW = t;
     }
 
     public static void loadIntoFromJsonObject(JsonObject permissions, PermissionSet set) {
