@@ -173,7 +173,7 @@ async function tryAuth() {
     if (res.CODE != 200) {
         DOMs[3].classList.add("is-danger");
         DOMs[6].classList.add("has-text-danger");
-        DOMs[6].innerHTML = res.DATA.replace("ERR_WRONG_NAME_OR_PASSWORD", "%T%WRONG_NAME_OR_PASSWORD%T%");
+        DOMs[6].innerHTML = res.DATA.replace("ERR_WRONG_PASSWORD", "%T%WRONG_PASSWORD%T%").replace("ERR_USER_NOT_FOUND", "%T%UNKNOWN_USER%T%");
     } else {
         DOMs[3].classList.remove("is-danger");
         DOMs[6].classList.remove("has-text-danger");
@@ -190,7 +190,6 @@ async function socketIoRequestAwait(data, INTERNAL_METHOD = "REQUEST") {
 
 function socketIoRequestAwaitFull(data, INTERNAL_METHOD = "REQUEST") {
     data = JSON.stringify(data);
-    //console.log(INTERNAL_METHOD + " --> " + data);
     return new Promise((resolve, reject) => {
         socket.emit(INTERNAL_METHOD, data, function(respdata) {
             var parsedResp = JSON.parse(respdata);

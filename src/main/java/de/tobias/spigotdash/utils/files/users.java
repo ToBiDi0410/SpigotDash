@@ -44,6 +44,31 @@ public class users {
         }
     }
 
+
+    public JsonObject getJsonByName(String name) {
+        if(db != null && name != null) {
+            for(JsonElement obj : db.jsonTree.get("users").getAsJsonArray()) {
+                if(obj.getAsJsonObject().has("name") &&
+                        obj.getAsJsonObject().get("name").getAsString().equalsIgnoreCase(name)) {
+                    return obj.getAsJsonObject();
+                }
+            }
+        }
+        return null;
+    }
+
+    public PermissionSet getPermissionsByName(String name) {
+        JsonObject json = getJsonByName(name);
+        if(json != null && json.has("permissions")) {
+            JsonObject perms = json.get("permissions").getAsJsonObject();
+            PermissionSet newSet = new PermissionSet();
+            PermissionSet.loadIntoFromJsonObject(perms, newSet);
+            return newSet;
+        }
+
+        return null;
+    }
+
     public String createUser(String name, String password, PermissionSet set) {
         if(!usersExists(name)) {
             JsonObject jsonObject = new JsonObject();
@@ -60,6 +85,27 @@ public class users {
         }
     }
 
+    public boolean setPassword(String name, String password) {
+        if (usersExists(name)) {
+            JsonObject userJSON = getJsonByName(name);
+
+            //REMOVE OLD
+            if(userJSON.has("salt")) userJSON.remove("salt");
+            if(userJSON.has("password")) userJSON.remove("password");
+
+            //GENERATE NEW VALUES
+            byte[] salt = passwordCrypter.generateSalt();
+            userJSON.addProperty("salt", Base64.getEncoder().encodeToString(salt));
+            userJSON.addProperty("password", passwordCrypter.encryptPassword(password, salt));
+
+            //SAVE VALUES
+            db.save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean validPassword(String name, String password) {
         JsonObject obj = getJsonByName(name);
         if(obj != null) {
@@ -70,31 +116,8 @@ public class users {
         return false;
     }
 
-    public JsonObject getJsonByName(String name) {
-        if(db != null && name != null) {
-            for(JsonElement obj : db.jsonTree.get("users").getAsJsonArray()) {
-                if(obj.getAsJsonObject().has("name") &&
-                        obj.getAsJsonObject().get("name").getAsString().equalsIgnoreCase(name)) {
-                    return obj.getAsJsonObject();
-                }
-            }
-        }
-        return null;
-    }
-
     public boolean usersExists(String name) {
         return getJsonByName(name) != null;
     }
 
-    public PermissionSet getPermissionsByName(String name) {
-        JsonObject json = getJsonByName(name);
-        if(json != null && json.has("permissions")) {
-            JsonObject perms = json.get("permissions").getAsJsonObject();
-            PermissionSet newSet = new PermissionSet();
-            PermissionSet.loadIntoFromJsonObject(perms, newSet);
-            return newSet;
-        }
-
-        return null;
-    }
 }

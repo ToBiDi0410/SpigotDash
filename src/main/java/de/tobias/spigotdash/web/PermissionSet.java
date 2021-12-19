@@ -113,4 +113,10 @@ public class PermissionSet {
 
         return obj;
     }
+
+    public static PermissionSet ADMIN() {
+        PermissionSet set = new PermissionSet();
+        set.setAllTo(true);
+        return set;
+    }
 }
