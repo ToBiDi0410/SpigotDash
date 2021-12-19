@@ -67,7 +67,7 @@ public class SocketEventHandler {
                 if(type.equalsIgnoreCase("ACCOUNT")) { accountRequest(req); }
                 if(type.equalsIgnoreCase("PAGE")) handlePageRequest(req);
                 if(type.equalsIgnoreCase("WEBFILE")) handleWebfileRequest(req);
-                //if(type.equalsIgnoreCase("SYSFILE") && req.method != null && req.respondWithPermErrorIfFalse(req.perms.TAB_WORLDS)) handleWebfileRequest(req);
+                if(type.equalsIgnoreCase("SYSFILE")) handleSysfileRequest(req);
             }
 
         } else {
@@ -140,7 +140,7 @@ public class SocketEventHandler {
 
     public static void handleSysfileRequest(SocketRequest req) {
         JsonObject json = req.json;
-        String method = json.get("METHOD").getAsString();
+        String method = req.method;
 
         if(req.json.has("PATH")) {
             String file = req.json.get("PATH").getAsString();

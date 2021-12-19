@@ -240,7 +240,7 @@ async function dynamicDataTask() {
             } else {
                 permField.classList.add("disallowPointer");
 
-                if(!perm.classList.contains("onlyDisallowClick")) {
+                if(!permField.classList.contains("onlyDisallowClick")) {
                     permField.classList.add("hiddenBecausePerm");
                     permField.classList.add("IGNORE");
                     permField.classList.add("disabled");

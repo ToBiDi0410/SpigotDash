@@ -70,8 +70,8 @@ async function deleteFile(event) {
             title: "%T%ARE_YOU_SURE%T%",
             html: "%T%REALLY_DELETE_FILE%T%<br>%T%CANNOT_BE_UNDONE%T%",
             showCancelButton: true,
-            cancelButtonText: "%T%NO_WORD%T%".capitalizeFirstLetter(),
-            confirmButtonText: "%T%YES_WORD%T%".capitalizeFirstLetter(),
+            cancelButtonText: "%T%CANCEL%T%".capitalizeFirstLetter(),
+            confirmButtonText: "%T%CONFIRM%T%".capitalizeFirstLetter(),
             confirmButtonColor: '#d33',
             cancelButtonColor: 'green',
         });
@@ -245,7 +245,6 @@ async function openFileInViewer(path) {
 
     try {
         var TYPE = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "GET_TYPE", PATH: path });
-        console.log(TYPE);
         if (!TYPE.includes("text/") && !TYPE.includes("application/json")) {
             throw new Error("%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%");
         }
