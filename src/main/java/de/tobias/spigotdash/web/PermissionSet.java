@@ -21,6 +21,7 @@ public class PermissionSet {
 
     public boolean TAB_PLAYERS = false;
     public boolean TAB_FILES = false;
+    public boolean TAB_USERS = false;
 
     //CONSOLE
     public boolean CONSOLE_VIEW = false;
@@ -49,6 +50,13 @@ public class PermissionSet {
     public boolean FILES_UPLOAD = false;
     public boolean FILES_VIEW = false;
 
+    //USERS
+    public boolean USERS_VIEW = false;
+    public boolean USERS_ADD = false;
+    public boolean USERS_DELETE = false;
+    public boolean USERS_EDIT = false;
+    public boolean USERS_IS_ADMIN = false;
+
     public PermissionSet() {}
 
     public void setAllTo(boolean t) {
@@ -60,6 +68,7 @@ public class PermissionSet {
         this.TAB_PLUGINS = t;
         this.TAB_PLAYERS = t;
         this.TAB_FILES = t;
+        this.TAB_USERS = t;
 
         this.CONSOLE_VIEW = t;
         this.CONSOLE_EXECUTE = t;
@@ -82,6 +91,12 @@ public class PermissionSet {
         this.FILES_EDIT = t;
         this.FILES_UPLOAD = t;
         this.FILES_VIEW = t;
+
+        this.USERS_ADD = t;
+        this.USERS_DELETE = t;
+        this.USERS_EDIT = t;
+        this.USERS_VIEW = t;
+        this.USERS_IS_ADMIN = t;
     }
 
     public static void loadIntoFromJsonObject(JsonObject permissions, PermissionSet set) {

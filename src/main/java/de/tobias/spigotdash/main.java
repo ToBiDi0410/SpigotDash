@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import de.tobias.spigotdash.integrations.SkriptIntegration;
-import de.tobias.spigotdash.utils.files.users;
+import de.tobias.spigotdash.utils.files.*;
 import de.tobias.spigotdash.web.PermissionSet;
 import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 import de.tobias.spigotdash.web.jetty.WebServerFileRoot;
@@ -19,11 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.tobias.spigotdash.commands.dashurl;
 import de.tobias.spigotdash.listener.AltJoin;
 import de.tobias.spigotdash.listener.JoinTime;
-import de.tobias.spigotdash.utils.files.configuration;
-import de.tobias.spigotdash.utils.files.jsonDatabase;
 import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.utils.taskManager;
-import de.tobias.spigotdash.utils.files.translations;
 import de.tobias.spigotdash.web.NgrokManager;
 
 public class main extends JavaPlugin {
@@ -36,7 +33,7 @@ public class main extends JavaPlugin {
 	public static Metrics metrics;
 	public static long latestStart = 0;
 	public static WebServerFileRoot webroot;
-	public static users UserFile;
+	public static usersFile UsersFile;
 
 	public static SkriptIntegration skriptIntegration;
 	
@@ -67,10 +64,11 @@ public class main extends JavaPlugin {
 			translations.load();
 
 			//USERS
-			UserFile = new users(new File(main.pl.getDataFolder(), "users.json"));
-			UserFile.prepare();
-			UserFile.createUser("ADMIN", "NULL", PermissionSet.ADMIN());
-			UserFile.setPassword("ADMIN", configuration.CFG.get("WEB_PASSWORD").toString());
+			UsersFile = usersFile.getFromFile(new File(main.pl.getDataFolder(), "users.json"));
+			UsersFile.save();
+			User adminUser = new User("ADMIN", configuration.CFG.get("WEB_PASSWORD").toString());
+			adminUser.perms.setAllTo(true);
+			UsersFile.add(adminUser);
 
 			//DATABASE
 			pluginConsole.sendMessage("Loading Cache File...");
@@ -135,6 +133,7 @@ public class main extends JavaPlugin {
 
 	public void onDisable() {
 		cacheFile.save();
+		UsersFile.save();
 		jetty.destroy();
 		taskManager.stopTasks();
 	}

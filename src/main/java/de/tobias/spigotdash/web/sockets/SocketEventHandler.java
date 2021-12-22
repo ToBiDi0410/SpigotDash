@@ -91,23 +91,36 @@ public class SocketEventHandler {
 
         if (method.equalsIgnoreCase("LOGGED_IN")) {
             req.setResponse(200, "BOOLEAN", SocketAuthManager.isAuthed(soc));
+            return;
         }
 
         if(method.equalsIgnoreCase("PERMISSIONS")) {
             if(SocketAuthManager.isAuthed(soc)) {
                 req.setResponse(400, "TEXT", PermissionSet.getAsJsonObject(SocketAuthManager.getPermissions(soc)));
+                return;
             } else {
                 req.setResponse(400, "TEXT", "ERR_AUTH_REQUIRED");
+                return;
             }
         }
 
         if(method.equalsIgnoreCase("LOGIN")) {
             if (req.json.has("USERNAME") && req.json.has("PASSWORD")) {
                 SocketAuthManager.authSocket(req.json.get("USERNAME").getAsString(), req.json.get("PASSWORD").getAsString(), soc, req);
+                return;
             } else {
                 req.setResponse(400, "TEXT", "ERR_MISSING_NAME_OR_PASSWORD");
+                return;
             }
         }
+
+        if(req.respondWithPermErrorIfFalse(req.perms.TAB_USERS)) {
+            if(method.equalsIgnoreCase("GET_USERS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
+                req.setResponse(400, "TEXT", main.UsersFile.getUsersSave());
+                return;
+            }
+        }
+
     }
 
     public static void handlePageRequest(SocketRequest req) {

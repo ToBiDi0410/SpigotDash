@@ -8,7 +8,8 @@ var PAGE_NAMES = {
     controls: "%T%CONTROLS%T%",
     plugins: "%T%PLUGINS%T%",
     players: "%T%PLAYERS%T%",
-    files: "%T%FILES%T%"
+    files: "%T%FILES%T%",
+    users: "%T%USERS%T%"
 }
 
 var INTEGRATIONS;
