@@ -26,7 +26,7 @@ public class User {
         this.name = name;
         this.perms = new PermissionSet();
         this.pictureURL = "global/icons/default_profile.png";
-        this.roles.add(main.GroupsFile.getGroupByName("Default").id);
+        this.roles.add(main.GroupsFile.getDefaultGroup().id);
         changePassword(password);
     }
 
