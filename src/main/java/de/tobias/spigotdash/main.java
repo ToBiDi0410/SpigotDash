@@ -34,6 +34,7 @@ public class main extends JavaPlugin {
 	public static long latestStart = 0;
 	public static WebServerFileRoot webroot;
 	public static usersFile UsersFile;
+	public static groupsFile GroupsFile;
 
 	public static SkriptIntegration skriptIntegration;
 	
@@ -63,12 +64,29 @@ public class main extends JavaPlugin {
 			configuration.init();
 			translations.load();
 
+			//GROUPS
+			GroupsFile = groupsFile.getFromFile(new File(main.pl.getDataFolder(), "groups.json"));
+			GroupsFile.save();
+
+			Group adminGroup = new Group("Admin", new PermissionSet());
+			adminGroup.permissions.setAllTo(true);
+			adminGroup.html_color = "#c73f45";
+			adminGroup.LEVEL = 100;
+			GroupsFile.add(adminGroup);
+			adminGroup = GroupsFile.getGroupByName("Admin");
+
+			Group defaultGroup = new Group("Default", new PermissionSet());
+			defaultGroup.html_color = "#4a4a4a";
+			GroupsFile.add(defaultGroup);
+			defaultGroup = GroupsFile.getGroupByName("default");
+
 			//USERS
 			UsersFile = usersFile.getFromFile(new File(main.pl.getDataFolder(), "users.json"));
 			UsersFile.save();
 			User adminUser = new User("ADMIN", configuration.CFG.get("WEB_PASSWORD").toString());
-			adminUser.perms.setAllTo(true);
+			adminUser.roles.add(adminGroup.id);
 			UsersFile.add(adminUser);
+			UsersFile.process();
 
 			//DATABASE
 			pluginConsole.sendMessage("Loading Cache File...");

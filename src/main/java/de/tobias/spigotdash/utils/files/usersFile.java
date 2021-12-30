@@ -63,13 +63,15 @@ public class usersFile {
             HashMap<String, Object> data = new HashMap<>();
             data.put("name", u.name);
             data.put("perms", u.perms);
+            data.put("roles", u.roles);
+            data.put("pictureURL", u.pictureURL);
             safeUsers.add(data);
         }
         return safeUsers;
     }
 
     // *** STATIC ***
-    public static Gson gson = (new GsonBuilder()).disableHtmlEscaping().setPrettyPrinting().create();
+    public static Gson gson = (new GsonBuilder()).disableHtmlEscaping().serializeNulls().setPrettyPrinting().create();
 
     public static usersFile getFromFile(File f) {
         try {
@@ -92,5 +94,11 @@ public class usersFile {
             pluginConsole.sendMessage("&6Using empty Users File Object...");
         }
         return new usersFile(f);
+    }
+
+    public void process() {
+        for(User u : users) {
+            u.sortSelfGroups();
+        }
     }
 }

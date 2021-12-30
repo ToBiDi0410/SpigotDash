@@ -1,11 +1,15 @@
 package de.tobias.spigotdash.web.sockets;
 
 import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.utils.SerialUtils;
+import de.tobias.spigotdash.utils.files.Group;
 import de.tobias.spigotdash.utils.files.User;
 import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.web.PermissionSet;
 import io.socket.socketio.server.SocketIoSocket;
+import org.apache.commons.lang.SerializationUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 public class SocketAuthManager {
@@ -18,6 +22,16 @@ public class SocketAuthManager {
             if(u.validPassword(password)) {
                 HashMap<String, Object> data = new HashMap<>();
                 data.put("user", u);
+
+                PermissionSet calculatedPerms = (PermissionSet) SerialUtils.cloneObject(u.perms);
+                for(String groupID : u.roles) {
+                    Group g = main.GroupsFile.getGroupByID(groupID);
+                    if(g != null) {
+                        g.addGrantedPermissionsToSet(calculatedPerms);
+                    }
+                }
+
+                data.put("perms", calculatedPerms);
                 socketAuths.put(socket.getId(), data);
                 socreq.setResponse(200, "TEXT", "LOGGED_IN");
             } else {
@@ -31,8 +45,8 @@ public class SocketAuthManager {
 
     public static PermissionSet getPermissions(SocketIoSocket soc) {
         if(socketAuths.containsKey(soc.getId())) {
-            if(socketAuths.get(soc.getId()) != null && socketAuths.get(soc.getId()).containsKey("user")) {
-                return (PermissionSet) ((User) socketAuths.get(soc.getId()).get("user")).perms;
+            if(socketAuths.get(soc.getId()) != null && socketAuths.get(soc.getId()).containsKey("perms")) {
+                return (PermissionSet) socketAuths.get(soc.getId()).get("perms");
             }
         }
 

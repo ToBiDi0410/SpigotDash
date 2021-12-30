@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import de.tobias.spigotdash.utils.pluginConsole;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 
 public class PermissionSet {
 
@@ -97,6 +98,36 @@ public class PermissionSet {
         this.USERS_EDIT = t;
         this.USERS_VIEW = t;
         this.USERS_IS_ADMIN = t;
+    }
+
+    public static HashMap<String, Boolean> getAsMap(PermissionSet set) {
+        HashMap<String, Boolean> permMap = new HashMap<>();
+
+        Field[] declaredFields = set.getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            try {
+                permMap.put(field.getName(), field.getBoolean(set));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return permMap;
+    }
+
+    public static void setPermissionByName(String name, Boolean newPerm, PermissionSet set) {
+        Field permField = null;
+        try {
+            permField = set.getClass().getDeclaredField(name);
+        } catch (Exception IGNORE) {}
+
+        if(permField != null) {
+            try {
+                permField.setBoolean(set, newPerm);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void loadIntoFromJsonObject(JsonObject permissions, PermissionSet set) {

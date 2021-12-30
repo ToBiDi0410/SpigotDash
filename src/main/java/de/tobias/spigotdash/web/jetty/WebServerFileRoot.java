@@ -35,7 +35,7 @@ public class WebServerFileRoot {
                 return Resources.toByteArray(res);
             }
         } catch(Exception ex) {
-            pluginConsole.sendMessage("Failed to read requested Webfile: " + path);
+            //pluginConsole.sendMessage("Failed to read requested Webfile: " + path);
             //errorCatcher.catchException(ex, false);
             return null;
         }

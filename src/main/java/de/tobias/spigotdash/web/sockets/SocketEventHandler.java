@@ -119,6 +119,11 @@ public class SocketEventHandler {
                 req.setResponse(400, "TEXT", main.UsersFile.getUsersSave());
                 return;
             }
+
+            if(method.equalsIgnoreCase("GET_GROUPS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
+                req.setResponse(400, "TEXT", main.GroupsFile.getGroupsSave());
+                return;
+            }
         }
 
     }
