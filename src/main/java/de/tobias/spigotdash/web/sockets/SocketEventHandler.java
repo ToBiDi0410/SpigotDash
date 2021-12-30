@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.errorCatcher;
+import de.tobias.spigotdash.utils.files.Group;
 import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.files.translations;
 import de.tobias.spigotdash.utils.notificationManager;
@@ -122,6 +123,62 @@ public class SocketEventHandler {
 
             if(method.equalsIgnoreCase("GET_GROUPS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
                 req.setResponse(400, "TEXT", main.GroupsFile.getGroupsSave());
+                return;
+            }
+
+            if(method.equalsIgnoreCase("UPDATE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_EDIT)) {
+                if(req.json.has("GROUP")) {
+                    Group g = main.GroupsFile.getGroupByID(req.json.get("GROUP").getAsString());
+                    if(g != null) {
+                        if(req.json.has("NAME")) {
+                            g.name = req.json.get("NAME").getAsString();
+                        }
+
+                        if(req.json.has("LEVEL")) {
+                            g.LEVEL = req.json.get("LEVEL").getAsInt();
+                        }
+
+                        if(req.json.has("HTML_COLOR")) {
+                            g.html_color = req.json.get("HTML_COLOR").getAsString();
+                        }
+
+                        if(req.json.has("PERMS")) {
+                            PermissionSet newPerms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
+                            if(g.IS_ADMIN_GROUP) newPerms.setAllTo(true); //PREVENT OVERWRITING ADMIN GROUP
+                            if(newPerms != null) {
+                                g.permissions = newPerms;
+                            }
+                        }
+
+                        main.GroupsFile.save();
+                        req.setResponse(200, "TEXT", "FIELDS_UPDATED");
+                    } else {
+                        req.setResponse(404, "TEXT", "ERR_GROUP_NOT_FOUND");
+                    }
+                } else {
+                    req.setResponse(400, "TEXT", "ERR_MISSING_GROUP");
+                }
+                return;
+            }
+
+            if(method.equalsIgnoreCase("CREATE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_ADD)) {
+                if(req.json.has("NAME")) {
+                    if(req.json.has("HTML_COLOR")) {
+                        if(req.json.has("PERMS")) {
+                            PermissionSet newPerms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
+                            Group g = new Group(req.json.get("NAME").getAsString(), newPerms);
+                            g.html_color = req.json.get("HTML_COLOR").getAsString();
+
+                            req.setResponse(200, "TEXT", "CREATED: " + g.id);
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_PERMS");
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_HTML_COLOR");
+                    }
+                } else {
+                    req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                }
                 return;
             }
         }

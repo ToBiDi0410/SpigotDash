@@ -1,8 +1,10 @@
 package de.tobias.spigotdash.utils.files;
 
+import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.pluginConsole;
 import de.tobias.spigotdash.web.PermissionSet;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +15,9 @@ public class Group implements Comparable<Group> {
     public String html_color;
 
     public Integer LEVEL;
+
+    public boolean IS_DEFAULT_GROUP = false;
+    public boolean IS_ADMIN_GROUP = false;
 
     public PermissionSet permissions;
 
@@ -34,6 +39,16 @@ public class Group implements Comparable<Group> {
         }
 
         return output;
+    }
+
+    public ArrayList<User> getMembers() {
+        ArrayList<User> members = new ArrayList<>();
+
+        for(User u : main.UsersFile.users) {
+            if(u.roles.contains(id)) members.add(u);
+        }
+
+        return members;
     }
 
     @Override

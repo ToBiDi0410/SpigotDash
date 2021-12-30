@@ -35,6 +35,20 @@ public class groupsFile {
         return false;
     }
 
+    public Group getAdminGroup() {
+        for(Group g : groups) {
+            if(g.IS_ADMIN_GROUP) return g;
+        }
+        return null;
+    }
+
+    public Group getDefaultGroup() {
+        for(Group g : groups) {
+            if(g.IS_DEFAULT_GROUP) return g;
+        }
+        return null;
+    }
+
     public Group getGroupByName(String name) {
         for(Group g : groups) {
             if(g.name.equals(name)) return g;
@@ -65,12 +79,14 @@ public class groupsFile {
     public HashMap<String, HashMap<String, Object>> getGroupsSave() {
         HashMap<String, HashMap<String, Object>> safeGroups = new HashMap<>();
 
-        for(Group g : groups) {
+        for(Group g : getGroupOrder()) {
             HashMap<String, Object> data = new HashMap<>();
+            data.put("ID", g.id);
+            data.put("LEVEL", g.LEVEL);
             data.put("name", g.name);
             data.put("perms", g.permissions);
             data.put("html_color", g.html_color);
-            data.put("LEVEL", g.LEVEL);
+            data.put("members", g.getMembers().size());
             safeGroups.put(g.id, data);
         }
         return safeGroups;

@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.tobias.spigotdash.integrations.SkriptIntegration;
 import de.tobias.spigotdash.utils.files.*;
 import de.tobias.spigotdash.web.PermissionSet;
@@ -35,6 +37,7 @@ public class main extends JavaPlugin {
 	public static WebServerFileRoot webroot;
 	public static usersFile UsersFile;
 	public static groupsFile GroupsFile;
+	public static Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().disableHtmlEscaping().create();
 
 	public static SkriptIntegration skriptIntegration;
 	
@@ -68,17 +71,22 @@ public class main extends JavaPlugin {
 			GroupsFile = groupsFile.getFromFile(new File(main.pl.getDataFolder(), "groups.json"));
 			GroupsFile.save();
 
-			Group adminGroup = new Group("Admin", new PermissionSet());
-			adminGroup.permissions.setAllTo(true);
-			adminGroup.html_color = "#c73f45";
-			adminGroup.LEVEL = 100;
-			GroupsFile.add(adminGroup);
-			adminGroup = GroupsFile.getGroupByName("Admin");
+			Group adminGroup = GroupsFile.getAdminGroup();
+			if(adminGroup == null) {
+				adminGroup = new Group("Admin", new PermissionSet());
+				adminGroup.permissions.setAllTo(true);
+				adminGroup.html_color = "#c73f45";
+				adminGroup.LEVEL = 100;
+				adminGroup.IS_ADMIN_GROUP = true;
+				GroupsFile.add(adminGroup);
+			}
 
-			Group defaultGroup = new Group("Default", new PermissionSet());
-			defaultGroup.html_color = "#4a4a4a";
-			GroupsFile.add(defaultGroup);
-			defaultGroup = GroupsFile.getGroupByName("default");
+			if(GroupsFile.getDefaultGroup() == null) {
+				Group defaultGroup = new Group("Default", new PermissionSet());
+				defaultGroup.html_color = "#4a4a4a";
+				defaultGroup.IS_DEFAULT_GROUP = true;
+				GroupsFile.add(defaultGroup);
+			}
 
 			//USERS
 			UsersFile = usersFile.getFromFile(new File(main.pl.getDataFolder(), "users.json"));
