@@ -23,6 +23,7 @@ public class PermissionSet {
     public boolean TAB_PLAYERS = false;
     public boolean TAB_FILES = false;
     public boolean TAB_USERS = false;
+    public boolean TAB_GROUPS = false;
 
     //CONSOLE
     public boolean CONSOLE_VIEW = false;
@@ -58,6 +59,11 @@ public class PermissionSet {
     public boolean USERS_EDIT = false;
     public boolean USERS_IS_ADMIN = false;
 
+    public boolean GROUPS_VIEW = false;
+    public boolean GROUPS_ADD = false;
+    public boolean GROUPS_DELETE = false;
+    public boolean GROUPS_EDIT = false;
+
     public PermissionSet() {}
 
     public void setAllTo(boolean t) {
@@ -70,6 +76,7 @@ public class PermissionSet {
         this.TAB_PLAYERS = t;
         this.TAB_FILES = t;
         this.TAB_USERS = t;
+        this.TAB_GROUPS = t;
 
         this.CONSOLE_VIEW = t;
         this.CONSOLE_EXECUTE = t;
@@ -98,6 +105,11 @@ public class PermissionSet {
         this.USERS_EDIT = t;
         this.USERS_VIEW = t;
         this.USERS_IS_ADMIN = t;
+
+        this.GROUPS_ADD = t;
+        this.GROUPS_DELETE = t;
+        this.GROUPS_EDIT = t;
+        this.GROUPS_VIEW = t;
     }
 
     public static HashMap<String, Boolean> getAsMap(PermissionSet set) {
