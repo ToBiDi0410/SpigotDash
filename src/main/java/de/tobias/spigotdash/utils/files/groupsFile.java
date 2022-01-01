@@ -8,10 +8,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class groupsFile {
 
@@ -67,9 +65,22 @@ public class groupsFile {
         return (getGroupByName(value) != null || getGroupByID(value) != null);
     }
 
-    public boolean add(Group g) {
+    public boolean addGroup(Group g) {
         if(!groupExists(g.id) && !groupExists(g.name)) {
             groups.add(g);
+            save();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteGroup(Group g) {
+        if(g != null) {
+            for(User u : g.getMembers()) {
+                u.roles.remove(g.id);
+            }
+
+            groups.remove(g);
             save();
             return true;
         }

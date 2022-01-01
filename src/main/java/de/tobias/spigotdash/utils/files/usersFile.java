@@ -57,6 +57,15 @@ public class usersFile {
         return false;
     }
 
+    public boolean deleteUser(User u) {
+        if(u != null) {
+            users.remove(u);
+            save();
+            return true;
+        }
+        return false;
+    }
+
     public ArrayList<HashMap<String, Object>> getUsersSave() {
         ArrayList<HashMap<String, Object>> safeUsers = new ArrayList<>();
         for(User u : users) {
