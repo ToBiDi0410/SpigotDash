@@ -4,6 +4,7 @@ import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.passwordCrypter;
 import de.tobias.spigotdash.web.PermissionSet;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
@@ -28,6 +29,21 @@ public class User {
         this.pictureURL = "global/icons/default_profile.png";
         this.roles.add(main.GroupsFile.getDefaultGroup().id);
         changePassword(password);
+    }
+
+    public void updateName(String newName) {
+        this.name = newName;
+        main.UsersFile.save();
+    }
+
+    public void updatePerms(PermissionSet newPerms) {
+        this.perms = newPerms;
+        main.UsersFile.save();
+    }
+
+    public void updateRoles(ArrayList<String> newRoles) {
+        this.roles = newRoles;
+        main.UsersFile.save();
     }
 
     public void sortSelfGroups() {
