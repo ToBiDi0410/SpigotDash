@@ -9,7 +9,6 @@ import com.google.gson.GsonBuilder;
 import de.tobias.spigotdash.integrations.SkriptIntegration;
 import de.tobias.spigotdash.utils.files.*;
 import de.tobias.spigotdash.web.PermissionSet;
-import de.tobias.spigotdash.web.dataprocessing.dataFetcher;
 import de.tobias.spigotdash.web.jetty.WebServerFileRoot;
 import de.tobias.spigotdash.web.sockets.SocketIoManager;
 import de.tobias.spigotdash.web.jetty.JettyServer;
@@ -78,14 +77,14 @@ public class main extends JavaPlugin {
 				adminGroup.html_color = "#c73f45";
 				adminGroup.LEVEL = 100;
 				adminGroup.IS_ADMIN_GROUP = true;
-				GroupsFile.add(adminGroup);
+				GroupsFile.addGroup(adminGroup);
 			}
 
 			if(GroupsFile.getDefaultGroup() == null) {
 				Group defaultGroup = new Group("Default", new PermissionSet());
 				defaultGroup.html_color = "#4a4a4a";
 				defaultGroup.IS_DEFAULT_GROUP = true;
-				GroupsFile.add(defaultGroup);
+				GroupsFile.addGroup(defaultGroup);
 			}
 
 			//USERS
