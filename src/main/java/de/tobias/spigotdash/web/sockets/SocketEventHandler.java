@@ -1,10 +1,11 @@
 package de.tobias.spigotdash.web.sockets;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.files.Group;
+import de.tobias.spigotdash.utils.files.User;
 import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.files.translations;
 import de.tobias.spigotdash.utils.notificationManager;
@@ -25,7 +26,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.eclipse.jetty.http.HttpStatus;
 
 import javax.servlet.http.Part;
 import java.io.File;
@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -115,74 +116,214 @@ public class SocketEventHandler {
             }
         }
 
-        if(req.respondWithPermErrorIfFalse(req.perms.TAB_USERS)) {
-            if(method.equalsIgnoreCase("GET_USERS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
-                req.setResponse(400, "TEXT", main.UsersFile.getUsersSave());
-                return;
-            }
+        if(method.contains("GROUP")) {
+            if(req.respondWithPermErrorIfFalse(req.perms.TAB_GROUPS)) {
+                if(method.equalsIgnoreCase("GET_GROUPS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
+                    req.setResponse(400, "TEXT", main.GroupsFile.getGroupsSave());
+                    return;
+                }
 
-            if(method.equalsIgnoreCase("GET_GROUPS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
-                req.setResponse(400, "TEXT", main.GroupsFile.getGroupsSave());
-                return;
-            }
-
-            if(method.equalsIgnoreCase("UPDATE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_EDIT)) {
-                if(req.json.has("GROUP")) {
-                    Group g = main.GroupsFile.getGroupByID(req.json.get("GROUP").getAsString());
-                    if(g != null) {
-                        if(req.json.has("NAME")) {
-                            g.name = req.json.get("NAME").getAsString();
-                        }
-
-                        if(req.json.has("LEVEL")) {
-                            g.LEVEL = req.json.get("LEVEL").getAsInt();
-                        }
-
-                        if(req.json.has("HTML_COLOR")) {
-                            g.html_color = req.json.get("HTML_COLOR").getAsString();
-                        }
-
-                        if(req.json.has("PERMS")) {
-                            PermissionSet newPerms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
-                            if(g.IS_ADMIN_GROUP) newPerms.setAllTo(true); //PREVENT OVERWRITING ADMIN GROUP
-                            if(newPerms != null) {
-                                g.permissions = newPerms;
+                if(method.equalsIgnoreCase("UPDATE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_EDIT)) {
+                    if(req.json.has("GROUP")) {
+                        Group g = main.GroupsFile.getGroupByID(req.json.get("GROUP").getAsString());
+                        if(g != null) {
+                            // TODO: 30.12.21 CHECK IF NOT ALREADY PRESENT
+                            if(req.json.has("NAME")) {
+                                g.name = req.json.get("NAME").getAsString();
                             }
-                        }
 
-                        main.GroupsFile.save();
-                        req.setResponse(200, "TEXT", "FIELDS_UPDATED");
-                    } else {
-                        req.setResponse(404, "TEXT", "ERR_GROUP_NOT_FOUND");
-                    }
-                } else {
-                    req.setResponse(400, "TEXT", "ERR_MISSING_GROUP");
-                }
-                return;
-            }
+                            if(req.json.has("LEVEL")) {
+                                g.LEVEL = req.json.get("LEVEL").getAsInt();
+                            }
 
-            if(method.equalsIgnoreCase("CREATE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_ADD)) {
-                if(req.json.has("NAME")) {
-                    if(req.json.has("HTML_COLOR")) {
-                        if(req.json.has("PERMS")) {
-                            PermissionSet newPerms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
-                            Group g = new Group(req.json.get("NAME").getAsString(), newPerms);
-                            g.html_color = req.json.get("HTML_COLOR").getAsString();
+                            if(req.json.has("HTML_COLOR")) {
+                                g.html_color = req.json.get("HTML_COLOR").getAsString();
+                            }
 
-                            req.setResponse(200, "TEXT", "CREATED: " + g.id);
+                            if(req.json.has("PERMS")) {
+                                PermissionSet newPerms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
+                                if(g.IS_ADMIN_GROUP) newPerms.setAllTo(true); //PREVENT OVERWRITING ADMIN GROUP
+                                if(newPerms != null) {
+                                    g.permissions = newPerms;
+                                }
+                            }
+
+                            main.GroupsFile.save();
+                            req.setResponse(200, "TEXT", "FIELDS_UPDATED");
                         } else {
-                            req.setResponse(400, "TEXT", "ERR_MISSING_PERMS");
+                            req.setResponse(404, "TEXT", "ERR_GROUP_NOT_FOUND");
                         }
                     } else {
-                        req.setResponse(400, "TEXT", "ERR_MISSING_HTML_COLOR");
+                        req.setResponse(400, "TEXT", "ERR_MISSING_GROUP");
                     }
-                } else {
-                    req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                    return;
                 }
-                return;
+
+                if(method.equalsIgnoreCase("CREATE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_ADD)) {
+                    if(req.json.has("NAME")) {
+                        if(req.json.has("HTML_COLOR")) {
+                            if(req.json.has("PERMS")) {
+                                // TODO: 30.12.21 Users should only be possible, to set permissions they have
+                                if(!main.GroupsFile.groupExists(req.json.get("NAME").getAsString())) {
+                                    PermissionSet newPerms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
+                                    Group g = new Group(req.json.get("NAME").getAsString(), newPerms);
+                                    g.html_color = req.json.get("HTML_COLOR").getAsString();
+                                    main.GroupsFile.addGroup(g);
+
+                                    req.setResponse(200, "TEXT", "CREATED: " + g.id);
+                                } else {
+                                    req.setResponse(400, "TEXT", "ERR_NAME_TAKEN");
+                                }
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_MISSING_PERMS");
+                            }
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_HTML_COLOR");
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                    }
+                    return;
+                }
+
+                if(method.equalsIgnoreCase("DELETE_GROUP") && req.respondWithPermErrorIfFalse(req.perms.GROUPS_DELETE)) {
+                    if (req.json.has("GROUP")) {
+                        Group g = main.GroupsFile.getGroupByID(req.json.get("GROUP").getAsString());
+                        if (g != null) {
+                            if (!g.IS_DEFAULT_GROUP && !g.IS_ADMIN_GROUP) {
+                                if (main.GroupsFile.deleteGroup(g)) {
+                                    req.setResponse(200, "TEXT", "DELETED");
+                                } else {
+                                    req.setResponse(500, "TEXT", "ERR_DELETE_FAILED");
+                                }
+                            } else {
+                                req.setResponse(401, "TEXT", "ERR_GROUP_IS_INTERNAL_GROUP");
+                            }
+                        } else {
+                            req.setResponse(404, "TEXT", "ERR_GROUP_NOT_FOUND");
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_GROUP");
+                    }
+                    return;
+                }
             }
+            return;
         }
 
+        if(method.contains("USER")) {
+            if (req.respondWithPermErrorIfFalse(req.perms.TAB_USERS)) {
+                if(method.equalsIgnoreCase("GET_USERS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
+                    req.setResponse(400, "TEXT", main.UsersFile.getUsersSave());
+                    return;
+                }
+
+                if(method.equalsIgnoreCase("CREATE_USER") && req.respondWithPermErrorIfFalse(req.perms.USERS_ADD)) {
+                    if(req.json.has("NAME")) {
+                        if (req.json.has("PASSWORD")) {
+                            String name = req.json.get("NAME").getAsString();
+                            String password = req.json.get("PASSWORD").getAsString();
+
+                            if(main.UsersFile.getUserByName(name) == null) {
+                                User u = new User(name, password);
+                                main.UsersFile.add(u);
+
+                                req.setResponse(200, "TEXT", "CREATED: " + u.name);
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
+                            }
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_PASSWORD");
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                    }
+                    return;
+                }
+
+                if(method.equalsIgnoreCase("DELETE_USER") && req.respondWithPermErrorIfFalse(req.perms.USERS_DELETE)) {
+                    // TODO: 01.01.22 CHECKS FOR DELETING YOURSELF
+                    if(req.json.has("NAME")) {
+                        String name = req.json.get("NAME").getAsString();
+                        User u = main.UsersFile.getUserByName(name);
+
+                        if(u != null) {
+                            if(!u.perms.USERS_IS_ADMIN) {
+                                main.UsersFile.deleteUser(u);
+                                req.setResponse(200, "TEXT", "DELETED");
+                            } else {
+                                req.setResponse(401, "TEXT", "ERR_USER_IS_ADMIN");
+                            }
+                        } else {
+                            req.setResponse(404, "TEXT", "ERR_USER_NOT_FOUND");
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                    }
+                    return;
+                }
+
+                if(method.equalsIgnoreCase("EDIT_USER") && req.respondWithPermErrorIfFalse(req.perms.USERS_EDIT)) {
+                    if(req.json.has("NAME")) {
+                        String name = req.json.get("NAME").getAsString();
+                        User u = main.UsersFile.getUserByName(name);
+
+                        if(u != null) {
+                            if(req.json.has("UNAME")) {
+                                String newName = req.json.get("UNAME").getAsString();
+                                if(!main.UsersFile.userExists(newName)) {
+                                    u.updateName(newName);
+                                } else {
+                                    req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
+                                    return;
+                                }
+                            }
+
+                            if(req.json.has("ROLES") && req.json.get("ROLES").isJsonArray()) {
+                                ArrayList<String> newRoles = new ArrayList<>();
+                                for(JsonElement o : req.json.get("ROLES").getAsJsonArray()) {
+                                    if(o.isJsonObject()) {
+                                        if(main.GroupsFile.getGroupByID(o.getAsString()) != null) {
+                                            newRoles.add(o.getAsString());
+                                        } else {
+                                            req.setResponse(400, "TEXT", "ERR_UNKNOWN_GROUP_PROVIDED");
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                u.updateRoles(newRoles);
+                            }
+
+                            if(req.json.has("PERMS")) {
+                                PermissionSet perms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
+                                if(perms != null) {
+                                    u.updatePerms(perms);
+                                } else {
+                                    req.setResponse(400, "TEXT", "ERR_INVALID_PERMS");
+                                    return;
+                                }
+                            }
+
+                            if(req.json.has("PASSWORD")) {
+                                String password = req.json.get("PASSWORD").getAsString();
+                                u.changePassword(password);
+                                main.UsersFile.save();
+                            }
+
+                            req.setResponse(200, "TEXT", "UPDATED");
+                            return;
+                        } else {
+                            req.setResponse(404, "TEXT", "ERR_USER_NOT_FOUND");
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                    }
+                    return;
+                }
+            }
+            return;
+        }
     }
 
     public static void handlePageRequest(SocketRequest req) {
