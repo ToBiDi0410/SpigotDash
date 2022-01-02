@@ -259,7 +259,7 @@ public class SocketEventHandler {
                     return;
                 }
 
-                if(method.equalsIgnoreCase("EDIT_USER") && req.respondWithPermErrorIfFalse(req.perms.USERS_EDIT)) {
+                if(method.equalsIgnoreCase("UPDATE_USER") && req.respondWithPermErrorIfFalse(req.perms.USERS_EDIT)) {
                     if(req.json.has("NAME")) {
                         String name = req.json.get("NAME").getAsString();
                         User u = main.UsersFile.getUserByName(name);
