@@ -22,16 +22,7 @@ public class SocketAuthManager {
             if(u.validPassword(password)) {
                 HashMap<String, Object> data = new HashMap<>();
                 data.put("user", u);
-
-                PermissionSet calculatedPerms = (PermissionSet) SerialUtils.cloneObject(u.perms);
-                for(String groupID : u.roles) {
-                    Group g = main.GroupsFile.getGroupByID(groupID);
-                    if(g != null) {
-                        g.addGrantedPermissionsToSet(calculatedPerms);
-                    }
-                }
-
-                data.put("perms", calculatedPerms);
+                data.put("perms", u.getCalculatedPerms());
                 socketAuths.put(socket.getId(), data);
                 socreq.setResponse(200, "TEXT", "LOGGED_IN");
             } else {

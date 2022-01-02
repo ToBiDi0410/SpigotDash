@@ -1,6 +1,7 @@
 package de.tobias.spigotdash.utils.files;
 
 import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.utils.SerialUtils;
 import de.tobias.spigotdash.utils.passwordCrypter;
 import de.tobias.spigotdash.web.PermissionSet;
 
@@ -60,6 +61,18 @@ public class User {
                 return gr1i.compareTo(gr2i);
             }
         });
+    }
+
+    public PermissionSet getCalculatedPerms() {
+        PermissionSet calculatedPerms = (PermissionSet) SerialUtils.cloneObject(this.perms);
+        for(String groupID : this.roles) {
+            Group g = main.GroupsFile.getGroupByID(groupID);
+            if(g != null) {
+                g.addGrantedPermissionsToSet(calculatedPerms);
+            }
+        }
+
+        return calculatedPerms;
     }
 
     public void changePassword(String newPass) {
