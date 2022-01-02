@@ -251,7 +251,7 @@ public class SocketEventHandler {
                         User u = main.UsersFile.getUserByName(name);
 
                         if(u != null) {
-                            if(!u.perms.USERS_IS_ADMIN) {
+                            if(!u.getCalculatedPerms().USERS_IS_ADMIN) {
                                 main.UsersFile.deleteUser(u);
                                 req.setResponse(200, "TEXT", "DELETED");
                             } else {
