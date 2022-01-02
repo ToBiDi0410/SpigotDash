@@ -124,9 +124,16 @@ public class SocketEventHandler {
                     if(req.json.has("GROUP")) {
                         Group g = main.GroupsFile.getGroupByID(req.json.get("GROUP").getAsString());
                         if(g != null) {
-                            // TODO: 30.12.21 CHECK IF NOT ALREADY PRESENT
                             if(req.json.has("NAME")) {
-                                g.name = req.json.get("NAME").getAsString();
+                                String newName = req.json.get("NAME").getAsString();
+                                if(!g.name.equals(newName)) {
+                                    if(!main.GroupsFile.groupExists(newName)) {
+                                        g.name = newName;
+                                    } else {
+                                        req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
+                                        return;
+                                    }
+                                }
                             }
 
                             if(req.json.has("LEVEL")) {
@@ -267,18 +274,20 @@ public class SocketEventHandler {
                         if(u != null) {
                             if(req.json.has("NEWNAME")) {
                                 String newName = req.json.get("NEWNAME").getAsString();
-                                if(!main.UsersFile.userExists(newName)) {
-                                    u.updateName(newName);
-                                } else {
-                                    req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
-                                    return;
+                                if(!u.name.equals(newName)) {
+                                    if(!main.UsersFile.userExists(newName)) {
+                                        u.updateName(newName);
+                                    } else {
+                                        req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
+                                        return;
+                                    }
                                 }
                             }
 
                             if(req.json.has("ROLES") && req.json.get("ROLES").isJsonArray()) {
                                 ArrayList<String> newRoles = new ArrayList<>();
                                 for(JsonElement o : req.json.get("ROLES").getAsJsonArray()) {
-                                    if(o.isJsonObject()) {
+                                    if(o.getAsString() != null) {
                                         if(main.GroupsFile.getGroupByID(o.getAsString()) != null) {
                                             newRoles.add(o.getAsString());
                                         } else {
