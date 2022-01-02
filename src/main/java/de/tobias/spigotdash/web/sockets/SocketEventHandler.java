@@ -232,6 +232,58 @@ public class SocketEventHandler {
                                 main.UsersFile.add(u);
 
                                 req.setResponse(200, "TEXT", "CREATED: " + u.name);
+                                return;
+                            } else {
+                                req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
+                                return;
+                            }
+                        } else {
+                            req.setResponse(400, "TEXT", "ERR_MISSING_PASSWORD");
+                            return;
+                        }
+                    } else {
+                        req.setResponse(400, "TEXT", "ERR_MISSING_NAME");
+                        return;
+                    }
+                }
+
+                if(method.equalsIgnoreCase("CREATE_USER_ADV") && req.respondWithPermErrorIfFalse(req.perms.USERS_ADD)) {
+                    if(req.json.has("NAME")) {
+                        if (req.json.has("PASSWORD")) {
+                            String name = req.json.get("NAME").getAsString();
+                            String password = req.json.get("PASSWORD").getAsString();
+
+                            if(main.UsersFile.getUserByName(name) == null) {
+                                User u = new User(name, password);
+
+                                if(req.json.has("ROLES") && req.json.get("ROLES").isJsonArray()) {
+                                    ArrayList<String> newRoles = new ArrayList<>();
+                                    for(JsonElement o : req.json.get("ROLES").getAsJsonArray()) {
+                                        if(o.getAsString() != null) {
+                                            if(main.GroupsFile.getGroupByID(o.getAsString()) != null) {
+                                                newRoles.add(o.getAsString());
+                                            } else {
+                                                req.setResponse(400, "TEXT", "ERR_UNKNOWN_GROUP_PROVIDED");
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    u.roles = newRoles;
+                                }
+
+                                if(req.json.has("PERMS")) {
+                                    PermissionSet perms = main.gson.fromJson(req.json.get("PERMS"), PermissionSet.class);
+                                    if(perms != null) {
+                                        u.perms = perms;
+                                    }
+                                } else {
+                                    req.setResponse(400, "TEXT", "ERR_INVALID_PERMS");
+                                    return;
+                                }
+
+                                main.UsersFile.add(u);
+                                req.setResponse(200, "TEXT", "CREATED: " + u.name);
+                                return;
                             } else {
                                 req.setResponse(400, "TEXT", "ERR_NAME_ALREADY_TAKEN");
                             }
