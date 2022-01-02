@@ -17,6 +17,7 @@ public class User {
 
     public String password;
     public String salt;
+    public Integer passwordLength;
 
     public String pictureURL = "global/icons/default_profile.png";
     public ArrayList<String> roles = new ArrayList<>();
@@ -65,6 +66,7 @@ public class User {
         byte[] iSalt = passwordCrypter.generateSalt();
         password = passwordCrypter.encryptPassword(newPass, iSalt);
         salt = Base64.getEncoder().encodeToString(iSalt);
+        passwordLength = newPass.length();
     }
 
     public boolean validPassword(String pass) {

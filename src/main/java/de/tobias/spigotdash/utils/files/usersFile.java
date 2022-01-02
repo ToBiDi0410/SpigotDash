@@ -74,6 +74,7 @@ public class usersFile {
             data.put("perms", u.perms);
             data.put("roles", u.roles);
             data.put("pictureURL", u.pictureURL);
+            data.put("passwordStarred", "*".repeat(u.passwordLength));
             safeUsers.add(data);
         }
         return safeUsers;
