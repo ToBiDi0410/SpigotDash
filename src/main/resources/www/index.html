@@ -26,6 +26,11 @@
                 <div class="formIn hidden">
                     <form onkeydown="return onEnter(event);" onkeypress="return onEnter(event);" id="loginFORM">
                         <div class="passwordForm">
+                            <div class="inputLable">Username</div>
+                            <div class="fancyInput">
+                                <input class="inputBox" type="username" autocomplete="username" placeholder="Admin">
+                            </div>
+
                             <div class="inputLable">Password</div>
                             <div class="fancyInput">
                                 <input class="inputBox" type="password" autocomplete="current-password" placeholder="SecurityIsEverything123">
@@ -38,7 +43,6 @@
                             Check
                         </div>
 
-                        <input class="hidden" type="text" autocomplete="username" placeholder="You should not see this!">
                         <input type="submit" value="Sign In!" class="hidden">
                     </form>
                 </div>

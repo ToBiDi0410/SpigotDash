@@ -234,7 +234,34 @@ async function evalAsyncWithScope(code, scope) {
         return eval("var scopeDat = JSON.parse('" + JSON.stringify(scope) + "'); (async(scope) => {" + code + "})(scopeDat);");
     } catch (err) {
         console.warn("[EXEC] Failed to Execute Async Code: " + code);
-        console.warn("[EXEC] Provided Data: " + JSON.stringify(scope));
+        console.warn("[EXEC] Provided Scope: " + JSON.stringify(scope));
+        console.log(err);
+    }
+}
+
+async function evalAsyncWithScopeAndElem(code, scope, elem) {
+    try {
+        var sck = Math.random();
+        elem.setAttribute("data-scopeelemkey", sck);
+
+        var TO_EXECUTE = `
+            var scopeDat = JSON.parse('` + JSON.stringify(scope) + `');
+            var scopeelemkey = "` + sck + `";
+
+            (async(scope,elem) => {
+                ` + code + `
+            })
+            (scopeDat, document.querySelector('*[data-scopeelemkey="' + scopeelemkey + '"]'))
+        `;
+        //console.log(TO_EXECUTE);
+
+        var res = eval(TO_EXECUTE);
+        elem.removeAttribute("data-scopeelemkey");
+        return res;
+    } catch (err) {
+        console.warn("[EXEC] Failed to Execute Async Code: " + code);
+        console.warn("[EXEC] Provided Scope: " + JSON.stringify(scope));
+        console.warn("[EXEC] Provided Elem: " + elem);
         console.log(err);
     }
 }
@@ -251,6 +278,12 @@ String.prototype.replaceLast = function(search, replace) {
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+String.prototype.isColor = function() {
+    const s = new Option().style;
+    s.color = this;
+    return s.color !== '';
 };
 
 Array.prototype.latest = function() {

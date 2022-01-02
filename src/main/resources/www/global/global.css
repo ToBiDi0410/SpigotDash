@@ -35,6 +35,10 @@
     display: none;
 }
 
+.dataObjectArrayTemplate {
+    display: none;
+}
+
 .hidden {
     display: none;
 }
@@ -99,4 +103,31 @@
 
 html {
     --theme-graphs-backcolor: #ffffff;
+}
+
+.widthContent {
+    width: fit-content;
+}
+
+.childrenWidthContent>* {
+    width: fit-content;
+}
+
+.childrenInline>* {
+    display: inline-block;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.childrenMargin>* {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.childrenNotInline>* {
+    display: block;
+    width: 100%;
 }

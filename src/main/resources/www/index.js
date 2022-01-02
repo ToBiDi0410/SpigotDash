@@ -1,6 +1,6 @@
 var socket;
 var STYLESHEETS = ["global.css", "minecraftColors.css", "smartMenu.css", "other-license/bulma.min.css", "other-license/bulma-extensions.min.css", "other-license/hightlightjs.railcasts.min.css", "other-license/materialIcons.css", "other-license/vanillatoasts.css", "highlightJSEditor.css"];
-var SCRIPTS = ["other-license/sweetalert2.min.js", "global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/vanillatoasts.js", "socketRessourceManager.js", "notificationManager.js", "dynamicDataManager.js", "pluginInfoDialogue.js", "highlightJSEditor.js"]
+var SCRIPTS = ["other-license/sweetalert2.min.js", "global.js", "taskManager.js", "componentGenerator.js", "smartMenu.js", "minecraftColors.js", "other-license/apexcharts.js", "other-license/bulma-extensions.min.js", "other-license/highlight.min.js", "other-license/jsencrypt.min.js", "other-license/vanillatoasts.js", "other-license/vanilla-picker.min.js", "other-license/bulma-tagsinput.min.js", "socketRessourceManager.js", "notificationManager.js", "dynamicDataManager.js", "pluginInfoDialogue.js", "highlightJSEditor.js"]
 var MAX_SOCKET_TRIES = 15;
 var theme;
 
@@ -24,9 +24,10 @@ function getDOMs() {
     var loaderIconDOM = document.querySelector('.stepIcon');
     var loaderProgressDOM = document.querySelector(".progress");
     var formIn = document.querySelector(".formIn");
-    var input = document.querySelector("input");
+    var input = document.querySelector("input[type='password']");
     var inputInfLable = document.querySelector(".inputInfoLable");
-    return [loaderTitleDOM, loaderMessageDOM, loaderIconDOM, loaderProgressDOM, formIn, input, inputInfLable];
+    var userInput = document.querySelector("input[type='username']")
+    return [loaderTitleDOM, loaderMessageDOM, loaderIconDOM, loaderProgressDOM, formIn, input, inputInfLable, userInput];
 }
 
 async function init() {
@@ -75,12 +76,17 @@ async function init() {
             await timer(1000);
         }
 
-        Swal.fire({
+        await Swal.fire({
             title: "%T%RECONNECTED%T%",
             icon: "success",
-            html: "%T%WEBSOCKET_RECONNECTED%T%<br><br>%T%RELOAD_PAGE_IF_NEC%T%",
-            timer: 5000
+            html: "%T%RELOADING_IN_5_SECONDS%T%",
+            timer: 5000,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
         });
+
+        window.location.reload();
     });
 
     DOMs[0].innerHTML = "%T%STYLING%T%";
@@ -162,7 +168,7 @@ async function requireAuth() {
 
 async function tryAuth() {
     var DOMs = getDOMs();
-    var USERNAME = "ADMIN";
+    var USERNAME = DOMs[7].value;
     var PASSWORD = DOMs[5].value;
 
     var valBefore = DOMs[3].value;

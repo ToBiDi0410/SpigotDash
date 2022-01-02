@@ -1,3 +1,35 @@
+User_created_successfully: Nutzer erfolgreich erstellt
+Really_create_user: Willst du wirklich diesen neuen Nutzer erstellen?
+Initial_password: Erstes Psaswort
+User_deleted_successfully: Der Nutzer wurde erfolgreich gelöscht
+Really_delete_User: Willst du disen Benutzer wirklich löschen?
+User_Changed_Successfully: Nutzer erfolgreich editiert
+Create_User: Neuen Nutzer erstellen
+Group_deleted_successfully: Die Gruppe wurde erfolgreich gelöscht
+Processing: Verarbeitung
+Can_have_big_effects: Dies kann schwerwiegende Auswirkungen haben
+Really_delete_Group: Willst du diese Gruppe wirklich löschen?
+Process_Changes: die Änderungen zu verarbeiten
+Changed: verändert
+Might_require_new_Login: Diese Änderungen erfordern ein neu einloggen
+Group_Changed_Successfully: Gruppe erfolgreich editiert
+Group_Created_Successfully: Gruppe erfolgreich erstellt
+Really_Apply_Changes: Willst du wirklich diese Änderungen anwenden?
+Tabs: Tabs
+Users: Nutzer
+Really_Create_Group: Willst du diese Gruppe wirklich erstellen?
+Create: Erstellen
+Created: erstellt
+Abort: Abbrechen
+Groups: Gruppen
+Create_Group: Neue Gruppe erstellen
+Save_Changes: Änderungen Speichern
+Permissions: Berechtigungen
+Color: Farbe
+Appearance: Erscheinungsbild
+Membercount: Mitgliederzahl
+ID: ID
+Reloading_in_5_Seconds: Lade die Seite neu in 5 Sekunden...
 Wrong_Password: Falsche Passwort
 Unknown_User: Unbekannter Nutzer
 Upload: Hochladen

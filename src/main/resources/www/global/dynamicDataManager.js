@@ -6,8 +6,21 @@ var dynamicDataManager = {
     cacheClearTime: 10,
     defaultInterval: 5,
     ingore: [],
-    running: false
+    running: false,
+    objectizeCheckboxSync: objectizeCheckboxSync
 };
+
+function objectizeCheckboxSync(DOM) {
+    if (DOM != null) {
+        var OBJ = {};
+        for (checkbox of DOM.querySelectorAll("input[type='checkbox']")) {
+            OBJ[checkbox.getAttribute("data-checkpath")] = checkbox.checked;
+        }
+
+        return OBJ;
+    }
+    return {};
+}
 
 function fillEmptyWithLoading() {
     for (field of document.querySelectorAll(".dataField:not(.filled)")) {
@@ -49,7 +62,8 @@ async function dynamicDataTask() {
 
     //ADD CHILDREN OF IGNORED
     for (ignored of dynamicDataManager.ignore) {
-        dynamicDataManager.ignore = dynamicDataManager.ignore.concat(Array.from(ignored.querySelectorAll(".dataField, .dataFieldIMG, .dataFieldAttrib, .dataFieldClass, .dataFieldToggle, .dataArray")));
+        var IGNORED_CHILDREN_TO_IGNORE = ignored.querySelectorAll(".dataParent, .dataField, .dataFieldIMG, .dataFieldAttrib, .dataFieldClass, .dataFieldToggle, .dataArray, .syncCheckboxes, .dataObjectArray");
+        dynamicDataManager.ignore = dynamicDataManager.ignore.concat(Array.from(IGNORED_CHILDREN_TO_IGNORE));
     }
 
 
@@ -67,7 +81,7 @@ async function dynamicDataTask() {
 
                 var i = 0;
                 while (i < arrayData.length) {
-                    if (array.querySelector(".dataParent[data-path='" + i + "']") == null) {
+                    if (array.querySelector(":scope > .dataParent[data-path='" + i + "']") == null) {
                         var NEW_DOM = document.createElement("div");
                         NEW_DOM.classList.add("dataParent");
                         var TEMPLATE_HTML_DOM = parseHTMLToDOM(TEMPLATE_HTML);
@@ -84,10 +98,51 @@ async function dynamicDataTask() {
                         elem.remove();
                     }
                 });
+
+                finishUpdate(array);
             }
         } catch (err) {
             console.warn("[DATA] Failed to Update DOM: ");
             console.warn(array);
+            console.warn(err);
+        }
+    }
+
+    for (objectArray of document.querySelectorAll(".dataObjectArray")) {
+        try {
+            if (shouldBeUpdated(objectArray)) {
+                var lastParent = resolveDataParentWithPath(objectArray);
+                var path = lastParent.path;
+                lastParent = lastParent.parent;
+
+                var data = await getDataForParent(lastParent);
+                var arrayData = resolvePath(data, path.join("."));
+                var TEMPLATE_HTML = document.querySelector(".dataObjectArrayTemplate[data-arrayid='" + objectArray.getAttribute("data-arrayid") + "']").innerHTML;
+
+                for (const [key, value] of Object.entries(arrayData)) {
+                    var ALREADY_EXISTENT_DOM = objectArray.querySelector(".dataParent[data-path='" + key + "']");
+                    if (ALREADY_EXISTENT_DOM == null) {
+                        var NEW_DOM = document.createElement("div");
+                        NEW_DOM.classList.add("dataParent");
+                        var TEMPLATE_HTML_DOM = parseHTMLToDOM(TEMPLATE_HTML);
+                        NEW_DOM.appendChild(TEMPLATE_HTML_DOM);
+
+                        var APPENDED_DOM = objectArray.appendChild(NEW_DOM);
+                        APPENDED_DOM.setAttribute("data-path", key);
+                    }
+                }
+
+                objectArray.querySelectorAll(":scope > .dataParent").forEach((elem) => {
+                    if (arrayData[elem.getAttribute("data-path")] == null) {
+                        elem.remove();
+                    }
+                });
+
+                finishUpdate(objectArray);
+            }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(objectArray);
             console.warn(err);
         }
     }
@@ -101,12 +156,14 @@ async function dynamicDataTask() {
 
                 var data = await getDataForParent(lastParent);
                 data = resolvePath(data, path.join("."));
-                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScopeAndElem(dField.getAttribute("data-processor"), data, dField);
 
                 if (dField.innerHTML != innerDATA || dField.innerHTML == "" || dField.innerHTML == " ") {
                     dField.innerHTML = data;
                     dField.classList.add("filled");
                 }
+
+                finishUpdate(dField);
             }
         } catch (err) {
             console.warn("[DATA] Failed to Update DOM: ");
@@ -124,7 +181,7 @@ async function dynamicDataTask() {
 
                 var data = await getDataForParent(lastParent);
                 data = resolvePath(data, path.join("."));
-                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScopeAndElem(dField.getAttribute("data-processor"), data, dField);
 
                 if (!dField.hasAttribute("data-src") || dField.getAttribute("data-src") != data) {
                     dField.setAttribute("data-src", data);
@@ -133,6 +190,8 @@ async function dynamicDataTask() {
                     dField.classList.add("imgLoadSocket");
                     dField.removeAttribute("src");
                 }
+
+                finishUpdate(dField);
             }
         } catch (err) {
             console.warn("[DATA] Failed to Update DOM: ");
@@ -151,7 +210,7 @@ async function dynamicDataTask() {
 
                 var data = await getDataForParent(lastParent);
                 data = resolvePath(data, path.join("."));
-                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                if (dField.hasAttribute("data-attribprocessor")) data = await evalAsyncWithScopeAndElem(dField.getAttribute("data-attribprocessor"), data, dField);
                 var attribName = dField.getAttribute("data-attrib");
 
                 if (!attribHasValue(dField, attribName, data)) {
@@ -160,6 +219,8 @@ async function dynamicDataTask() {
                         dField.value = data;
                     }
                 }
+
+                finishUpdate(dField);
             }
         } catch (err) {
             console.warn("[DATA] Failed to Update DOM: ");
@@ -186,6 +247,8 @@ async function dynamicDataTask() {
                     }
                     dField.setAttribute("data-setclass", innerDATA);
                 }
+
+                finishUpdate(dField);
             }
         } catch (err) {
             console.warn("[DATA] Failed to Update DOM: ");
@@ -206,7 +269,7 @@ async function dynamicDataTask() {
                 var data = await getDataForParent(lastParent);
                 data = resolvePath(data, path.join("."));
 
-                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScope(dField.getAttribute("data-processor"), data);
+                if (dField.hasAttribute("data-processor")) data = await evalAsyncWithScopeAndElem(dField.getAttribute("data-processor"), data, dField);
 
                 var CHILDREN = dField.querySelectorAll(".dataFieldToggleEntry");
                 for (dFieldEntry of CHILDREN) {
@@ -220,6 +283,8 @@ async function dynamicDataTask() {
                         }
                     }
                 }
+
+                finishUpdate(dField);
             }
         } catch (err) {
             console.warn("[DATA] Failed to Update DOM: ");
@@ -230,17 +295,17 @@ async function dynamicDataTask() {
 
     for (permField of document.querySelectorAll(".showWithPerm")) {
         var perm = permField.getAttribute("data-permission");
-        
-        if(PERMISSIONS != null && PERMISSIONS[perm] != null) {
-            if(PERMISSIONS[perm] == true) {
+
+        if (PERMISSIONS != null && PERMISSIONS[perm] != null) {
+            if (PERMISSIONS[perm] == true) {
                 permField.classList.remove("hiddenBecausePerm");
                 permField.classList.remove("IGNORE");
                 permField.classList.remove("disabled");
-                permField.classList.remove("disallowPointer");            
+                permField.classList.remove("disallowPointer");
             } else {
                 permField.classList.add("disallowPointer");
 
-                if(!permField.classList.contains("onlyDisallowClick")) {
+                if (!permField.classList.contains("onlyDisallowClick")) {
                     permField.classList.add("hiddenBecausePerm");
                     permField.classList.add("IGNORE");
                     permField.classList.add("disabled");
@@ -249,7 +314,57 @@ async function dynamicDataTask() {
         }
     }
 
+    for (checkboxField of document.querySelectorAll(".syncCheckboxes")) {
+        try {
+            if (shouldBeUpdated(checkboxField)) {
+                var lastParent = resolveDataParentWithPath(checkboxField.parentElement);
+                var path = lastParent.path;
+                path.push(checkboxField.getAttribute("data-path"));
+                lastParent = lastParent.parent;
+
+                var data = await getDataForParent(lastParent);
+                data = resolvePath(data, path.join("."));
+
+                if (checkboxField.hasAttribute("data-processor")) data = await evalAsyncWithScopeAndElem(dField.getAttribute("data-processor"), data, checkboxField);
+
+                var checkboxes = checkboxField.querySelectorAll("input[type='checkbox']");
+
+                for (checkbox of checkboxes) {
+                    if (checkbox.hasAttribute("data-checkpath") && data[checkbox.getAttribute("data-checkpath")] != null) {
+                        checkbox.checked = data[checkbox.getAttribute("data-checkpath")];
+                    }
+                }
+
+                finishUpdate(checkboxField);
+            }
+        } catch (err) {
+            console.warn("[DATA] Failed to Update DOM: ");
+            console.warn(dField);
+            console.warn(err);
+        }
+    }
+
+    for (templateField of document.querySelectorAll(".loadFromTemplate")) {
+        try {
+            if (shouldBeUpdated(templateField) && !templateField.classList.contains("loaded")) {
+                var URL = templateField.getAttribute("data-url");
+                var DATA = await getDataFromAPI({ TYPE: "WEBFILE", PATH: URL });
+
+                templateField.innerHTML = DATA;
+                templateField.classList.add("loaded");
+            }
+        } catch (err) {
+            console.warn("[DATA] Failed to load Template DOM: ");
+            console.warn(dField);
+            console.warn(err);
+        }
+    }
+
     dynamicDataManager.running = false;
+}
+
+function finishUpdate(DOM) {
+    if (DOM.classList.contains("onlyUpdateOnce")) DOM.classList.add("IGNORE");
 }
 
 function shouldBeUpdated(DOM) {
@@ -269,7 +384,7 @@ async function getDataForParent(DOM) {
     if (dynamicDataManager.cache[intid] == null) {
         var evaluatedData = await evalAsync(DOM.getAttribute("data-callback"));
         if (DOM.hasAttribute("data-processor")) {
-            evaluatedData = await evalAsyncWithScope(DOM.getAttribute("data-processor"), evaluatedData);
+            evaluatedData = await evalAsyncWithScopeAndElem(dField.getAttribute("data-processor"), evaluatedData, DOM);
         }
 
         dynamicDataManager.cache[intid] = { time: Date.now(), data: evaluatedData };
@@ -283,6 +398,8 @@ async function getDataForParent(DOM) {
             delete dynamicDataManager.cache[intid];
             console.log("[DATA] [CACHE] Deleted: " + intid);
         }, DELETE_TIME - 100);
+
+        finishUpdate(DOM);
     }
     var finalData = dynamicDataManager.cache[intid].data;
     return finalData;
@@ -311,13 +428,12 @@ function resolveDataParentWithPath(DOM) {
 function resolvePath(dataBase, path) {
     var data = dataBase;
     if (path == "") return dataBase;
-
     var pathSep = path.split(".");
 
     for (elem of pathSep) {
-        if (!isNaN(elem)) {
+        if (!isNaN(elem) && elem != '' && elem != "") {
             data = data[parseInt(elem)];
-        } else if (elem == "" || elem == " " || elem == '') {
+        } else if (elem == "" || elem == " " || elem == '' || elem == "." || elem == undefined) {
             data = data;
         } else {
             try {

@@ -9,7 +9,8 @@ var PAGE_NAMES = {
     plugins: "%T%PLUGINS%T%",
     players: "%T%PLAYERS%T%",
     files: "%T%FILES%T%",
-    users: "%T%USERS%T%"
+    users: "%T%USERS%T%",
+    groups: "%T%GROUPS%T%"
 }
 
 var INTEGRATIONS;
@@ -26,7 +27,7 @@ async function initBASEPAGE() {
 
     addNewTask("INTEGRATIONSUPDATER", async function() {
         INTEGRATIONS = await getDataFromAPI({ TYPE: "DATA", METHOD: "GET_INTEGRATIONS" });
-        PERMISSIONS = await getDataFromAPI({TYPE: "ACCOUNT", METHOD: "PERMISSIONS"});
+        PERMISSIONS = await getDataFromAPI({ TYPE: "ACCOUNT", METHOD: "PERMISSIONS" });
     }, 1000);
 }
 
@@ -73,6 +74,8 @@ async function openPageInMenu(path) {
             if (curr_task == null) return;
             curr_task();
         }, 5000 * 2);
+
+        bulmaTagsinput.attach();
     } catch (err) {
         console.error("[LOADER] Page load failed: ");
         console.error(err);

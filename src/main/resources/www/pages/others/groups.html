@@ -1,0 +1,80 @@
+<div class="groups">
+    <div class="button is-success m-2" onclick="startCreateProcess()">+ %T%CREATE_GROUP%T%</div>
+
+    <div class="columns">
+        <div class="column">
+            <div>%T%NAME%T%</div>
+        </div>
+        <div class="column">
+            %T%ID%T%
+        </div>
+        <div class="column">
+            %T%MEMBERCOUNT%T%
+        </div>
+        <div class="column">
+            <div>%T%ACTIONS%T%</div>
+        </div>
+    </div>
+    <div class="dataParent" data-callback="return getCurrentData();" data-interval=3000>
+        <div class="dataObjectArray" data-path="groups" data-arrayid="groups"></div>
+        <div class="dataObjectArrayTemplate IGNORE" data-arrayid="groups">
+            <div class="w-100 groupEntry">
+                <div class="columns">
+                    <div class="column">
+                        <div class="tag is-primary dataField dataFieldAttrib" data-attrib="style" data-attribpath="html_color" data-attribprocessor="return 'background-color: ' + scope + ';';" data-path="name"></div>
+                    </div>
+                    <div class="column">
+                        <div class="dataField has-text-link" data-path="ID"></div>
+                    </div>
+                    <div class="column">
+                        <div class="dataField has-text-warning" data-path="members"></div>
+                    </div>
+                    <div class="column">
+                        <div class="actions">
+                            <button class="button widthContent is-link showWithPerm dataFieldAttrib" data-attrib="onclick" data-attribpath="ID" data-attribprocessor="return 'startEdit(\'' + scope + '\');';" data-permission="GROUPS_EDIT">
+                                <span class="material-icons-outlined">
+                                    edit
+                                </span>
+                            </button>
+
+                            <button class="button widthContent is-danger showWithPerm dataFieldAttrib" data-attrib="onclick" data-attribpath="ID" data-attribprocessor="return 'deleteGroup(\'' + scope + '\');';" data-permission="GROUPS_DELETE">
+                                <span class="material-icons-outlined">
+                                    delete
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="groupEditDialogue groupEditDialogueTemplate IGNORE hidden">
+    <div class="dataParent onlyUpdateOnce" data-callback="return (await getCurrentData()).groups[current_edit_group];" data-interval=10>
+        <div class="section p-1">
+            <div class="title">%T%APPEARANCE%T%</div>
+            <div class="field">
+                <label class="label">%T%NAME%T%</label>
+                <div class="control">
+                    <input class="input dataFieldAttrib onlyUpdateOnce" type="text" data-attrib="value" data-attribpath="name">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">%T%COLOR%T%</label>
+                <div class="groupColor tag dataField dataFieldAttrib onlyUpdateOnce" data-attrib="style" data-attribprocessor="return 'background-color: ' + scope.html_color + ';';" data-path="html_color"></div>
+            </div>
+        </div>
+
+        <div class="section p-1">
+            <div class="title">%T%PERMISSIONS%T%</div>
+            <div class="loadFromTemplate" data-url="pages/others/permissionList.html"></div>
+
+            <div class="button is-success saveButton">
+                <span class="material-icons-outlined">save</span> %T%SAVE_CHANGES%T%
+            </div>
+        </div>
+
+    </div>
+</div>
