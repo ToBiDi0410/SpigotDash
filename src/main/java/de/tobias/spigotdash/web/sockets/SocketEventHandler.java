@@ -33,10 +33,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class SocketEventHandler {
 
@@ -116,7 +113,7 @@ public class SocketEventHandler {
             }
         }
 
-        if(method.contains("GROUP")) {
+        if(method.toUpperCase(Locale.ROOT).indexOf("GROUP") != -1) {
             if(req.respondWithPermErrorIfFalse(req.perms.TAB_GROUPS)) {
                 if(method.equalsIgnoreCase("GET_GROUPS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
                     req.setResponse(400, "TEXT", main.GroupsFile.getGroupsSave());
@@ -208,13 +205,12 @@ public class SocketEventHandler {
                     return;
                 }
             }
-            return;
         }
 
-        if(method.contains("USER")) {
+        if(method.toUpperCase(Locale.ROOT).indexOf("USER") != -1) {
             if (req.respondWithPermErrorIfFalse(req.perms.TAB_USERS)) {
                 if(method.equalsIgnoreCase("GET_USERS") && req.respondWithPermErrorIfFalse(req.perms.USERS_VIEW)) {
-                    req.setResponse(400, "TEXT", main.UsersFile.getUsersSave());
+                    req.setResponse(200, "TEXT", main.UsersFile.getUsersSave());
                     return;
                 }
 
@@ -269,8 +265,8 @@ public class SocketEventHandler {
                         User u = main.UsersFile.getUserByName(name);
 
                         if(u != null) {
-                            if(req.json.has("UNAME")) {
-                                String newName = req.json.get("UNAME").getAsString();
+                            if(req.json.has("NEWNAME")) {
+                                String newName = req.json.get("NEWNAME").getAsString();
                                 if(!main.UsersFile.userExists(newName)) {
                                     u.updateName(newName);
                                 } else {
@@ -305,7 +301,7 @@ public class SocketEventHandler {
                                 }
                             }
 
-                            if(req.json.has("PASSWORD")) {
+                            if(req.json.has("PASSWORD") && !req.json.get("PASSWORD").isJsonNull()) {
                                 String password = req.json.get("PASSWORD").getAsString();
                                 u.changePassword(password);
                                 main.UsersFile.save();
@@ -322,8 +318,10 @@ public class SocketEventHandler {
                     return;
                 }
             }
-            return;
         }
+
+        req.setResponse(500, "TEXT", "ERR_RESPONSE_WOULD_BE_NULL");
+        return;
     }
 
     public static void handlePageRequest(SocketRequest req) {
