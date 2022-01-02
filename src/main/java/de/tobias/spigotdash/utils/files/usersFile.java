@@ -39,7 +39,7 @@ public class usersFile {
 
     public User getUserByName(String name) {
         for(User u : users) {
-            if(u.name.equals(name)) return u;
+            if(u.name.equalsIgnoreCase(name)) return u;
         }
         return null;
     }
