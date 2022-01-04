@@ -22,6 +22,7 @@ async function executeCommand(elem) {
     btn.removeAttribute("disabled");
     btn.classList.remove("is-loading");
     input.value = "";
+    input.focus();
 
     updateLog();
 }
