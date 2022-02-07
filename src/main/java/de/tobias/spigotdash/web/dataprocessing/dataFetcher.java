@@ -304,7 +304,7 @@ public class dataFetcher {
 	// ** PERFORMANCE GENERAL **
 	public static Object getPerformanceDataForWeb() {
 		JsonArray entrys = main.cacheFile.jsonTree.get("PERFORMANCE_DATA").getAsJsonArray();
-		clearWithTime(entrys, (1000 * 60 * 10));
+		clearWithTime(entrys, (1000 * 60 * 60));
 		return entrys;
 
 	}

@@ -74,7 +74,7 @@ public class taskManager {
 			}
 
 			if(lastClearUpdate + 1000*120 <= System.currentTimeMillis()) {
-				dataFetcher.clearWithTime(main.cacheFile.jsonTree.get("PERFORMANCE_DATA").getAsJsonArray(), (1000 * 60 * 10));
+				dataFetcher.clearWithTime(main.cacheFile.jsonTree.get("PERFORMANCE_DATA").getAsJsonArray(), (1000 * 60 * 60));
 				lastClearUpdate = System.currentTimeMillis();
 			}
 

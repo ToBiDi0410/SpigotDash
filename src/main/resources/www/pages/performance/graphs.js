@@ -3,6 +3,8 @@ var ramchart;
 var enginechart;
 var cpuchart;
 
+var GLOBAL_CHART_OPTIONS = {}
+
 function initCPUChart() {
     var options = {
         series: [],
@@ -29,8 +31,9 @@ function initCPUChart() {
                     return value.toFixed(2) + "%";
                 }
             }
-        },
+        }
     };
+    options = {...options, ...GLOBAL_CHART_OPTIONS }
 
     cpuchart = new ApexCharts(document.querySelector("#cpuchart"), options);
     cpuchart.render();
@@ -65,6 +68,7 @@ function initRAMChart() {
             show: false,
         }]
     };
+    options = {...options, ...GLOBAL_CHART_OPTIONS }
 
     ramchart = new ApexCharts(document.querySelector("#ramchart"), options);
     ramchart.render();
@@ -96,6 +100,7 @@ function initTPSChart() {
             show: false,
         }]
     };
+    options = {...options, ...GLOBAL_CHART_OPTIONS }
 
     tpschart = new ApexCharts(document.querySelector("#tpschart"), options);
     tpschart.render();
@@ -129,6 +134,7 @@ function initEngineChart() {
             show: false,
         }]
     };
+    options = {...options, ...GLOBAL_CHART_OPTIONS }
 
     enginechart = new ApexCharts(document.querySelector("#enginechart"), options);
     enginechart.render();
@@ -203,7 +209,7 @@ async function updateData() {
                     },
                     min: MIN_STOR,
                     max: MAX_STOR,
-                }]
+                }],
             },
             series: [{
                 name: "%T%RAM_ALLOCATED%T%",
@@ -256,7 +262,7 @@ async function updateData() {
         }
 
         data.forEach((elem) => {
-            var elem_date = transformDate(new Date(elem.DATETIME));
+            var elem_date = dateFormatter(new Date(elem.DATETIME));
             RAM_GRAPH.series[0].data.push({ x: elem_date, y: elem.MEMORY_ALLOCATED });
             RAM_GRAPH.series[1].data.push({ x: elem_date, y: elem.MEMORY_USED });
             RAM_GRAPH.series[2].data.push({ x: elem_date, y: bytesToGB(elem.TOTAL_SPACE) });
@@ -272,7 +278,6 @@ async function updateData() {
             ENGINE_GRAPH.series[0].data.push({ x: elem_date, y: elem.WORLD_CHUNKS });
             ENGINE_GRAPH.series[1].data.push({ x: elem_date, y: elem.WORLD_ENTITIES });
             ENGINE_GRAPH.series[2].data.push({ x: elem_date, y: elem.WORLD_PLAYERS });
-
         });
 
         ramchart.updateOptions(RAM_GRAPH.options);
@@ -289,8 +294,14 @@ async function updateData() {
 
 }
 
-function transformDate(date) {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+function dateFormatter(value) {
+    try {
+        var date = new Date(value);
+        return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    } catch (err) {
+        return "ERR";
+    }
+
 }
 
 function bytesToGB(bytes) {
