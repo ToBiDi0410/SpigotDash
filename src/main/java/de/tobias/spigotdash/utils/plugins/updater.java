@@ -12,7 +12,6 @@ import com.google.gson.JsonParser;
 
 import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.Version;
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.pluginConsole;
 
 public class updater {
@@ -58,7 +57,7 @@ public class updater {
 				if(update == -1) {
 					update_available = true;
 					pluginConsole.sendMessage(LOCAL_PREFIX + "&7New Update &aavailable&7 (&6" + current_version + " &7--> &b" + newest_version + "&7)! Please take a look at &6SpigotMC&7!");
-					if(configuration.yaml_cfg.getBoolean("autoUpdate")) {
+					if(main.config.UPDATE_DOWNLOAD) {
 						pluginInstaller.updatePlugin(main.pl, THIS_SPIGOT_ID);
 					}
 				} else if(update == 0) {

@@ -33,7 +33,7 @@ public class translations {
 	public static boolean load() {
 		pluginConsole.sendMessage("Loading Translations...");
 		loadDefaultTranslations();
-		loadInternalTranslation(configuration.yaml_cfg.getString("translations"));
+		loadInternalTranslation(main.config.LANGUAGE);
 		
 		if(loadedFile != null) {
 			yaml_cfg.addDefaults(currentTranslations);

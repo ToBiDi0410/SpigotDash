@@ -16,8 +16,8 @@ import com.github.alexdlaird.ngrok.protocol.CreateTunnel;
 import com.github.alexdlaird.ngrok.protocol.Proto;
 import com.github.alexdlaird.ngrok.protocol.Tunnel;
 
+import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.errorCatcher;
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.pluginConsole;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -66,22 +66,15 @@ public class NgrokManager {
 	}
 
 	public void pushCurrentAddress() {
-		if(configuration.yaml_cfg.getBoolean("NGROK_GET_UPDATES")) {
+		if(main.config.NGROK_PUSH_UPDATES_WITH_GET_FETCH) {
 			try {
 				//PREPARE URL
-				String insertedURL = replaceHttpTunnelInURL(configuration.yaml_cfg.getString("NGROK_GET_URL"));
+				String insertedURL = replaceHttpTunnelInURL(main.config.NGROK_GET_FETCH_URL);
 
 				//BUILD REQUEST
 				HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
 				requestBuilder.GET();
 				requestBuilder.uri(URI.create(insertedURL));
-
-				//ADD HEADERS
-				ConfigurationSection header_sec = configuration.yaml_cfg.getConfigurationSection("NGROK_GET_HEADERS");
-				for(String key : header_sec.getKeys(true)) {
-					//System.out.println(key);
-					requestBuilder.header(key, header_sec.getString(key));
-				}
 
 				//SEND REQUEST
 				HttpResponse<String> resp = pushClient.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());

@@ -1,15 +1,10 @@
 package de.tobias.spigotdash.web.sockets;
 
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.utils.SerialUtils;
-import de.tobias.spigotdash.utils.files.Group;
 import de.tobias.spigotdash.utils.files.User;
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.web.PermissionSet;
 import io.socket.socketio.server.SocketIoSocket;
-import org.apache.commons.lang.SerializationUtils;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 public class SocketAuthManager {

@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Objects;
 
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.files.translations;
 import de.tobias.spigotdash.utils.plugins.updater;
 import org.bukkit.Bukkit;
@@ -80,7 +79,7 @@ public class taskManager {
 			}
 
 			if(lastNgrokUpdate + 1000*60*60*1.5 <= System.currentTimeMillis()) {
-				if(main.ngrok != null && Objects.requireNonNull(configuration.yaml_cfg.getString("NGROK_AUTH")).replace(" ", "").equalsIgnoreCase("")) {
+				if(main.ngrok != null && Objects.requireNonNull(main.config.NGROK_AUTH).replace(" ", "").equalsIgnoreCase("")) {
 					main.ngrok.reopen();
 				}
 				lastNgrokUpdate = System.currentTimeMillis();
@@ -91,7 +90,7 @@ public class taskManager {
 		
 	    TPS_taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(main.pl, dataFetcher.getTPSRunnable(), 20L, 20L);
 	    
-	    int updateTime = Integer.parseInt(configuration.CFG.get("UPDATE_REFRESH_TIME").toString());
+	    int updateTime = main.config.UPDATE_CHECK_TIMEOUT;
 	    pluginConsole.sendMessage("&7Set Autoupdater time to: &6" + updateTime + " &7Minutes");
 	    UPDATE_taskID = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(main.pl, updater.getUpdateRunnable(), 20L, 20L * 60 * updateTime);
 	}

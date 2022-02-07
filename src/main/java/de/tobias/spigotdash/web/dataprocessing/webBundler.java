@@ -12,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import de.tobias.spigotdash.main;
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.files.translations;
 
 public class webBundler {
@@ -31,7 +30,7 @@ public class webBundler {
 			addResourceToMap("other-license/materialIcons.css", cssFiles);
 			addResourceToMap("other-license/vanillatoasts.css", cssFiles);
 			
-			if(configuration.dark) {
+			if(main.config.DEFAULT_DARKMODE) {
 				addResourceToMap("dark.css", cssFiles);
 				addResourceToMap("other-license/sweet_dark.css", cssFiles);
 				addResourceToMap("other-license/bulmaswatch.min.css", cssFiles);

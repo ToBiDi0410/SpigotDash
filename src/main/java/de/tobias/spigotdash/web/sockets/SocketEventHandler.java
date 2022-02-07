@@ -6,7 +6,6 @@ import com.google.gson.JsonParser;
 import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.files.Group;
 import de.tobias.spigotdash.utils.files.User;
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.files.translations;
 import de.tobias.spigotdash.utils.notificationManager;
 import de.tobias.spigotdash.utils.pluginConsole;
@@ -895,7 +894,7 @@ public class SocketEventHandler {
         }
 
         if(method.equalsIgnoreCase("THEME"))  {
-            req.setResponse(200, "TEXT", (configuration.yaml_cfg.getBoolean("darkMode") ? "dark" : "light"));
+            req.setResponse(200, "TEXT", (main.config.DEFAULT_DARKMODE ? "dark" : "light"));
         }
     }
 

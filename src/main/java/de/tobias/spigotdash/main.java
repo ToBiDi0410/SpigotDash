@@ -36,6 +36,7 @@ public class main extends JavaPlugin {
 	public static WebServerFileRoot webroot;
 	public static usersFile UsersFile;
 	public static groupsFile GroupsFile;
+	public static configurationFile config;
 	public static Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().disableHtmlEscaping().create();
 
 	public static SkriptIntegration skriptIntegration;
@@ -63,7 +64,7 @@ public class main extends JavaPlugin {
 
 			//FILES
 			if (!this.getDataFolder().exists()) getDataFolder().mkdir();
-			configuration.init();
+			config = configurationFile.getFromFile(new File(main.pl.getDataFolder(), "config.json"));
 			translations.load();
 
 			//GROUPS
@@ -91,7 +92,7 @@ public class main extends JavaPlugin {
 			//USERS
 			UsersFile = usersFile.getFromFile(new File(main.pl.getDataFolder(), "users.json"));
 			UsersFile.save();
-			User adminUser = new User("ADMIN", configuration.CFG.get("WEB_PASSWORD").toString());
+			User adminUser = new User("ADMIN", config.ADMIN_PASSWORD);
 			adminUser.roles.add(adminGroup.id);
 			UsersFile.add(adminUser);
 			UsersFile.process();
@@ -105,16 +106,16 @@ public class main extends JavaPlugin {
 			pluginConsole.sendMessage("&aCache File loaded!");
 
 			//JETTY SERVER
-			jetty = new JettyServer(configuration.yaml_cfg.getInt("PORT"));
+			jetty = new JettyServer(config.PORT);
 			jetty.init();
 
 			sockMan = new SocketIoManager();
 			sockMan.init();
 
 			//NGROK
-			if(configuration.yaml_cfg.getBoolean("USE_NGROK")) {
+			if(config.NGROK_ENABLED) {
 				ngrok = new NgrokManager(jetty.port);
-				ngrok.ngrokClient.setAuthToken(configuration.yaml_cfg.getString("NGROK_AUTH"));
+				ngrok.ngrokClient.setAuthToken(config.NGROK_AUTH);
 				ngrok.connect();
 				taskManager.lastNgrokUpdate = System.currentTimeMillis();
 			}
@@ -158,8 +159,9 @@ public class main extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		cacheFile.save();
+		config.save();
 		UsersFile.save();
+		cacheFile.save();
 		jetty.destroy();
 		taskManager.stopTasks();
 	}

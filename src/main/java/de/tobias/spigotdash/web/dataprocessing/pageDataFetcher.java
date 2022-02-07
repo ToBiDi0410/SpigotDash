@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.tobias.spigotdash.main;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.notificationManager;
 import de.tobias.spigotdash.utils.pluginConsole;
 
@@ -23,7 +23,7 @@ public class pageDataFetcher {
 		data.put("tps", Math.round(dataFetcher.getTPS() * 100.0) / 100.0);
 		data.put("player_count", dataFetcher.getPlayerCount());
 		data.put("plugin_count", Bukkit.getPluginManager().getPlugins().length);
-		data.put("player_record", configuration.yaml_cfg.getInt("PLAYER_RECORD"));
+		data.put("player_record", main.config.PLAYER_RECORD);
 		data.put("notifications", notificationManager.notifications.entrySet().stream().filter(x -> !(boolean)x.getValue().get("closed")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)) );
 		
 		return data;

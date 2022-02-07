@@ -2,13 +2,12 @@ package de.tobias.spigotdash.listener;
 
 import java.util.HashMap;
 
+import de.tobias.spigotdash.main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import de.tobias.spigotdash.utils.files.configuration;
 
 public class JoinTime implements Listener {
 
@@ -22,8 +21,8 @@ public class JoinTime implements Listener {
 			joinTimes.put(e.getPlayer().getUniqueId().toString(), System.currentTimeMillis());
 		}
 		
-		if(Bukkit.getOnlinePlayers().size() > configuration.yaml_cfg.getInt("PLAYER_RECORD")) {
-			configuration.yaml_cfg.set("PLAYER_RECORD", Bukkit.getOnlinePlayers().size());
+		if(Bukkit.getOnlinePlayers().size() > main.config.PLAYER_RECORD) {
+			main.config.PLAYER_RECORD = Bukkit.getOnlinePlayers().size();
 		}
 	}
 	

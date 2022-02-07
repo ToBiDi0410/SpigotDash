@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-import de.tobias.spigotdash.utils.files.configuration;
 import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FilenameUtils;
@@ -117,7 +116,7 @@ public class pluginInstaller {
 			File dest = dataFetcher.getPluginFile(pl);
 			pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Overwriting current Version with Update (" + dest.getAbsolutePath() + ")...");
 			writeBytesFromInputStreamIntoFile(con.getInputStream(), dest);
-			if(configuration.yaml_cfg.getBoolean("autoReloadOnUpdate")) {
+			if(main.config.UPDATE_RELOAD) {
 				pluginConsole.sendMessage(LOCAL_PREFIX + "- &7Finished! Reloading Server to enable Update...");
 				Bukkit.reload();
 			}

@@ -3,6 +3,7 @@ package de.tobias.spigotdash.utils.files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import de.tobias.spigotdash.main;
 import de.tobias.spigotdash.utils.errorCatcher;
 import de.tobias.spigotdash.utils.pluginConsole;
 import org.apache.commons.io.FileUtils;
@@ -81,7 +82,7 @@ public class usersFile {
     }
 
     // *** STATIC ***
-    public static Gson gson = (new GsonBuilder()).disableHtmlEscaping().serializeNulls().setPrettyPrinting().create();
+    public static Gson gson = main.gson;
 
     public static usersFile getFromFile(File f) {
         try {
