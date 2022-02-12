@@ -8,14 +8,15 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
+@SuppressWarnings("rawtypes, unchecked")
 public class JavaObjectJsonStore {
 
     private Object obj;
-    private Class obj_class;
-    private Gson gson;
+    private final Class obj_class;
+    private final Gson gson;
 
-    private File file;
-    private fieldLogger thisLogger;
+    private final File file;
+    private final fieldLogger thisLogger;
 
     public JavaObjectJsonStore(Class t, File file) {
         this.obj = null;
@@ -26,7 +27,12 @@ public class JavaObjectJsonStore {
     }
 
     public Object getObject() {
-        return obj_class.cast(this.obj);
+        try {
+            return obj_class.cast(this.obj);
+        } catch(Exception ex) {
+            thisLogger.ERROREXEP("Current Object is not valid: ", ex, 0);
+            return null;
+        }
     }
 
     public boolean loadOrCreate() {
