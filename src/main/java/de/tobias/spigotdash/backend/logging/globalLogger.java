@@ -70,15 +70,20 @@ public class globalLogger {
     }
 
     public void INFO(String msg) {
-        sendRaw("&8[&6INFO&8] &7" + msg);
+        sendRaw("&8[&aINFO&8] &7" + msg);
     }
 
     public void WARNING(String msg) {
-        sendRaw("&8[&eWARNING&8] &e" + msg);
+        sendRaw("&8[&6WARNING&8] &e" + msg);
     }
 
     public void ERROR(String msg) {
         sendRaw("&8[&4ERROR&8] &c" + msg);
+    }
+
+    public void ERROREXEP(String msg, Exception ex) {
+        sendRaw("&8[&4ERROR&8] &c" + msg);
+        ex.printStackTrace();
     }
 
     public ArrayList<String> getDebugFields() {

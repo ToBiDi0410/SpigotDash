@@ -13,25 +13,33 @@ public class fieldLogger {
         this.l = gbl;
     }
 
+    public fieldLogger(String field, String subfield, globalLogger gbl) {
+        this.fieldName = field + " | " + subfield;
+        this.PREFIX = "&8[&5" + fieldName + "&8] &r";
+        this.l = gbl;
+    }
+
     public void FIELD_INFO(String msg) {
-        l.INFO(PREFIX + msg);
+        l.INFO(PREFIX + "&7" + msg);
     }
 
     public void FIELD_WARNING(String msg) {
-        l.WARNING(PREFIX + msg);
+        l.WARNING(PREFIX + "&e" + msg);
     }
 
     public void FIELD_ERROR(String msg) {
-        l.ERROR(PREFIX + msg);
+        l.ERROR(PREFIX + "&c" + msg);
+    }
+
+    public void FIELD_ERROREXEP(String msg, Exception ex) {
+        l.ERROREXEP(PREFIX + "&c" + msg, ex);
     }
 
     public void INFO(String msg, Integer LEVEL) {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
-                System.out.println(LEVEL);
-                System.out.println(l.getDebugLevel());
                 if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
-                    FIELD_INFO("[DEBUG] " + msg);
+                    FIELD_INFO("&8[&dDEBUG&8] &7" + msg);
                 }
             }
         } else {
@@ -43,7 +51,7 @@ public class fieldLogger {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
                 if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
-                    FIELD_WARNING("[DEBUG] " + msg);
+                    FIELD_WARNING("&8[&dDEBUG&8] &e" + msg);
                 }
             }
         } else {
@@ -55,11 +63,23 @@ public class fieldLogger {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
                 if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
-                    FIELD_ERROR("[DEBUG] " + msg);
+                    FIELD_ERROR("&8[&dDEBUG&8] &c" + msg);
                 }
             }
         } else {
             FIELD_ERROR(msg);
+        }
+    }
+
+    public void ERROREXEP(String msg, Exception ex, Integer LEVEL) {
+        if(LEVEL > 0) {
+            if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
+                if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
+                    FIELD_ERROREXEP("&8[&dDEBUG&8] &c" + msg, ex);
+                }
+            }
+        } else {
+            FIELD_ERROREXEP(msg, ex);
         }
     }
 }
