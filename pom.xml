@@ -6,7 +6,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>spigotdash</artifactId>
-    <version>0.4.2 BETA</version>
+    <version>0.9.9 BETA</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -76,5 +76,48 @@
             <version>2.11.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.webjars/sockjs-client -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+
+        <!-- Web Server !-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-server</artifactId>
+            <version>9.4.19.v20190610</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>engine.io-server</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>engine.io-server-jetty</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-server</artifactId>
+            <version>3.0.2</version>
+        </dependency>
     </dependencies>
 </project>
