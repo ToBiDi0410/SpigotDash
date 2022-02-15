@@ -3,6 +3,7 @@ package de.tobias.spigotdash;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
+import de.tobias.spigotdash.backend.io.socket.WebsocketRequestManager;
 import de.tobias.spigotdash.backend.io.socket.WebsocketServerManager;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
@@ -40,6 +41,8 @@ public class main extends JavaPlugin {
 
 			WebsocketServerManager mainSocketServer = new WebsocketServerManager(81);
 			mainSocketServer.init();
+
+			WebsocketRequestManager.registerListeners();
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

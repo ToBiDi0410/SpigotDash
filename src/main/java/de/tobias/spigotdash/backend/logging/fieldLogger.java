@@ -19,6 +19,10 @@ public class fieldLogger {
         this.l = gbl;
     }
 
+    public fieldLogger subFromParent(String subfield) {
+        return new fieldLogger(fieldName, subfield, l);
+    }
+
     public void FIELD_INFO(String msg) {
         l.INFO(PREFIX + "&7" + msg);
     }
