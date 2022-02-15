@@ -89,7 +89,7 @@ public class WebsocketServerManager {
         server.setHandler(handlerList);
         thisLogger.INFO("Handler registered", 10);
 
-        registerEventReciever("WRV1_REQUEST", WebsocketRequestManager.WEBSOCKET_REQUEST_RECIEVER);
+        events.put("WEBREQ", new WebsocketRequestV1Handler());
         registerNamespace();
         thisLogger.INFO("Namespaces registered", 10);
 
