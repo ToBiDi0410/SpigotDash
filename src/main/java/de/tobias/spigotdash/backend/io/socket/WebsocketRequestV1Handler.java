@@ -18,7 +18,8 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
             0. ID --> Int
             1. NAMESPACE --> String
             2. PAYLOAD --> String (JSON encoded)
-            3. CALLBACK --> Function
+            4. CALLBACK --> Function
+            3. ENCRYPTION-SET-UUID --> String
      */
 
     public static fieldLogger thisLogger = new fieldLogger("SOCREQ1H", globalLogger.constructed);
@@ -31,8 +32,8 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
 
         requestLogger.INFO("Request Received", 0);
 
-        if(args.length == 4) {
-            WebsocketRequestV1Response resp = new WebsocketRequestV1Response(ID, (SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[3]);
+        if(args.length == 5) {
+            WebsocketRequestV1Response resp = new WebsocketRequestV1Response(ID, (SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[4]);
             String NAMESPACE = args[1].toString();
             String PAYLOAD = args[2].toString();
 
@@ -40,7 +41,23 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
             for(Map.Entry<String, subHandler> handlerEntry : subHandlers.entrySet()) {
                 if(handlerEntry.getKey().equalsIgnoreCase(NAMESPACE)) {
                     requestLogger.INFO("Found Handler", 10);
-                    JsonObject tree = main.GLOBAL_GSON.fromJson(PAYLOAD, JsonObject.class);
+
+                    JsonObject tree;
+                    if(args[3] != null) {
+                        String ENCRYPT_SET = args[3].toString();
+
+                        requestLogger.INFO("Payload seems to be Encrypted! Decrypting...", 10);
+                        String decoded = RSAEncryptor.decodeString(ENCRYPT_SET, PAYLOAD);
+                        if(decoded == null) {
+                            requestLogger.ERROR("Failed to Decrypt Payload", 5);
+                            return !resp.setCode(400).setData("INVALID_ENCRYPTION_KEY").send();
+                        }
+                        requestLogger.INFO("Decryption successful", 15);
+                        tree = main.GLOBAL_GSON.fromJson(decoded, JsonObject.class);
+                    } else {
+                        tree = main.GLOBAL_GSON.fromJson(PAYLOAD, JsonObject.class);
+                    }
+
                     requestLogger.INFO("JSON Parsed", 10);
                     handlerEntry.getValue().handle(resp, tree);
                     requestLogger.INFO("Handler is done", 10);
@@ -49,7 +66,7 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
 
             return !resp.setCode(500).setData("NO_RESPONSE").send();
         } else {
-            requestLogger.ERROR("Illegal Request: ARGUMENTS exceeded range", 5);
+            requestLogger.ERROR("Illegal Request: ARGUMENTS exceeded range (5)", 5);
             return false;
         }
     }

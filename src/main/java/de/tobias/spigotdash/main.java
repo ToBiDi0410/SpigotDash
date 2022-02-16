@@ -3,10 +3,9 @@ package de.tobias.spigotdash;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
-import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
-import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Response;
-import de.tobias.spigotdash.backend.io.socket.WebsocketServerManager;
+import de.tobias.spigotdash.backend.io.socket.*;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
 import org.bukkit.plugin.Plugin;
@@ -14,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 public class main extends JavaPlugin {
 
@@ -44,12 +44,8 @@ public class main extends JavaPlugin {
 			WebsocketServerManager mainSocketServer = new WebsocketServerManager(81);
 			mainSocketServer.init();
 
-			WebsocketRequestV1Handler.subHandlers.put("TEST", new WebsocketRequestV1Handler.subHandler() {
-				@Override
-				public void handle(WebsocketRequestV1Response res, JsonObject data) {
-					res.setCode(200).setData("If you see this you are cooler than me!").send();
-				}
-			});
+			WebsocketRequestV1Handler.subHandlers.put("ENCRYPTION", EncryptionRequestHandler.handler);
+
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

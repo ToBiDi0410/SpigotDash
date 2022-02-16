@@ -1,5 +1,6 @@
 package de.tobias.spigotdash.backend.io.socket;
 
+import de.tobias.spigotdash.main;
 import io.socket.socketio.server.SocketIoSocket;
 
 public class WebsocketRequestV1Response {
@@ -12,12 +13,12 @@ public class WebsocketRequestV1Response {
             2. DATA --> String (JSON encoded)
      */
 
-    private Integer ID;
+    private final Integer ID;
     private Integer CODE;
     private Object DATA;
 
     private boolean wasSent = false;
-    private SocketIoSocket.ReceivedByLocalAcknowledgementCallback callback;
+    private final SocketIoSocket.ReceivedByLocalAcknowledgementCallback callback;
 
     public WebsocketRequestV1Response(Integer id, SocketIoSocket.ReceivedByLocalAcknowledgementCallback callback) {
         this.callback = callback;
@@ -41,7 +42,8 @@ public class WebsocketRequestV1Response {
     public boolean send() {
         if(this.wasSent) return false;
 
-        callback.sendAcknowledgement(ID, CODE, DATA);
+        System.out.println(callback);
+        callback.sendAcknowledgement(ID, CODE, main.GLOBAL_GSON.toJson(DATA));
 
         this.wasSent = true;
         return true;
