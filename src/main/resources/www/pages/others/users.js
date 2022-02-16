@@ -74,8 +74,6 @@ async function startEdit(userName) {
 }
 
 async function updateUser(NAME, NEWNAME, PERMS, ROLES, PASSWORD) {
-    console.log(PASSWORD);
-    console.log(ROLES);
     var SWAL_RES = await Swal.fire({
         title: "%T%ARE_YOU_SURE%T%",
         html: "%T%REALLY_APPLY_CHANGES%T%",
