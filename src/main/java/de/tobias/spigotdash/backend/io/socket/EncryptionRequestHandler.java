@@ -1,8 +1,6 @@
 package de.tobias.spigotdash.backend.io.socket;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-
-import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 
 public class EncryptionRequestHandler {
@@ -11,10 +9,11 @@ public class EncryptionRequestHandler {
         if (data.has("SUBMETHOD")) {
             String subMethod = data.get("SUBMETHOD").getAsString();
             if (subMethod.equalsIgnoreCase("GET_PAIR")) {
-                HashMap<String, String> values = new HashMap<>();
+                HashMap<String, Object> values = new HashMap<>();
                 String generatedSetID = RSAEncryptor.generateOwnSet();
                 values.put("PAIR_ID", generatedSetID);
-                values.put("PAIR_PUBLIC", Base64.encode(RSAEncryptor.getSetPublicKey(generatedSetID).toString().getBytes(StandardCharsets.UTF_8)));
+                String publicKeyString = "-----BEGIN RSA PUBLIC KEY-----\n" + Base64.getEncoder().encodeToString(RSAEncryptor.getSetPublicKey(generatedSetID).getEncoded()) + "\n-----END RSA PUBLIC KEY-----\n";
+                values.put("PAIR_PUBLIC", publicKeyString);
 
                 res.setCode(200).setData(values).send();
                 return;

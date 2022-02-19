@@ -12,7 +12,7 @@ public class HttpServerManager {
 
     Integer port;
 
-    private fieldLogger thisLogger = new fieldLogger("HTTPSRV", globalLogger.constructed);
+    private final fieldLogger thisLogger = new fieldLogger("HTTPSRV", globalLogger.constructed);
     private Server server;
     private WebsocketServerManager wsServer;
 
@@ -38,6 +38,30 @@ public class HttpServerManager {
             server.start();
         } catch(Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public boolean start() {
+        thisLogger.INFO("Starting Server...", 0);
+        try {
+            server.start();
+            thisLogger.INFO("Server started with Port: " + this.port, 0);
+            return true;
+        } catch (Exception ex) {
+            thisLogger.ERROREXEP("Failed to start Server: ", ex, 0);
+            return false;
+        }
+    }
+
+    public boolean stop() {
+        thisLogger.INFO("Stopping Server...", 0);
+        try {
+            server.stop();
+            thisLogger.INFO("Server stopped", 0);
+            return true;
+        } catch (Exception ex) {
+            thisLogger.ERROREXEP("Failed to stop Server: ", ex, 0);
+            return false;
         }
     }
 

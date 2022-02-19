@@ -1,6 +1,6 @@
 package de.tobias.spigotdash.backend.io.socket;
 
-import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import io.socket.socketio.server.SocketIoSocket;
 
 public class WebsocketRequestV1Response {
@@ -16,6 +16,8 @@ public class WebsocketRequestV1Response {
     private final Integer ID;
     private Integer CODE;
     private Object DATA;
+
+    private String ENCRYPTION_PAIR_UUID;
 
     private boolean wasSent = false;
     private final SocketIoSocket.ReceivedByLocalAcknowledgementCallback callback;
@@ -41,11 +43,20 @@ public class WebsocketRequestV1Response {
 
     public boolean send() {
         if(this.wasSent) return false;
+        if(this.callback == null) return false;
 
-        System.out.println(callback);
-        callback.sendAcknowledgement(ID, CODE, main.GLOBAL_GSON.toJson(DATA));
+        String STRING_DATA = GlobalVariableStore.GSON.toJson(DATA);
+        if(ENCRYPTION_PAIR_UUID != null && RSAEncryptor.getSetPublicKey(ENCRYPTION_PAIR_UUID) != null) {
+            STRING_DATA = RSAEncryptor.encryptStringToBase64(ENCRYPTION_PAIR_UUID, STRING_DATA);
+        }
+
+        callback.sendAcknowledgement(ID, CODE, STRING_DATA);
 
         this.wasSent = true;
         return true;
+    }
+
+    public void setEncryptionPair(String uuid) {
+        ENCRYPTION_PAIR_UUID = uuid;
     }
 }

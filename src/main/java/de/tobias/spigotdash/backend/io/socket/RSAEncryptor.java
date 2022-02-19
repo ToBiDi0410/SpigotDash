@@ -2,10 +2,9 @@ package de.tobias.spigotdash.backend.io.socket;
 
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
-import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 
 import javax.crypto.Cipher;
-import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
@@ -23,7 +22,7 @@ public class RSAEncryptor {
         thisLogger.INFO("Generating new KeyPair...", 10);
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(2048);
+            generator.initialize(1024 * 4);
             KeyPair pair = generator.generateKeyPair();
 
             String setID = UUID.randomUUID().toString();
@@ -45,9 +44,19 @@ public class RSAEncryptor {
     public static PublicKey getPublicKeyFromBase64(String base64PublicKey) {
         thisLogger.INFO("Parsing PublicKey from Base64 Encoded String...", 10);
         try {
-            byte[] encoded = Base64.getDecoder().decode(base64PublicKey);
-            X509EncodedKeySpec  keySpec = new X509EncodedKeySpec(encoded);
+            byte[] keyBytes = Base64.getDecoder().decode(base64PublicKey.getBytes(GlobalVariableStore.CHARSET));
+
+            String keyFancy = new String(keyBytes);
+            String publicKeyPEM = keyFancy
+                    .replace("-----BEGIN PUBLIC KEY-----", "")
+                    .replaceAll(System.lineSeparator(), "")
+                    .replaceAll("\n", "")
+                    .replace("-----END PUBLIC KEY-----", "");
+
+            byte[] encoded = Base64.getDecoder().decode(publicKeyPEM);
+
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encoded);
             PublicKey publicKey = keyFactory.generatePublic(keySpec);
             thisLogger.INFO("Parsed PublicKey successfully", 10);
             return publicKey;
@@ -58,12 +67,14 @@ public class RSAEncryptor {
     }
 
     public static PublicKey getSetPublicKey(String setID) {
+        if(setID == null) return null;
         if(OWN_CRYPTO_SETS.containsKey(setID)) return OWN_CRYPTO_SETS.get(setID).getPublic();
-        if(OTHER_CRYPTO_SETS.containsKey(setID)) return OWN_CRYPTO_SETS.get(setID).getPublic();
+        if(OTHER_CRYPTO_SETS.containsKey(setID)) return OTHER_CRYPTO_SETS.get(setID).getPublic();
         return null;
     }
 
     public static PrivateKey getSetPrivateKey(String setID) {
+        if(setID == null) return null;
         if(OWN_CRYPTO_SETS.containsKey(setID)) return OWN_CRYPTO_SETS.get(setID).getPrivate();
         if(OTHER_CRYPTO_SETS.containsKey(setID)) return OTHER_CRYPTO_SETS.get(setID).getPrivate();
         return null;
@@ -80,7 +91,7 @@ public class RSAEncryptor {
             return null;
         }
 
-        byte[] encryptedMessageBytes = s.getBytes(StandardCharsets.UTF_8);
+        byte[] encryptedMessageBytes = Base64.getDecoder().decode(s);
         byte[] decryptedMessageBytes;
         try {
             decryptedMessageBytes = decryptCipher.doFinal(encryptedMessageBytes);
@@ -89,11 +100,12 @@ public class RSAEncryptor {
             return null;
         }
 
-        return new String(decryptedMessageBytes, StandardCharsets.UTF_8);
+        return new String(decryptedMessageBytes, GlobalVariableStore.CHARSET);
     }
 
-    public static String encodeString(String setID, String s) {
+    public static String encryptStringToBase64(String setID, String s) {
         if(!OTHER_CRYPTO_SETS.containsKey(setID)) return null;
+
         Cipher decryptCipher;
         try {
             decryptCipher = Cipher.getInstance("RSA");
@@ -103,7 +115,7 @@ public class RSAEncryptor {
             return null;
         }
 
-        byte[] decryptedMessageBytes = s.getBytes(main.GLOBAL_CHARSET);
+        byte[] decryptedMessageBytes = s.getBytes(GlobalVariableStore.CHARSET);
         byte[] encryptedMessageBytes;
         try {
             encryptedMessageBytes = decryptCipher.doFinal(decryptedMessageBytes);
@@ -112,6 +124,6 @@ public class RSAEncryptor {
             return null;
         }
 
-        return  new String(encryptedMessageBytes, main.GLOBAL_CHARSET);
+        return Base64.getEncoder().encodeToString(encryptedMessageBytes);
     }
 }

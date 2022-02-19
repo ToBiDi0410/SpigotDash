@@ -3,6 +3,7 @@ package de.tobias.spigotdash.backend.storage;
 import com.google.gson.Gson;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
+import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import de.tobias.spigotdash.main;
 import org.apache.commons.io.FileUtils;
 
@@ -22,7 +23,7 @@ public class JavaObjectJsonStore {
         this.obj = null;
         this.obj_class = t;
         this.file = file;
-        this.gson = main.GLOBAL_GSON;
+        this.gson = GlobalVariableStore.GSON;
         this.thisLogger = new fieldLogger("JavaObjStore", file.getName(), globalLogger.constructed);
     }
 
@@ -40,7 +41,7 @@ public class JavaObjectJsonStore {
         if(file.exists()) {
             thisLogger.INFO("File exists! Reading...", 10);
             try {
-                obj = gson.fromJson(FileUtils.readFileToString(file, main.GLOBAL_CHARSET), obj_class);
+                obj = gson.fromJson(FileUtils.readFileToString(file, GlobalVariableStore.CHARSET), obj_class);
                 thisLogger.INFO("Read successfully", 0);
                 return true;
             } catch (Exception ex) {
@@ -60,7 +61,7 @@ public class JavaObjectJsonStore {
         try {
             newDefault = obj_class.getConstructors()[0].newInstance();
             thisLogger.INFO("Constructed empty Object", 20);
-            FileUtils.write(this.file, main.GLOBAL_GSON.toJson(newDefault, obj_class), main.GLOBAL_CHARSET);
+            FileUtils.write(this.file, GlobalVariableStore.GSON.toJson(newDefault, obj_class), GlobalVariableStore.CHARSET);
             thisLogger.INFO("Wrote the Object to File", 20);
             thisLogger.INFO("File successfully created", 0);
             this.obj = newDefault;

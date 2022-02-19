@@ -3,10 +3,9 @@ package de.tobias.spigotdash.backend.io.socket;
 import com.google.gson.JsonObject;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
-import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import io.socket.socketio.server.SocketIoSocket;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +17,10 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
             0. ID --> Int
             1. NAMESPACE --> String
             2. PAYLOAD --> String (JSON encoded)
-            4. CALLBACK --> Function
-            3. ENCRYPTION-SET-UUID --> String
+            3. RECEIVE-ENCRYPTION-SET-UUID --> String
+            4. RESPONSE-ENCRYPTION-SET-UUID --> String
+            5. CALLBACK --> Function
+
      */
 
     public static fieldLogger thisLogger = new fieldLogger("SOCREQ1H", globalLogger.constructed);
@@ -30,14 +31,19 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
         Integer ID = Integer.parseInt(args[0].toString());
         fieldLogger requestLogger = thisLogger.subFromParent(ID.toString());
 
-        requestLogger.INFO("Request Received", 0);
+        requestLogger.INFO("Request Received", 5);
 
-        if(args.length == 5) {
-            WebsocketRequestV1Response resp = new WebsocketRequestV1Response(ID, (SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[4]);
+        if(args.length == 6) {
+            WebsocketRequestV1Response resp = new WebsocketRequestV1Response(ID, (SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[5]);
+
+            if(args[4] != null) {
+                requestLogger.INFO("Response should be encrypted", 5);
+                resp.setEncryptionPair(args[4].toString());
+            }
             String NAMESPACE = args[1].toString();
             String PAYLOAD = args[2].toString();
 
-            requestLogger.INFO("Searching Handler...", 0);
+            requestLogger.INFO("Searching Handler...", 5);
             for(Map.Entry<String, subHandler> handlerEntry : subHandlers.entrySet()) {
                 if(handlerEntry.getKey().equalsIgnoreCase(NAMESPACE)) {
                     requestLogger.INFO("Found Handler", 10);
@@ -53,9 +59,9 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
                             return !resp.setCode(400).setData("INVALID_ENCRYPTION_KEY").send();
                         }
                         requestLogger.INFO("Decryption successful", 15);
-                        tree = main.GLOBAL_GSON.fromJson(decoded, JsonObject.class);
+                        tree = GlobalVariableStore.GSON.fromJson(decoded, JsonObject.class);
                     } else {
-                        tree = main.GLOBAL_GSON.fromJson(PAYLOAD, JsonObject.class);
+                        tree = GlobalVariableStore.GSON.fromJson(PAYLOAD, JsonObject.class);
                     }
 
                     requestLogger.INFO("JSON Parsed", 10);

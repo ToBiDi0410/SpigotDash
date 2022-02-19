@@ -2,6 +2,7 @@ package de.tobias.spigotdash.backend.io.http;
 
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
+import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import de.tobias.spigotdash.main;
 import org.apache.commons.io.IOUtils;
 
@@ -14,11 +15,11 @@ import java.io.*;
 public class WebresourceServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         fieldLogger thisLogger = HttpServerManager.constructed.getFieldLogger();
         thisLogger.INFO("Request: " + req.getRequestURI(), 10);
 
-        File staticFolder = new File(main.pl.getDataFolder(), "www");
+        File staticFolder = new File(GlobalVariableStore.pl.getDataFolder(), "www");
         File requested = new File(staticFolder, req.getRequestURI());
 
         if(requested.isDirectory()) requested = new File(requested, "index.html");
@@ -30,7 +31,7 @@ public class WebresourceServlet extends HttpServlet {
         }
 
         InputStream in = null;
-        OutputStream out = null;
+        OutputStream out;
         try {
             String filetype = "text/plain";
 

@@ -1,5 +1,7 @@
 package de.tobias.spigotdash.backend.logging;
 
+import java.util.Locale;
+
 public class fieldLogger {
 
     private final String fieldName;
@@ -39,10 +41,14 @@ public class fieldLogger {
         l.ERROREXEP(PREFIX + "&c" + msg, ex);
     }
 
+    private boolean shouldDebug() {
+        return (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) && !l.getDebugFields().contains("!" + this.fieldName.toUpperCase(Locale.ROOT));
+    }
+
     public void INFO(String msg, Integer LEVEL) {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
-                if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
+                if (shouldDebug()) {
                     FIELD_INFO("&8[&dDEBUG&8] &7" + msg);
                 }
             }
@@ -54,7 +60,7 @@ public class fieldLogger {
     public void WARNING(String msg, Integer LEVEL) {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
-                if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
+                if (shouldDebug()) {
                     FIELD_WARNING("&8[&dDEBUG&8] &e" + msg);
                 }
             }
@@ -66,7 +72,7 @@ public class fieldLogger {
     public void ERROR(String msg, Integer LEVEL) {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
-                if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
+                if (shouldDebug()) {
                     FIELD_ERROR("&8[&dDEBUG&8] &c" + msg);
                 }
             }
@@ -78,7 +84,7 @@ public class fieldLogger {
     public void ERROREXEP(String msg, Exception ex, Integer LEVEL) {
         if(LEVEL > 0) {
             if(l.shouldDebug() && l.getDebugLevel() >= LEVEL) {
-                if (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) {
+                if (shouldDebug()) {
                     FIELD_ERROREXEP("&8[&dDEBUG&8] &c" + msg, ex);
                 }
             }

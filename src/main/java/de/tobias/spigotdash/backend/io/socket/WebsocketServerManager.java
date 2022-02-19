@@ -2,7 +2,7 @@ package de.tobias.spigotdash.backend.io.socket;
 
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
-import de.tobias.spigotdash.main;
+import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import io.socket.emitter.Emitter;
 import io.socket.engineio.server.EngineIoServer;
 import io.socket.engineio.server.JettyWebSocketHandler;
@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,13 +33,14 @@ public class WebsocketServerManager {
     private EngineIoServer engineIoServer;
     private SocketIoServer socketIoServer;
 
-    private fieldLogger thisLogger = new fieldLogger("SOCSRV", globalLogger.constructed);
+    private final fieldLogger thisLogger;
 
-    private Integer port;
-    private HashMap<String, WebsocketEventReciever> events = new HashMap<>();
+    private final Integer port;
+    private final HashMap<String, WebsocketEventReciever> events = new HashMap<>();
 
     public WebsocketServerManager(Integer port) {
         this.port = port;
+        this.thisLogger = new fieldLogger("SOCSRV", globalLogger.constructed);
         System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.StdErrLog");
         System.setProperty("org.eclipse.jetty.LEVEL", "OFF");
     }
@@ -89,17 +89,39 @@ public class WebsocketServerManager {
         server.setHandler(handlerList);
         thisLogger.INFO("Handler registered", 10);
 
-        events.put("WEBREQ", new WebsocketRequestV1Handler());
+        regsiterEventRecievers();
         registerNamespace();
         thisLogger.INFO("Namespaces registered", 10);
 
+
+    }
+
+    public boolean start() {
+        thisLogger.INFO("Starting Server...", 0);
         try {
             server.start();
             thisLogger.INFO("Server started with Port: " + this.port, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
+            return true;
+        } catch (Exception ex) {
+            thisLogger.ERROREXEP("Failed to start Server: ", ex, 0);
+            return false;
         }
+    }
 
+    public boolean stop() {
+        thisLogger.INFO("Stopping Server...", 0);
+        try {
+            server.stop();
+            thisLogger.INFO("Server stopped", 0);
+            return true;
+        } catch (Exception ex) {
+            thisLogger.ERROREXEP("Failed to stop Server: ", ex, 0);
+            return false;
+        }
+    }
+
+    public void regsiterEventRecievers() {
+        registerEventReciever("WEBREQ", new WebsocketRequestV1Handler());
     }
 
     public void registerEventReciever(String eventName, WebsocketEventReciever reciever) {
@@ -118,7 +140,7 @@ public class WebsocketServerManager {
                     socket.on(event.getKey(), new Emitter.Listener() {
                         @Override
                         public void call(Object... args) {
-                            Bukkit.getScheduler().runTask(main.pl, new Runnable() {
+                            Bukkit.getScheduler().runTask(GlobalVariableStore.pl, new Runnable() {
                                 @Override
                                 public void run() {
                                     thisLogger.INFO("Running Event for Socket '" + socket.getId() + "': " + event.getKey(), 20);
