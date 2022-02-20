@@ -22,7 +22,7 @@ public class RSAEncryptor {
         thisLogger.INFO("Generating new KeyPair...", 10);
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(1024 * 4);
+            generator.initialize(1024 * 2);
             KeyPair pair = generator.generateKeyPair();
 
             String setID = UUID.randomUUID().toString();
