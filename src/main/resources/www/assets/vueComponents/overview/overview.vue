@@ -69,7 +69,7 @@ export default {
       );
       if (isNaN(this.currentValues.TPS)) this.currentValues.TPS = null;
 
-      this.currentValues.TIME_SINCE_START = window.timeSince(
+      this.currentValues.TIME_SINCE_START = window.helpers.timeSince(
         this.currentValues.START_DATE
       );
       setTimeout(this.updateLoop, 1000);
