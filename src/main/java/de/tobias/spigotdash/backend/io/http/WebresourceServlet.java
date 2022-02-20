@@ -3,10 +3,8 @@ package de.tobias.spigotdash.backend.io.http;
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
-import de.tobias.spigotdash.main;
 import org.apache.commons.io.IOUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

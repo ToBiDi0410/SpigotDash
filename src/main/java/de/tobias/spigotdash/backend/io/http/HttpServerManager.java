@@ -10,7 +10,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 
 public class HttpServerManager {
 
-    Integer port;
+    final Integer port;
 
     private final fieldLogger thisLogger = new fieldLogger("HTTPSRV", globalLogger.constructed);
     private Server server;

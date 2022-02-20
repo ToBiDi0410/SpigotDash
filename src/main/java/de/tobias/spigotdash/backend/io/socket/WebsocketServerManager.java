@@ -130,27 +130,16 @@ public class WebsocketServerManager {
 
     private void registerNamespace() {
         SocketIoNamespace namespace = socketIoServer.namespace("/");
-        namespace.on("connection", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                SocketIoSocket socket = (SocketIoSocket) args[0];
-                thisLogger.INFO("New Socket '" + socket.getId() + "' connected", 10);
+        namespace.on("connection", args -> {
+            SocketIoSocket socket = (SocketIoSocket) args[0];
+            thisLogger.INFO("New Socket '" + socket.getId() + "' connected", 10);
 
-                for(Map.Entry<String, WebsocketEventReciever> event : events.entrySet()) {
-                    socket.on(event.getKey(), new Emitter.Listener() {
-                        @Override
-                        public void call(Object... args) {
-                            Bukkit.getScheduler().runTask(GlobalVariableStore.pl, new Runnable() {
-                                @Override
-                                public void run() {
-                                    thisLogger.INFO("Running Event for Socket '" + socket.getId() + "': " + event.getKey(), 20);
-                                    event.getValue().handle(event.getKey(), socket, args);
-                                }
-                            });
-                        }
-                    });
-                    thisLogger.INFO("Registered Event for Socket '" + socket.getId() + "': " + event.getKey(), 20);
-                }
+            for(Map.Entry<String, WebsocketEventReciever> event : events.entrySet()) {
+                socket.on(event.getKey(), args1 -> Bukkit.getScheduler().runTask(GlobalVariableStore.pl, () -> {
+                    thisLogger.INFO("Running Event for Socket '" + socket.getId() + "': " + event.getKey(), 20);
+                    event.getValue().handle(event.getKey(), socket, args1);
+                }));
+                thisLogger.INFO("Registered Event for Socket '" + socket.getId() + "': " + event.getKey(), 20);
             }
         });
     }

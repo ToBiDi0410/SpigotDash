@@ -2,7 +2,6 @@ package de.tobias.spigotdash.backend.dataCollectors;
 
 import com.google.gson.JsonObject;
 import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
-import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Response;
 
 public class dataCollectionRequestHandler {
 
@@ -32,7 +31,6 @@ public class dataCollectionRequestHandler {
         }
 
         res.setData(responseDat).setCode(200).send();
-        return;
     };
 
     public interface dataCollectionHandler {

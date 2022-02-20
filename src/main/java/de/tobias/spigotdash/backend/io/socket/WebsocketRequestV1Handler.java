@@ -23,8 +23,8 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
 
      */
 
-    public static fieldLogger thisLogger = new fieldLogger("SOCREQ1H", globalLogger.constructed);
-    public static HashMap<String, subHandler> subHandlers = new HashMap<>();
+    public static final fieldLogger thisLogger = new fieldLogger("SOCREQ1H", globalLogger.constructed);
+    public static final HashMap<String, subHandler> subHandlers = new HashMap<>();
 
     @Override
     public boolean handle(String eventName, SocketIoSocket soc, Object... args) {

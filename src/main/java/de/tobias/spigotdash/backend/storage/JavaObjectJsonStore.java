@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
-import de.tobias.spigotdash.main;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

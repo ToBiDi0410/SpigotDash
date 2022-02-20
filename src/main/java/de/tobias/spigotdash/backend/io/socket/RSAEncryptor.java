@@ -13,10 +13,10 @@ import java.util.UUID;
 
 public class RSAEncryptor {
 
-    public static fieldLogger thisLogger = new fieldLogger("CRYPTO-RSA", globalLogger.constructed);
+    public static final fieldLogger thisLogger = new fieldLogger("CRYPTO-RSA", globalLogger.constructed);
 
-    public static HashMap<String, KeyPair> OWN_CRYPTO_SETS = new HashMap<>();
-    public static HashMap<String, KeyPair> OTHER_CRYPTO_SETS = new HashMap<>();
+    public static final HashMap<String, KeyPair> OWN_CRYPTO_SETS = new HashMap<>();
+    public static final HashMap<String, KeyPair> OTHER_CRYPTO_SETS = new HashMap<>();
 
     public static String generateOwnSet() {
         thisLogger.INFO("Generating new KeyPair...", 10);
@@ -34,11 +34,10 @@ public class RSAEncryptor {
         }
     }
 
-    public static boolean addOtherSetWithPublicKey(String setID, String base64PublicKey) {
+    public static void addOtherSetWithPublicKey(String setID, String base64PublicKey) {
         KeyPair newPair = new KeyPair(getPublicKeyFromBase64(base64PublicKey), null);
         OTHER_CRYPTO_SETS.put(setID, newPair);
         thisLogger.INFO("New KeyPair accepted: " + setID, 0);
-        return true;
     }
 
     public static PublicKey getPublicKeyFromBase64(String base64PublicKey) {

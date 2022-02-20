@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class EncryptionRequestHandler {
 
-    public static WebsocketRequestV1Handler.subHandler handler = (res, data) -> {
+    public static final WebsocketRequestV1Handler.subHandler handler = (res, data) -> {
         if (data.has("SUBMETHOD")) {
             String subMethod = data.get("SUBMETHOD").getAsString();
             if (subMethod.equalsIgnoreCase("GET_PAIR")) {

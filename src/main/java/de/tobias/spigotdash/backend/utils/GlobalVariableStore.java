@@ -12,8 +12,8 @@ import java.nio.charset.StandardCharsets;
 public class GlobalVariableStore {
 
     public static Plugin pl;
-    public static Charset CHARSET = StandardCharsets.UTF_8;
-    public static Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping().create();
+    public static final Charset CHARSET = StandardCharsets.UTF_8;
+    public static final Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping().create();
 
     public static HttpServerManager mainHttpServer;
     public static WebsocketServerManager mainSocketServer;
