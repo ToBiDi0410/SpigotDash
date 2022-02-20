@@ -1,10 +1,10 @@
 package de.tobias.spigotdash;
 
-import com.google.gson.JsonObject;
+import de.tobias.spigotdash.backend.dataCollectors.dataCollectionManager;
+import de.tobias.spigotdash.backend.dataCollectors.dataCollectionRequestHandler;
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
 import de.tobias.spigotdash.backend.io.socket.EncryptionRequestHandler;
 import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
-import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Response;
 import de.tobias.spigotdash.backend.io.socket.WebsocketServerManager;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
@@ -41,7 +41,9 @@ public class main extends JavaPlugin {
 			GlobalVariableStore.mainSocketServer.start();
 
 			WebsocketRequestV1Handler.subHandlers.put("ENCRYPTION", EncryptionRequestHandler.handler);
+			WebsocketRequestV1Handler.subHandlers.put("COLLECTOR_DATA", dataCollectionRequestHandler.handler);
 
+			dataCollectionManager.initAllCollectors();
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
