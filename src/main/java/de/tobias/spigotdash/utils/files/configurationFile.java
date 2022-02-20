@@ -16,8 +16,8 @@ import java.nio.charset.StandardCharsets;
 public class configurationFile {
 
     public String FILE_VER = null;
-    public Integer PORT;
-    public Integer PLAYER_RECORD;
+    public Integer PORT = 9000;
+    public Integer PLAYER_RECORD = 0;
 
     public Boolean UPDATE_CHECK = true;
     public Boolean UPDATE_DOWNLOAD = true;
@@ -27,7 +27,7 @@ public class configurationFile {
     public String LANGUAGE = "EN";
     public Boolean DEFAULT_DARKMODE = true;
     public Boolean RECREATE_ADMIN_USER_ON_DELETION = true;
-    public String ADMIN_PASSWORD;
+    public String ADMIN_PASSWORD = "PleaseChangeThis2022";
 
 
     public Boolean NGROK_ENABLED = false;
