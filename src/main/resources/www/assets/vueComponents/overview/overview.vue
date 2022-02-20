@@ -17,7 +17,10 @@
         ></infoCardVue>
       </div>
       <div class="col-sm">
-        <infoCardVue v-bind:value="calculatedValues.UPTIME" title="Uptime"></infoCardVue>
+        <infoCardVue
+          v-bind:value="currentValues.TIME_SINCE_START"
+          title="Uptime"
+        ></infoCardVue>
       </div>
     </div>
     <div class="row">
@@ -43,6 +46,7 @@ export default {
         PLAYER_COUNT: 5,
         PLUGIN_COUNT: 2,
         START_DATE: new Date(),
+        TIME_SINCE_START: null,
       },
       calculatedValues: {
         UPTIME: "",
@@ -50,38 +54,25 @@ export default {
     };
   },
   created() {
-    this.calculationLoop();
+    this.updateLoop();
   },
   methods: {
-    timeSince(date) {
-      var seconds = Math.floor((new Date() - date) / 1000);
+    async updateLoop() {
+      this.currentValues.TPS = await window.store.globalDataAPI.doRequestOnlyData(
+        "COLLECTOR_DATA",
+        {
+          COLLECTOR: "TPS",
+          DATAID: "TPS_AVG",
+        },
+        true,
+        5000
+      );
+      if (isNaN(this.currentValues.TPS)) this.currentValues.TPS = null;
 
-      var interval = seconds / 31536000;
-
-      if (interval > 1) {
-        return Math.floor(interval) + " y";
-      }
-      interval = seconds / 2592000;
-      if (interval > 1) {
-        return Math.floor(interval) + " m";
-      }
-      interval = seconds / 86400;
-      if (interval > 1) {
-        return Math.floor(interval) + " d";
-      }
-      interval = seconds / 3600;
-      if (interval > 1) {
-        return Math.floor(interval) + " h";
-      }
-      interval = seconds / 60;
-      if (interval > 1) {
-        return Math.floor(interval) + " min";
-      }
-      return Math.floor(seconds) + " s";
-    },
-    calculationLoop() {
-      this.calculatedValues.UPTIME = this.timeSince(this.currentValues.START_DATE);
-      setTimeout(this.calculationLoop, 1000);
+      this.currentValues.TIME_SINCE_START = window.timeSince(
+        this.currentValues.START_DATE
+      );
+      setTimeout(this.updateLoop, 1000);
     },
   },
 };

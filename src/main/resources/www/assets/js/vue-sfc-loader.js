@@ -5,13 +5,8 @@ const SFC_OPTIONS = {
 
     async getFile(url) {
         var res;
-        setAppLoading(true);
-
-        console.log(url);
-
+        setAppLoading("SFC", true);
         console.debug("[RESSOURCES] Resolving Ressource URL: " + url);
-
-        if (url.includes("apexcharts/dist/")) url = url.replace("apexcharts/dist/", "@assets/js/");
 
         if (url.includes("@assets")) {
             url = url.replace("@assets", "../../assets")
@@ -25,7 +20,7 @@ const SFC_OPTIONS = {
             res = await fetch(url);
         }
 
-        setAppLoading(false);
+        setAppLoading("SFC", false);
         if (!res.ok)
             throw Object.assign(new Error(res.statusText + ' ' + url), { res });
         return {
@@ -38,16 +33,6 @@ const SFC_OPTIONS = {
         const ref = document.head.getElementsByTagName('style')[0] || null;
         document.head.insertBefore(style, ref);
     },
-}
-
-const setAppLoading = function(val) {
-    if (val) {
-        document.querySelector("#app").style.display = "none";
-        document.querySelector("#appLoader").style.display = "block";
-    } else {
-        document.querySelector("#app").style.display = "block";
-        document.querySelector("#appLoader").style.display = "none";
-    }
 }
 
 const { loadModule } = window['vue3-sfc-loader'];
