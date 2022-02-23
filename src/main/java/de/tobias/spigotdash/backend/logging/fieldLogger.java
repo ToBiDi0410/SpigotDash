@@ -42,7 +42,12 @@ public class fieldLogger {
     }
 
     private boolean shouldDebug() {
-        return (l.getDebugFields().contains(this.fieldName) || l.getDebugFields().contains("*")) && !l.getDebugFields().contains("!" + this.fieldName.toUpperCase(Locale.ROOT));
+        String[] fieldParts = this.fieldName.split(" \\| ");
+        for(String part : fieldParts) {
+            if(l.getDebugFields().contains("!" + part.toUpperCase(Locale.ROOT))) return false;
+        }
+
+        return (l.getDebugFields().contains("*") || l.getDebugFields().contains(this.fieldName));
     }
 
     public void INFO(String msg, Integer LEVEL) {
