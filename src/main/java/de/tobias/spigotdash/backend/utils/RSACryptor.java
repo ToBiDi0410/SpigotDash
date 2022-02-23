@@ -1,8 +1,7 @@
-package de.tobias.spigotdash.backend.io.socket;
+package de.tobias.spigotdash.backend.utils;
 
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
-import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 
 import javax.crypto.Cipher;
 import java.security.*;
@@ -11,7 +10,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class RSAEncryptor {
+public class RSACryptor {
 
     public static final fieldLogger thisLogger = new fieldLogger("CRYPTO-RSA", globalLogger.constructed);
 
