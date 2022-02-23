@@ -54,16 +54,24 @@ public class JavaObjectJsonStore {
     }
 
     public boolean createFile() {
-        thisLogger.WARNING("Creating new default File", 0);
-        Object newDefault;
-
+        thisLogger.WARNING("Creating new default File...", 0);
         try {
-            newDefault = obj_class.getConstructors()[0].newInstance();
+            Object newDefault = obj_class.getConstructors()[0].newInstance();
             thisLogger.INFO("Constructed empty Object", 20);
-            FileUtils.write(this.file, GlobalVariableStore.GSON.toJson(newDefault, obj_class), GlobalVariableStore.CHARSET);
-            thisLogger.INFO("Wrote the Object to File", 20);
-            thisLogger.INFO("File successfully created", 0);
             this.obj = newDefault;
+            this.save();
+            return true;
+        } catch (Exception ex) {
+            thisLogger.ERROREXEP("Failed to create new File: ", ex, 0);
+            return false;
+        }
+    }
+
+    public boolean save() {
+        thisLogger.WARNING("Saving File...", 0);
+        try {
+            FileUtils.write(this.file, GlobalVariableStore.GSON.toJson(this.obj, obj_class), GlobalVariableStore.CHARSET);
+            thisLogger.INFO("Wrote the current Object to File", 20);
             return true;
         } catch (Exception ex) {
             thisLogger.ERROREXEP("Cannot create new File: ", ex, 0);

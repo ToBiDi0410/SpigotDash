@@ -1,6 +1,6 @@
 package de.tobias.spigotdash.backend.io.WebsocketRequestHandlers;
 
-import de.tobias.spigotdash.backend.io.socket.RSAEncryptor;
+import de.tobias.spigotdash.backend.utils.RSACryptor;
 import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
 
 import java.util.Base64;
@@ -13,9 +13,9 @@ public class EncryptionRequestHandler {
             String subMethod = data.get("SUBMETHOD").getAsString();
             if (subMethod.equalsIgnoreCase("GET_PAIR")) {
                 HashMap<String, Object> values = new HashMap<>();
-                String generatedSetID = RSAEncryptor.generateOwnSet();
+                String generatedSetID = RSACryptor.generateOwnSet();
                 values.put("PAIR_ID", generatedSetID);
-                String publicKeyString = "-----BEGIN RSA PUBLIC KEY-----\n" + Base64.getEncoder().encodeToString(RSAEncryptor.getSetPublicKey(generatedSetID).getEncoded()) + "\n-----END RSA PUBLIC KEY-----\n";
+                String publicKeyString = "-----BEGIN RSA PUBLIC KEY-----\n" + Base64.getEncoder().encodeToString(RSACryptor.getSetPublicKey(generatedSetID).getEncoded()) + "\n-----END RSA PUBLIC KEY-----\n";
                 values.put("PAIR_PUBLIC", publicKeyString);
 
                 res.setCode(200).setData(values).send();
@@ -32,7 +32,7 @@ public class EncryptionRequestHandler {
                     return;
                 }
 
-                RSAEncryptor.addOtherSetWithPublicKey(data.get("PAIR_ID").getAsString(), data.get("PAIR_PUBLIC").getAsString());
+                RSACryptor.addOtherSetWithPublicKey(data.get("PAIR_ID").getAsString(), data.get("PAIR_PUBLIC").getAsString());
                 res.setCode(200).setData("DONE").send();
             }
         } else {

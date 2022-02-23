@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
 import de.tobias.spigotdash.backend.io.socket.WebsocketServerManager;
+import de.tobias.spigotdash.backend.storage.JavaObjectJsonStore;
+import de.tobias.spigotdash.backend.storage.UserStore;
 import org.bukkit.plugin.Plugin;
 
 import java.nio.charset.Charset;
@@ -17,4 +19,8 @@ public class GlobalVariableStore {
 
     public static HttpServerManager mainHttpServer;
     public static WebsocketServerManager mainSocketServer;
+
+    //STORAGE
+    public static JavaObjectJsonStore userJSONStore;
+
 }

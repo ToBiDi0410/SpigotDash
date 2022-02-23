@@ -3,6 +3,8 @@ package de.tobias.spigotdash.backend.dataCollectors;
 import com.google.gson.JsonObject;
 import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
 
+import java.util.Locale;
+
 public class dataCollectionRequestHandler {
 
     public static final WebsocketRequestV1Handler.subHandler handler = (res, data) -> {
@@ -23,6 +25,8 @@ public class dataCollectionRequestHandler {
             res.setData("UNKNOWN_COLLECTOR").setCode(404).send();
             return;
         }
+
+        if (res.respondWithPermissionError("COLLECTOR_" + collectorName.toUpperCase(Locale.ROOT).replace(" ", "_"))) return;
 
         Object responseDat = ((dataCollectionHandler) collector).REQUEST_DATA(data.get("DATAID").getAsString(), data);
         if(responseDat == null) {

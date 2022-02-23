@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
+import de.tobias.spigotdash.backend.utils.RSACryptor;
 import io.socket.socketio.server.SocketIoSocket;
 
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
 
      */
 
-    public static final fieldLogger thisLogger = new fieldLogger("SOCREQ1H", globalLogger.constructed);
+    public static final fieldLogger thisLogger = new fieldLogger("SOC-REQ1-HANDLER", globalLogger.constructed);
     public static final HashMap<String, subHandler> subHandlers = new HashMap<>();
 
     @Override
@@ -34,7 +35,7 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
         requestLogger.INFO("Request Received", 5);
 
         if(args.length == 6) {
-            WebsocketRequestV1Response resp = new WebsocketRequestV1Response(ID, (SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[5]);
+            WebsocketRequestV1Response resp = new WebsocketRequestV1Response(ID, soc, (SocketIoSocket.ReceivedByLocalAcknowledgementCallback) args[5]);
 
             if(args[4] != null) {
                 requestLogger.INFO("Response should be encrypted", 5);
@@ -53,7 +54,7 @@ public class WebsocketRequestV1Handler implements WebsocketEventReciever {
                         String ENCRYPT_SET = args[3].toString();
 
                         requestLogger.INFO("Payload seems to be Encrypted! Decrypting...", 10);
-                        String decoded = RSAEncryptor.decodeString(ENCRYPT_SET, PAYLOAD);
+                        String decoded = RSACryptor.decodeString(ENCRYPT_SET, PAYLOAD);
                         if(decoded == null) {
                             requestLogger.ERROR("Failed to Decrypt Payload", 5);
                             return !resp.setCode(400).setData("INVALID_ENCRYPTION_KEY").send();
