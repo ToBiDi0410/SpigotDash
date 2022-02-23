@@ -3,7 +3,7 @@ package de.tobias.spigotdash;
 import de.tobias.spigotdash.backend.dataCollectors.dataCollectionManager;
 import de.tobias.spigotdash.backend.dataCollectors.dataCollectionRequestHandler;
 import de.tobias.spigotdash.backend.io.http.HttpServerManager;
-import de.tobias.spigotdash.backend.io.socket.EncryptionRequestHandler;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.EncryptionRequestHandler;
 import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
 import de.tobias.spigotdash.backend.io.socket.WebsocketServerManager;
 import de.tobias.spigotdash.backend.logging.fieldLogger;

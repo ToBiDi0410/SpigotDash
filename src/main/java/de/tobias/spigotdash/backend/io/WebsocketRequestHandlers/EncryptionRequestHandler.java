@@ -1,4 +1,7 @@
-package de.tobias.spigotdash.backend.io.socket;
+package de.tobias.spigotdash.backend.io.WebsocketRequestHandlers;
+
+import de.tobias.spigotdash.backend.io.socket.RSAEncryptor;
+import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
 
 import java.util.Base64;
 import java.util.HashMap;
