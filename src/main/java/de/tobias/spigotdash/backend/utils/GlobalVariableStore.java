@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class GlobalVariableStore {
 
     public static Plugin pl;
+    public static long PLUGIN_STARTUP_TIMESTAMP;
     public static final Charset CHARSET = StandardCharsets.UTF_8;
     public static final Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -22,5 +23,5 @@ public class GlobalVariableStore {
 
     //STORAGE
     public static JavaObjectJsonStore userJSONStore;
-
+    public static UserStore getUserStore() { return ((UserStore) userJSONStore.getObject()); }
 }
