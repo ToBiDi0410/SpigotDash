@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class UserStore {
 
-    private ArrayList<User> users = new ArrayList<>();
+    private final ArrayList<User> users = new ArrayList<>();
 
     public UserStore() {
         User adminUser = new User("ADMIN", UUID.randomUUID().toString(), 100);
@@ -20,5 +20,13 @@ public class UserStore {
             if(u.getName().equalsIgnoreCase(name)) return u;
         }
         return null;
+    }
+
+    public ArrayList<String> getUsernames() {
+        ArrayList<String> tempNames = new ArrayList<>();
+        for(User u : users) {
+            tempNames.add(u.getName());
+        }
+        return tempNames;
     }
 }

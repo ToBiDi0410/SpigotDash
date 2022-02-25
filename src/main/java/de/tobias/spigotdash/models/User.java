@@ -24,6 +24,8 @@ public class User {
         this.uuid = pUUID;
         this.weight = pWeight;
         this.permissions.add(new UserPermissionSetEntry("COLLECTOR_TPS", "This Permission allows the User access to TPS Data"));
+        this.permissions.add(new UserPermissionSetEntry("COLLECTOR_PLUGINS", "This Permission allows the User access to statistical Plugin Data"));
+        this.permissions.add(new UserPermissionSetEntry("COLLECTOR_PLAYERS", "This Permission allows the User access to Players Data"));
     }
 
     public HashMap<String, Boolean> getPermissionSet() {
