@@ -12,5 +12,7 @@ public class dataCollectionManager {
 
     public static void initAllCollectors() {
         collectors.put("TPS", new TPSCollector(thisLogger).init());
+        collectors.put("PLUGINS", new PluginsCollector(thisLogger).init());
+        collectors.put("PLAYERS", new PlayersCollector(thisLogger).init());
     }
 }
