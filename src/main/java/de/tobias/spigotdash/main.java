@@ -6,10 +6,7 @@ import de.tobias.spigotdash.backend.logging.globalLogger;
 import de.tobias.spigotdash.backend.storage.CacheStore;
 import de.tobias.spigotdash.backend.storage.JavaObjectJsonStore;
 import de.tobias.spigotdash.backend.storage.UserStore;
-import de.tobias.spigotdash.backend.utils.AESCryptor;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
-import de.tobias.spigotdash.backend.utils.RSACryptor;
-import de.tobias.spigotdash.models.AESWithRSAPair;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.crypto.SecretKey;
@@ -50,8 +47,6 @@ public class main extends JavaPlugin {
 
 			DataCollectionManager.initAllCollectors();
 			DataCollectionManager.initCacheTask();
-
-			test();
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -63,39 +58,5 @@ public class main extends JavaPlugin {
 
 		GlobalVariableStore.getCacheStore().LAST_SAVED = new Date();
 		GlobalVariableStore.cacheJSONStore.save();
-	}
-
-	public void test() {
-		try {
-			System.out.println("\n--- RSA Test ---");
-			KeyPair rsaPair = RSACryptor.generateSet();
-
-			byte[] testRSAEncrypt = RSACryptor.encryptBytes("TestRSA123".getBytes(StandardCharsets.UTF_8), RSACryptor.publicKeyFromBytes(rsaPair.getPublic().getEncoded()));
-			byte[] testRSADecrypt = RSACryptor.decryptBytes(testRSAEncrypt, RSACryptor.privateKeyFromBytes(rsaPair.getPrivate().getEncoded()));
-			System.out.println("Out: " + new String(testRSADecrypt));
-
-
-			System.out.println("\n--- AES Test ---");
-			SecretKey aesKey = AESCryptor.generateKey();
-
-			System.out.println("KeySimilarity: " + new String(aesKey.getEncoded()) + "   <-->   " + new String(AESCryptor.keyFromBytes(aesKey.getEncoded()).getEncoded()));
-
-			byte[] testAESEncrypt = AESCryptor.encryptBytes("TestAES123".getBytes(StandardCharsets.UTF_8), AESCryptor.keyFromBytes(aesKey.getEncoded()));
-			byte[] testAESDecrypt = AESCryptor.decryptBytes(testAESEncrypt, AESCryptor.keyFromBytes(aesKey.getEncoded()));
-			System.out.println("Out: " + new String(testAESDecrypt));
-
-
-			System.out.println("\n--- AESWithRSA Test ---");
-			AESWithRSAPair testEncrypt = new AESWithRSAPair("TESTSTRING".getBytes(StandardCharsets.UTF_8), rsaPair.getPublic().getEncoded());
-			testEncrypt.doOperation();
-
-			AESWithRSAPair testDecrypt = new AESWithRSAPair(testEncrypt.getEncryptedData(), testEncrypt.getEncryptedAESKey(), rsaPair.getPrivate().getEncoded());
-			testDecrypt.doOperation();
-			System.out.println("KeySimilarity: " + new String(testEncrypt.getDecryptedAESKey()) + "   <-->   " + new String(AESCryptor.keyFromBytes(testDecrypt.getDecryptedAESKey()).getEncoded()));
-			System.out.println("Out: " + new String(testEncrypt.getDecryptedData()));
-
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 }
