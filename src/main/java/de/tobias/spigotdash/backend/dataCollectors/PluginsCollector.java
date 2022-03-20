@@ -1,11 +1,12 @@
 package de.tobias.spigotdash.backend.dataCollectors;
 
 import com.google.gson.JsonObject;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.DataCollectionRequestHandler;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import org.bukkit.Bukkit;
 
-public class PluginsCollector implements dataCollectionRequestHandler.dataCollectionHandler {
+public class PluginsCollector implements DataCollectionRequestHandler.dataCollectionHandler {
 
     private Integer ACTIVE_PLUGINS = 0;
 
@@ -17,7 +18,7 @@ public class PluginsCollector implements dataCollectionRequestHandler.dataCollec
 
     public PluginsCollector init() {
         //Start a Task that will execute every 100 Ticks (every 5 in-game Second) for Data collection
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(GlobalVariableStore.pl, this::task, 100L, 20L);
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(GlobalVariableStore.pl, this::task, 20L, 100L);
         thisLogger.INFO("Started Collection Service", 0);
         return this;
     }

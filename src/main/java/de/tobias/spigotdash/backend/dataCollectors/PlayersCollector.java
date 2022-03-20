@@ -1,11 +1,16 @@
 package de.tobias.spigotdash.backend.dataCollectors;
 
 import com.google.gson.JsonObject;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.DataCollectionRequestHandler;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
-import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
+import de.tobias.spigotdash.models.DataPoint;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-public class PlayersCollector implements dataCollectionRequestHandler.dataCollectionHandler {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class PlayersCollector implements DataCollectionRequestHandler.dataCollectionHandler {
 
     private final fieldLogger thisLogger;
 
@@ -14,21 +19,33 @@ public class PlayersCollector implements dataCollectionRequestHandler.dataCollec
     }
 
     public PlayersCollector init() {
-        //Start a Task that will execute every 100 Ticks (every 5 in-game Second) for Data collection
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(GlobalVariableStore.pl, this::task, 100L, 20L);
         thisLogger.INFO("Started Collection Service", 0);
         return this;
     }
 
-    private void task() {}
-
-    public Integer getCurrentPlayercount() {
+    public Integer getPlayerCount() {
         return Bukkit.getOnlinePlayers().size();
+    }
+
+    public ArrayList<String> getPlayerUUIDs() {
+        ArrayList<String> uuids = new ArrayList<>();
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            uuids.add(p.getUniqueId().toString());
+        }
+        return uuids;
+    }
+
+    public DataPoint getCacheDataPoint() {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("PlayerCount", getPlayerCount());
+        data.put("PlayerUUIDs", getPlayerUUIDs());
+
+        return new DataPoint(data);
     }
 
     @Override
     public Object REQUEST_DATA(String dataID, JsonObject data) {
-        if(dataID.equalsIgnoreCase("COUNT")) return this.getCurrentPlayercount();
+        if(dataID.equalsIgnoreCase("COUNT")) return this.getPlayerCount();
         return null;
     }
 }

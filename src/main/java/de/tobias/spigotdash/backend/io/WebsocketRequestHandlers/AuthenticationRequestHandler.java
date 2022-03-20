@@ -1,43 +1,70 @@
 package de.tobias.spigotdash.backend.io.WebsocketRequestHandlers;
 
-import de.tobias.spigotdash.backend.io.socket.SocketDataStore;
-import de.tobias.spigotdash.backend.io.socket.WebsocketRequestV1Handler;
+import com.google.gson.JsonObject;
+import de.tobias.simpsocserv.external.SimpleSocketRequestHandler;
 import de.tobias.spigotdash.backend.storage.UserStore;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
 import de.tobias.spigotdash.models.User;
 
-public class AuthenticationRequestHandler {
+public class AuthenticationRequestHandler extends SimpleSocketRequestHandler {
 
-    public static final WebsocketRequestV1Handler.subHandler handler = (res, data) -> {
-        if(!data.has("SUBMETHOD")) { res.setCode(400).setData("MISSING_FIELD_SUBMETHOD").send(); return; }
-        String subMethod = data.get("SUBMETHOD").getAsString();
-        User currentUser = SocketDataStore.getUser(res.getSocket());
+    public AuthenticationRequestHandler() {
+        super("AUTHENTICATION", "GET", (simpleSocketRequest, dataStorage) -> {
+            JsonObject data = (JsonObject) simpleSocketRequest.getData();
+            if (!data.has("SUBMETHOD")) {
+                simpleSocketRequest.sendResponse(400, "MISSING_FIELD_SUBMETHOD");
+                return true;
+            }
+            String subMethod = data.get("SUBMETHOD").getAsString();
+            User currentUser = (User) dataStorage.get("userData");
 
-        if(subMethod.equalsIgnoreCase("IS_LOGGED_IN")) {
-            res.setCode(200).setData(currentUser != null).send();
-            return;
-        }
+            if (subMethod.equalsIgnoreCase("IS_LOGGED_IN")) {
+                simpleSocketRequest.sendResponse(200, currentUser != null);
+                return true;
+            }
 
-        if(subMethod.equalsIgnoreCase("LOGIN")) {
-            if(!data.has("NAME")) { res.setCode(400).setData("MISSING_FIELD_NAME").send(); return; }
-            if(!data.has("PASSWORD")) { res.setCode(400).setData("MISSING_FIELD_PASSWORD").send(); return; }
-            String NAME = data.get("NAME").getAsString();
-            User u = ((UserStore) GlobalVariableStore.userJSONStore.getObject()).getUserByName(NAME);
+            if (subMethod.equalsIgnoreCase("GET_AVAILABLE_USERS")) {
+                simpleSocketRequest.sendResponse(200, GlobalVariableStore.getUserStore().getUsernames());
+                return true;
+            }
 
-            if(u == null) { res.setCode(404).setData("USER_NOT_FOUND").send(); return; }
-            if(!u.validPassword(data.get("PASSWORD").getAsString())) { res.setCode(400).setData("USER_INVALID_PASSWORD").send(); return; }
+            if (subMethod.equalsIgnoreCase("LOGIN")) {
+                if (!data.has("NAME")) {
+                    simpleSocketRequest.sendResponse(400, "MISSING_FIELD_NAME");
+                    return true;
+                }
+                if (!data.has("PASSWORD")) {
+                    simpleSocketRequest.sendResponse(400, "MISSING_FIELD_PASSWORD");
+                    return true;
+                }
+                String NAME = data.get("NAME").getAsString();
+                User u = ((UserStore) GlobalVariableStore.userJSONStore.getObject()).getUserByName(NAME);
 
-            SocketDataStore.setUserData(res.getSocket(), u);
-            res.setCode(200).setData("LOGGED_IN").send();
-            return;
-        }
+                if (u == null) {
+                    simpleSocketRequest.sendResponse(404, "USER_NOT_FOUND");
+                    return true;
+                }
+                if (!u.validPassword(data.get("PASSWORD").getAsString())) {
+                    simpleSocketRequest.sendResponse(400, "USER_INVALID_PASSWORD");
+                    return true;
+                }
 
-        if(currentUser == null) { res.setCode(401).setData("REQUIRE_LOGIN").send(); return; }
-        //ALL METHODS BELOW REQUIRE LOGIN
+                dataStorage.set("user", u);
+                simpleSocketRequest.sendResponse(200, "LOGGED_IN");
+                return true;
+            }
 
-        if(subMethod.equalsIgnoreCase("GET_PERMISSIONS")) {
-            res.setCode(200).setData(currentUser.getPermissionSet()).send();
-            return;
-        }
-    };
+            if (currentUser == null) {
+                simpleSocketRequest.sendResponse(401, "REQUIRE_LOGIN");
+                return true;
+            }
+            //ALL METHODS BELOW REQUIRE LOGIN
+
+            if (subMethod.equalsIgnoreCase("GET_PERMISSIONS")) {
+                simpleSocketRequest.sendResponse(200, currentUser.getPermissionSet());
+                return true;
+            }
+            return false;
+        });
+    }
 }

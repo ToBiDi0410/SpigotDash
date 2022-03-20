@@ -1,11 +1,15 @@
 package de.tobias.spigotdash.backend.dataCollectors;
 
 import com.google.gson.JsonObject;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.DataCollectionRequestHandler;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.utils.GlobalVariableStore;
+import de.tobias.spigotdash.models.DataPoint;
 import org.bukkit.Bukkit;
 
-public class TPSCollector implements dataCollectionRequestHandler.dataCollectionHandler {
+import java.util.HashMap;
+
+public class TPSCollector implements DataCollectionRequestHandler.dataCollectionHandler {
 
     private long LAST_TICK_TIME = 0;
     private float TPS = 20;
@@ -53,6 +57,14 @@ public class TPSCollector implements dataCollectionRequestHandler.dataCollection
         }
 
         LAST_TICK_TIME = System.currentTimeMillis();
+    }
+
+    public DataPoint getCacheDataPoint() {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("TPS", getTPS());
+        data.put("AvgTPS", getAverageTPS());
+
+        return new DataPoint(data);
     }
 
     public Object REQUEST_DATA(String dataID, JsonObject json) {

@@ -5,91 +5,63 @@ import de.tobias.spigotdash.backend.logging.globalLogger;
 
 import javax.crypto.Cipher;
 import java.security.*;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class RSACryptor {
 
     public static final fieldLogger thisLogger = new fieldLogger("CRYPTO-RSA", globalLogger.constructed);
 
-    public static final HashMap<String, KeyPair> OWN_CRYPTO_SETS = new HashMap<>();
-    public static final HashMap<String, KeyPair> OTHER_CRYPTO_SETS = new HashMap<>();
-
-    public static String generateOwnSet() {
+    public static KeyPair generateSet() {
         thisLogger.INFO("Generating new KeyPair...", 10);
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(1024 * 2);
+            generator.initialize(1024);
             KeyPair pair = generator.generateKeyPair();
-
-            String setID = UUID.randomUUID().toString();
-            OWN_CRYPTO_SETS.put(setID, pair);
-            thisLogger.INFO("New KeyPair generated: " + setID, 0);
-            return setID;
+            thisLogger.INFO("New KeyPair generated", 0);
+            return pair;
         } catch(Exception ex) {
             return null;
         }
     }
 
-    public static void addOtherSetWithPublicKey(String setID, String base64PublicKey) {
-        KeyPair newPair = new KeyPair(getPublicKeyFromBase64(base64PublicKey), null);
-        OTHER_CRYPTO_SETS.put(setID, newPair);
-        thisLogger.INFO("New KeyPair accepted: " + setID, 0);
-    }
-
-    public static PublicKey getPublicKeyFromBase64(String base64PublicKey) {
-        thisLogger.INFO("Parsing PublicKey from Base64 Encoded String...", 10);
+    public static PublicKey publicKeyFromBytes(byte[] bytes) {
         try {
-            byte[] keyBytes = Base64.getDecoder().decode(base64PublicKey.getBytes(GlobalVariableStore.CHARSET));
-
-            String keyFancy = new String(keyBytes);
-            String publicKeyPEM = keyFancy
-                    .replace("-----BEGIN PUBLIC KEY-----", "")
-                    .replaceAll(System.lineSeparator(), "")
-                    .replaceAll("\n", "")
-                    .replace("-----END PUBLIC KEY-----", "");
-
-            byte[] encoded = Base64.getDecoder().decode(publicKeyPEM);
-
+            thisLogger.INFO("Parsing RSA Public Key from Bytes...", 10);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encoded);
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(bytes);
             PublicKey publicKey = keyFactory.generatePublic(keySpec);
-            thisLogger.INFO("Parsed PublicKey successfully", 10);
             return publicKey;
-        } catch (Exception ex) {
-            thisLogger.ERROREXEP("Illegal Key provided:", ex, 0);
+        } catch(Exception ex) {
+            thisLogger.ERROREXEP("Failed to parse RSA Public Key from Bytes", ex, 0);
             return null;
         }
     }
 
-    public static PublicKey getSetPublicKey(String setID) {
-        if(setID == null) return null;
-        if(OWN_CRYPTO_SETS.containsKey(setID)) return OWN_CRYPTO_SETS.get(setID).getPublic();
-        if(OTHER_CRYPTO_SETS.containsKey(setID)) return OTHER_CRYPTO_SETS.get(setID).getPublic();
-        return null;
+    public static PrivateKey privateKeyFromBytes(byte[] bytes) {
+        try {
+            thisLogger.INFO("Parsing RSA Private Key from Bytes...", 10);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
+            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+            return privateKey;
+        } catch(Exception ex) {
+            thisLogger.ERROREXEP("Failed to parse RSA Public Key from Bytes", ex, 0);
+            return null;
+        }
     }
 
-    public static PrivateKey getSetPrivateKey(String setID) {
-        if(setID == null) return null;
-        if(OWN_CRYPTO_SETS.containsKey(setID)) return OWN_CRYPTO_SETS.get(setID).getPrivate();
-        if(OTHER_CRYPTO_SETS.containsKey(setID)) return OTHER_CRYPTO_SETS.get(setID).getPrivate();
-        return null;
-    }
-
-    public static String decodeString(String setID, String s) {
-        if(!OWN_CRYPTO_SETS.containsKey(setID)) return null;
+    public static byte[] decryptBytes(byte[] bytes, PrivateKey key) {
         Cipher decryptCipher;
         try {
             decryptCipher = Cipher.getInstance("RSA");
-            decryptCipher.init(Cipher.DECRYPT_MODE, getSetPrivateKey(setID));
+            decryptCipher.init(Cipher.DECRYPT_MODE, key);
         } catch(Exception ex) {
             ex.printStackTrace();
             return null;
         }
 
-        byte[] encryptedMessageBytes = Base64.getDecoder().decode(s);
+        byte[] encryptedMessageBytes = bytes;
         byte[] decryptedMessageBytes;
         try {
             decryptedMessageBytes = decryptCipher.doFinal(encryptedMessageBytes);
@@ -98,22 +70,20 @@ public class RSACryptor {
             return null;
         }
 
-        return new String(decryptedMessageBytes, GlobalVariableStore.CHARSET);
+        return decryptedMessageBytes;
     }
 
-    public static String encryptStringToBase64(String setID, String s) {
-        if(!OTHER_CRYPTO_SETS.containsKey(setID)) return null;
-
+    public static byte[] encryptBytes(byte[] bytes, PublicKey key) {
         Cipher decryptCipher;
         try {
             decryptCipher = Cipher.getInstance("RSA");
-            decryptCipher.init(Cipher.ENCRYPT_MODE, getSetPublicKey(setID));
+            decryptCipher.init(Cipher.ENCRYPT_MODE, key);
         } catch(Exception ex) {
             ex.printStackTrace();
             return null;
         }
 
-        byte[] decryptedMessageBytes = s.getBytes(GlobalVariableStore.CHARSET);
+        byte[] decryptedMessageBytes = bytes;
         byte[] encryptedMessageBytes;
         try {
             encryptedMessageBytes = decryptCipher.doFinal(decryptedMessageBytes);
@@ -122,6 +92,6 @@ public class RSACryptor {
             return null;
         }
 
-        return Base64.getEncoder().encodeToString(encryptedMessageBytes);
+        return encryptedMessageBytes;
     }
 }
