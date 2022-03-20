@@ -42,13 +42,12 @@ public class main extends JavaPlugin {
 			GlobalVariableStore.cacheJSONStore = new JavaObjectJsonStore(CacheStore.class, new File(this.getDataFolder(), "cache.json"));
 			GlobalVariableStore.cacheJSONStore.loadOrCreate();
 
-			GlobalVariableStore.serverManager.start();
-
 			GlobalVariableStore.serverManager.simpServer.addHTTPRequestHandler(new StaticHTTPRequestHandler("/*", new File(this.getDataFolder(), "www")));
 			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new AuthenticationRequestHandler());
 			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new DataCollectionRequestHandler());
 			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new CacheHistoryRequestHandler());
 
+			GlobalVariableStore.serverManager.start();
 			DataCollectionManager.initAllCollectors();
 			DataCollectionManager.initCacheTask();
 		} catch(Exception ex) {
