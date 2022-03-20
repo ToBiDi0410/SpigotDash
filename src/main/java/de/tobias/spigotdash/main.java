@@ -1,5 +1,6 @@
 package de.tobias.spigotdash;
 
+import de.tobias.simpsocserv.external.StaticHTTPRequestHandler;
 import de.tobias.spigotdash.backend.dataCollectors.DataCollectionManager;
 import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.AuthenticationRequestHandler;
 import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.CacheHistoryRequestHandler;
@@ -43,6 +44,7 @@ public class main extends JavaPlugin {
 
 			GlobalVariableStore.serverManager.start();
 
+			GlobalVariableStore.serverManager.simpServer.addHTTPRequestHandler(new StaticHTTPRequestHandler("/*", new File(this.getDataFolder(), "www")));
 			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new AuthenticationRequestHandler());
 			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new DataCollectionRequestHandler());
 			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new CacheHistoryRequestHandler());
