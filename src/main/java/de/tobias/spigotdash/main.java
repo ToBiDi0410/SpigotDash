@@ -1,6 +1,9 @@
 package de.tobias.spigotdash;
 
 import de.tobias.spigotdash.backend.dataCollectors.DataCollectionManager;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.AuthenticationRequestHandler;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.CacheHistoryRequestHandler;
+import de.tobias.spigotdash.backend.io.WebsocketRequestHandlers.DataCollectionRequestHandler;
 import de.tobias.spigotdash.backend.logging.fieldLogger;
 import de.tobias.spigotdash.backend.logging.globalLogger;
 import de.tobias.spigotdash.backend.storage.CacheStore;
@@ -40,10 +43,9 @@ public class main extends JavaPlugin {
 
 			GlobalVariableStore.serverManager.start();
 
-			//WebsocketRequestV1Handler.subHandlers.put("ENCRYPTION", EncryptionRequestHandler.handler);
-			//WebsocketRequestV1Handler.subHandlers.put("AUTHENTICATION", AuthenticationRequestHandler.handler);
-			//WebsocketRequestV1Handler.subHandlers.put("COLLECTOR_DATA", DataCollectionRequestHandler.handler);
-			//WebsocketRequestV1Handler.subHandlers.put("CACHE_DATA", CacheHistoryRequestHandler.handler);
+			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new AuthenticationRequestHandler());
+			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new DataCollectionRequestHandler());
+			GlobalVariableStore.serverManager.simpServer.addSimpleSocketRequestHandler(new CacheHistoryRequestHandler());
 
 			DataCollectionManager.initAllCollectors();
 			DataCollectionManager.initCacheTask();
