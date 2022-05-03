@@ -1,5 +1,16 @@
 # SpigotDash
 
+## ⚠️ DEPRECATED
+
+I wanted to keep this away as long as possible, but with it's current state im not really able to really fix problems or make improvements. There would be the need for an entire rewrite, but sadly I currenly just haven't gotten enough time for that because I'm working on other Projects. In addition to that, my focus has shifted on other things.
+
+I created this Plugin for my personal use and thought releasing it would be nice. But I'm not really motivated to work on it currently, because I just don't use or play Minecraft.
+
+#### Of course, I will check Pull Requests and Issues if I can, BUT please do not expect an fix for your issue any time soon. Nevertheless, post them because then I know they are there for when I start working again.
+
+### Thanks for the support until here <3
+
+## Welcome
 Welcome, on the Repository for the Spigot Plugin SpigotDash!
 Here, you can find the source code for SpigotDash.
 
