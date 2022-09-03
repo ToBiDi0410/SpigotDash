@@ -1,237 +1,227 @@
-User_created_successfully: Nutzer erfolgreich erstellt
-Really_create_user: Willst du wirklich diesen neuen Nutzer erstellen?
-Initial_password: Erstes Psaswort
-User_deleted_successfully: Der Nutzer wurde erfolgreich gelöscht
-Really_delete_User: Willst du disen Benutzer wirklich löschen?
-User_Changed_Successfully: Nutzer erfolgreich editiert
-Create_User: Neuen Nutzer erstellen
-Group_deleted_successfully: Die Gruppe wurde erfolgreich gelöscht
-Processing: Verarbeitung
-Can_have_big_effects: Dies kann schwerwiegende Auswirkungen haben
-Really_delete_Group: Willst du diese Gruppe wirklich löschen?
-Process_Changes: die Änderungen zu verarbeiten
-Changed: verändert
-Might_require_new_Login: Diese Änderungen erfordern ein neu einloggen
-Group_Changed_Successfully: Gruppe erfolgreich editiert
-Group_Created_Successfully: Gruppe erfolgreich erstellt
-Really_Apply_Changes: Willst du wirklich diese Änderungen anwenden?
-Tabs: Tabs
-Users: Nutzer
-Really_Create_Group: Willst du diese Gruppe wirklich erstellen?
-Create: Erstellen
-Created: erstellt
 Abort: Abbrechen
-Groups: Gruppen
-Create_Group: Neue Gruppe erstellen
-Save_Changes: Änderungen Speichern
-Permissions: Berechtigungen
-Color: Farbe
-Appearance: Erscheinungsbild
-Membercount: Mitgliederzahl
-ID: ID
-Reloading_in_5_Seconds: Lade die Seite neu in 5 Sekunden...
-Wrong_Password: Falsche Passwort
-Unknown_User: Unbekannter Nutzer
-Upload: Hochladen
-Paste: Einfügen
-Invalid: ungültig
-Nothing_Selected_To_Cut_Or_Copy: Du hast nichts zum Ausschneiden oder Kopieren ausgewählt
-Upload_File: Datei hochladen
-Upload_The_File: die Datei hochzuladen
-Uploading_File: Die Datei wird hochgeladen
-File_Uploaded_Successfully: Die Datei wurde erfolgreich hochgeladen
-Rename_The_File: die Datei umzubennenen
-Rename: umbennenen
-How_Should_File_Be_Called: Wie soll die Datei heißen?
-Renaming_File: Nenne die Datei um
-File_Renamed_Successfully: Die Datei wurde erfolgreich umbennant
-Copy_The_File: die Datei zu kopieren
-Copying_File: Kopiere die Datei
-File_Is_Beeing_Copied_To: Die Datei wird kopiert zu
-File_Copied_Successfully: Die Datei wurde erfolgreich kopiert
-Move_The_File: die Datei zu verschieben
-Moving_File: Verschiebe die Datei
-File_Is_Beeing_Moved_To: Die Datei wird verschoben zu
-File_Moved_Successfully: Die Datei wurde erfolgreich verschoben
-Delete_The_File: die Datei zu löschen
-Are_you_sure: Bist du sicher?
-Really_delete_File: Möchtest du die Datei wirklich löschen?
-Cannot_be_undone: Dies kann nicht rückgängig gemacht werden!
-Deleting_File: Lösche die Datei
-File_Deleted_Successfully: Die Datei wurde erfolgreich gelöscht
-Were_not_able_to: Wir waren nicht in der Lage
-Please_Do_Manually_Or_Try_Again: Bitte mache es manuell oder versuche es ernuet!
-Sucessfully: erfolgreich
-File: Datei
-Copied: kopiert
-Moved: verschoben
-Renamed: umbennant
-Deleted: gelöscht
-Uploaded: hochgeladen
-Oh_No: Oh nein
-Cancel: abbrechen
-Confirm: bestätigen
-To: zu
-Location: Position
-Loading_Basepage: Lade die Grundseite für dich
-Basepage: Grundseite
-Scripts: Skripte
-Styling: Aussehen
-Loading_Page: Die Seite wird für dich geladen
-Page: Seite
-Require_Auth: Um fortzufahren benötigen wir deine Authentifizierung
-Authentication: Authentifizierung
-Trying_To_Connect_To_Server: Wir verbinden dich mit dem Server
-Connection: Verbindung
-Very_Low_Storage_Capacity_Title: Extrem wenig Speicherplatz
-Very_Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>1GB</b> Speicher für den Server verfügbar! Dies wird vorraussichtlich zu einem Absturz des ganzes Systems führen!
-Low_Storage_Capacity_Title: Wenig Speicherplatz
-Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>2GB</b> Speicher für den Server verfügbar! Bitte mache Platz frei!
-RAM_Allocated: RAM zugewiesen
-RAM_Used: RAM benutzt
-Storage_Total: Insgesamter Speicher
-Storage_Used: Verwendeter Speicher
-RAM: RAM
-STORAGE: Speicher
-USAGE: Nutzung
-Est_Connection_Failed: Fehler beim Aufbauen einer Verbindung!
-Init_Est_Connection: Baue Socket Verbindung auf...
-Init_Load_Basepage: Lade Seite (Grundseite)...
-Init_Wait_Auth: Warte auf Authentifizierung...
-Init_Loading_Script: Lade Skript (%NAME%)...
-Init_Loading_Style: Lade Darstellung (%NAME%)...
-Init_Loading_Scripts: Lade Skripte...
-Init_Loading_Styles: Lade Darstellungen...
-Please_wait_Moment: Bitte warte kurz...
-Websocket_Reconnected: Verbindung zum Server wiederhergestellt!
-Reconnected: Neuverbunden
-Reload_Page_If_Nec: Bitte lade die Seite neu wenn nötig
-Websocket_Lost_Connection: Der Websocket der die Verbindung herstellt wurde vom Server getrennt!
-Wrong_Name_Or_Password: Falscher Nutzername oder Passwort
-Login_Success: Login erfolgreich
-Kill: Töten
-Alt_Accounts: Andere Accounts
-Datapacks: Datenpakete (Datapacks)
+Action_Kick: Rauswerfen
+Action_Message: Kontaktieren
 Actions: Aktionen
 Administration: Administration
-Edit_Operators: Admins verwalten
-Day_in_World: Tag in der Welt
-MSPT_Long: Millisekunden pro Tick
-Gamemode_Creative: Kreativ
-Gamemode_Adventure: Adventure
-Gamemode_Spectator: Zuschauer
-Gamemode: Gamemode
-Gamemode_Survival: Überleben
-Level: Level
-XP: XP
-XP_Required_For_Next_Level: nächstes Level
-XP_Level: XP Level
-Uptime: Uptime
-No_Players_in_World: Derzeit befinden sich keien Spieler in dieser Welt
-Day: Tag
-Night: Nacht
-Time: Zeit
-Weather: Wetter
-Reconnecting: Neuverbinden...
-Page_Load_Failed: Fehler beim laden der angeforderten Seite! Ist der Server immernoch
-  online?
-Login_Required_Short: Login benötigt
-Login_Required_Popup: Du musst eingeloggt sein um diese Seite zu nutzen! Du wirst
-  nun auf die Login Seite weitergeleitet...
-Server_Offline: Oh nein, der Server scheint offline zu sein! Wir versuchen erneut
-  eine Verbindung herzustellen...
-Coming_Soon: Kommt bald...
-Action_Kick: Rauswerfen
-Displayname: Anzeigename
-Position: Position
-Action_Message: Kontaktieren
-In: in
-PLAYER_RECORD: Spielerrekord
-Food: Essen
-Health: Leben
-Back: Zurück
-NOTIFICATION_RELOADNEED_TITLE: Reload benötigt
-NOTIFICATION_RELOADNEED_CONTENT: Ein reload oder neustart wird benötigt um eine Aktion
-  zu vervollständingen!<br><button class="button is-danger" onclick='reloadServer();'>Reload</button>
-NOTIFICATION_LOWTPS_CONTENT: Der Server läuft unter niederigen TPS.<br>Prüfe die Leistungstabs
-  für mehr Informationen
-NOTIFICATION_DISABLEDPLUGINS_TITLE: Deaktivierte Plugins
-NOTIFICATION_UPDATE_TITLE: Update verfügbar
-NOTIFICATION_UPDATE_CONTENT: Ein neues Update wurde gefunden!<br>Bitte besuche <a
-  href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a>
-  für mehr Informationen
-NOTIFICATION_UNLOADEDJARS_CONTENT: Eine oder mehrer JAR Dateien im Plugins Ordner
-  sind derzeit <b>entladen oder ungültig</b>!
-NOTIFICATION_UNLOADEDJARS_TITLE: Entladene JAR Dateien
-NOTIFICATION_DISABLEDPLUGINS_CONTENT: Ein oder mehrere Plugins sind derzeit <b>deaktiviert
-  oder entladen</b><br>Bitte prüfe den Log wenn dies nicht vorgesehen ist!
-NOTIFICATION_LOWTPS_TITLE: Niedrige TPS
-Engine_Stats: Spielengine
-Supports: Unterstützt
-Disabled: Deaktiviert
-Install: Installieren
-Disable: Deaktivieren
-Enable: Aktivieren
-Enabled: Aktiviert
-From: von
-Installed: Installiert
-Remove: Entfernen
-Send_Message: Senden
-Send_Ingame_Message: Ingame Nachricht Senden
-Previous_Folder: Vorheriger Ordner
-Ingame_Message_Sent: Die Nachricht wurde gesendet!
-Sent: Gesendet
-Color_Codes_Supported: Color Codes werden unterstützt (e.g '&6')
-Error_Unsupported_File_Format: Dateiformat nicht Unterstützt
-Kick_player: Spieler Kicken
-Player_Left_Server: Der Spieler hat den Server verlassen
-No_Players_Online: Es sind derzeit keine Spieler auf dem Server
-Error_Occured: Ein Fehler ist aufgetreten
-Player_Kicked: Der Spieler wurde vom Server gekickt!
-Kicked: Gekickt
-Chunks: Chunks
-TPS_Long: TPS (Ticks pro Sekunden)
-CPU_load_server: Last vom Server
-RAM_Usage: RAM Nutzung (mB)
-CPU_load_host: Host CPU Last
 Allocated: Zugeweisen
-Entities: Entitäten
+Alt_Accounts: Andere Accounts
+Appearance: Erscheinungsbild
+Are_you_sure: Bist du sicher?
+Authentication: Authentifizierung
+Back: Zurück
+Basepage: Grundseite
 CPU_Usage: CPU Nutzung
-Game: Spiel
-Used: Genutzt
-Whitelist: Whitelist
-TPS_History: TPS Historie
-Disable_End: End deaktivieren
-Enable_Whitelist: Whitelist aktivieren
-Disable_Whitelist: Whitelist deaktivieren
-Enable_End: End aktivieren
-Disable_Nether: Nether deaktivieren
-Enable_Nether: Nether aktivieren
-Management: Verwaltung
-Name: Name
-Install_Plugins: Plugins installieren
-Password: Passwort
-Login: Login
-Login_Required: Du musst eingeloggt sein, um weiter zu machen!
-Others: Andere
-Edit_Whitelist: Whitelist editieren
-Execute: Ausführen
-Stop: Stop
-Worlds: Welten
-Last_Change: Letzt Änderung
+CPU_load_host: Host CPU Last
+CPU_load_server: Last vom Server
+Can_have_big_effects: Dies kann schwerwiegende Auswirkungen haben
+Cancel: abbrechen
+Cannot_be_undone: Dies kann nicht rückgängig gemacht werden!
+Changed: verändert
+Chunks: Chunks
+Color: Farbe
+Color_Codes_Supported: Color Codes werden unterstützt (e.g '&6')
+Coming_Soon: Kommt bald...
 Command: Befehl
-TPS: TPS
-Reload: Neuladen
+Confirm: bestätigen
+Connection: Verbindung
 Console: Konsole
 Controls: Kontrolle
-General: Allgemein
-Icon: Icon
+Copied: kopiert
+Copy_The_File: die Datei zu kopieren
+Copying_File: Kopiere die Datei
+Create: Erstellen
+Create_Group: Neue Gruppe erstellen
+Create_User: Neuen Nutzer erstellen
+Created: erstellt
+Datapacks: Datenpakete (Datapacks)
+Day: Tag
+Day_in_World: Tag in der Welt
+Delete_The_File: die Datei zu löschen
+Deleted: gelöscht
+Deleting_File: Lösche die Datei
+Disable: Deaktivieren
+Disable_End: End deaktivieren
+Disable_Nether: Nether deaktivieren
+Disable_Whitelist: Whitelist deaktivieren
+Disabled: Deaktiviert
+Displayname: Anzeigename
+Edit_Operators: Admins verwalten
+Edit_Whitelist: Whitelist editieren
+Enable: Aktivieren
+Enable_End: End aktivieren
+Enable_Nether: Nether aktivieren
+Enable_Whitelist: Whitelist aktivieren
+Enabled: Aktiviert
+Engine_Stats: Spielengine
+Entities: Entitäten
+Error_Occured: Ein Fehler ist aufgetreten
+Error_Unsupported_File_Format: Dateiformat nicht Unterstützt
+Est_Connection_Failed: Fehler beim Aufbauen einer Verbindung!
+Execute: Ausführen
+File: Datei
+File_Copied_Successfully: Die Datei wurde erfolgreich kopiert
+File_Deleted_Successfully: Die Datei wurde erfolgreich gelöscht
+File_Is_Beeing_Copied_To: Die Datei wird kopiert zu
+File_Is_Beeing_Moved_To: Die Datei wird verschoben zu
+File_Moved_Successfully: Die Datei wurde erfolgreich verschoben
+File_Renamed_Successfully: Die Datei wurde erfolgreich umbennant
+File_Uploaded_Successfully: Die Datei wurde erfolgreich hochgeladen
 Files: Dateien
-Tps: TPS
+Food: Essen
+From: von
+Game: Spiel
+Gamemode: Spielmodus
+Gamemode_Adventure: Abenteuer
+Gamemode_Creative: Kreativ
+Gamemode_Spectator: Zuschauer
+Gamemode_Survival: Überleben
+General: Allgemein
 Graphs: Graphen
-Overview: Übersicht
-Performance: Leistung
+Group_Changed_Successfully: Gruppe erfolgreich editiert
+Group_Created_Successfully: Gruppe erfolgreich erstellt
+Group_deleted_successfully: Die Gruppe wurde erfolgreich gelöscht
+Groups: Gruppen
+Health: Leben
+How_Should_File_Be_Called: Wie soll die Datei heißen?
+ID: ID
+Icon: Icon
+In: in
+Ingame_Message_Sent: Die Nachricht wurde gesendet!
+Init_Est_Connection: Baue Socket Verbindung auf...
+Init_Load_Basepage: Lade Seite (Grundseite)...
+Init_Loading_Script: Lade Skript (%NAME%)...
+Init_Loading_Scripts: Lade Skripte...
+Init_Loading_Style: Lade Darstellung (%NAME%)...
+Init_Loading_Styles: Lade Darstellungen...
+Init_Wait_Auth: Warte auf Authentifizierung...
+Initial_password: Erstes Psaswort
+Install: Installieren
+Install_Plugins: Plugins installieren
+Installed: Installiert
+Invalid: ungültig
+Kick_player: Spieler Kicken
+Kicked: Gekickt
+Kill: Töten
+Last_Change: Letzt Änderung
+Level: Level
+Loading_Basepage: Lade die Grundseite für dich
+Loading_Page: Die Seite wird für dich geladen
+Location: Position
+Login: Login
+Login_Required: Du musst eingeloggt sein, um weiter zu machen!
+Login_Required_Popup: Du musst eingeloggt sein um diese Seite zu nutzen! Du wirst nun auf die Login Seite weitergeleitet...
+Login_Required_Short: Login benötigt
+Login_Success: Login erfolgreich
+Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>2GB</b> Speicher für den Server verfügbar! Bitte mache Platz frei!
+Low_Storage_Capacity_Title: Wenig Speicherplatz
+MSPT_Long: Millisekunden pro Tick
+Management: Verwaltung
+Membercount: Mitgliederzahl
+Might_require_new_Login: Diese Änderungen erfordern ein neu einloggen
+Move_The_File: die Datei zu verschieben
+Moved: verschoben
+Moving_File: Verschiebe die Datei
+NOTIFICATION_DISABLEDPLUGINS_CONTENT: Ein oder mehrere Plugins sind derzeit <b>deaktiviert oder entladen</b><br>Bitte prüfe den Log wenn dies nicht vorgesehen ist!
+NOTIFICATION_DISABLEDPLUGINS_TITLE: Deaktivierte Plugins
+NOTIFICATION_LOWTPS_CONTENT: Der Server läuft unter niederigen TPS.<br>Prüfe die Leistungstabs für mehr Informationen
+NOTIFICATION_LOWTPS_TITLE: Niedrige TPS
+NOTIFICATION_RELOADNEED_CONTENT: Ein reload oder neustart wird benötigt um eine Aktion zu vervollständingen!<br><button class="button is-danger" onclick='reloadServer();'>Reload</button>
+NOTIFICATION_RELOADNEED_TITLE: Reload benötigt
+NOTIFICATION_UNLOADEDJARS_CONTENT: Eine oder mehrer JAR Dateien im Plugins Ordner sind derzeit <b>entladen oder ungültig</b>!
+NOTIFICATION_UNLOADEDJARS_TITLE: Entladene JAR Dateien
+NOTIFICATION_UPDATE_CONTENT: Ein neues Update wurde gefunden!<br>Bitte besuche <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a> für mehr Informationen
+NOTIFICATION_UPDATE_TITLE: Update verfügbar
+Name: Name
+Night: Nacht
+No_Players_Online: Es sind derzeit keine Spieler auf dem Server
+No_Players_in_World: Derzeit befinden sich keien Spieler in dieser Welt
+Nothing_Selected_To_Cut_Or_Copy: Du hast nichts zum Ausschneiden oder Kopieren ausgewählt
 Notifications: Hinweise
-Players: Spieler
-Plugins: Plugins
+Oh_No: Oh nein
 Ontime: Laufzeit
+Others: Andere
+Overview: Übersicht
+PLAYER_RECORD: Spielerrekord
+Page: Seite
+Page_Load_Failed: Fehler beim laden der angeforderten Seite! Ist der Server immernoch online?
+Password: Passwort
+Paste: Einfügen
+Performance: Leistung
+Permissions: Berechtigungen
+Player_Kicked: Der Spieler wurde vom Server gekickt!
+Player_Left_Server: Der Spieler hat den Server verlassen
+Players: Spieler
+Please_Do_Manually_Or_Try_Again: Bitte mache es manuell oder versuche es ernuet!
+Please_wait_Moment: Bitte warte kurz...
+Plugins: Plugins
+Position: Position
+Previous_Folder: Vorheriger Ordner
+Process_Changes: die Änderungen zu verarbeiten
+Processing: Verarbeitung
+RAM: RAM
+RAM_Allocated: RAM zugewiesen
+RAM_Usage: RAM Nutzung (mB)
+RAM_Used: RAM benutzt
+Really_Apply_Changes: Willst du wirklich diese Änderungen anwenden?
+Really_Create_Group: Willst du diese Gruppe wirklich erstellen?
+Really_create_user: Willst du wirklich diesen neuen Nutzer erstellen?
+Really_delete_File: Möchtest du die Datei wirklich löschen?
+Really_delete_Group: Willst du diese Gruppe wirklich löschen?
+Really_delete_User: Willst du disen Benutzer wirklich löschen?
+Reconnected: Neuverbunden
+Reconnecting: Neuverbinden...
+Reload: Neuladen
+Reload_Page_If_Nec: Bitte lade die Seite neu wenn nötig
+Reloading_in_5_Seconds: Lade die Seite neu in 5 Sekunden...
+Remove: Entfernen
+Rename: umbennenen
+Rename_The_File: die Datei umzubennenen
+Renamed: umbennant
+Renaming_File: Nenne die Datei um
+Require_Auth: Um fortzufahren benötigen wir deine Authentifizierung
+STORAGE: Speicher
+Save_Changes: Änderungen Speichern
+Scripts: Skripte
+Send_Ingame_Message: Ingame Nachricht Senden
+Send_Message: Senden
+Sent: Gesendet
+Server_Offline: Oh nein, der Server scheint offline zu sein! Wir versuchen erneut eine Verbindung herzustellen...
+Stop: Stop
+Storage_Total: Insgesamter Speicher
+Storage_Used: Verwendeter Speicher
+Styling: Aussehen
+Sucessfully: erfolgreich
+Supports: Unterstützt
+TPS: TPS
+TPS_History: TPS Historie
+TPS_Long: TPS (Ticks pro Sekunden)
+Tabs: Tabs
+Time: Zeit
+To: zu
+Trying_To_Connect_To_Server: Wir verbinden dich mit dem Server
+USAGE: Nutzung
+Unknown_User: Unbekannter Nutzer
+Upload: Hochladen
+Upload_File: Datei hochladen
+Upload_The_File: die Datei hochzuladen
+Uploaded: hochgeladen
+Uploading_File: Die Datei wird hochgeladen
+Uptime: Uptime
+Used: Genutzt
+User_Changed_Successfully: Nutzer erfolgreich editiert
+User_created_successfully: Nutzer erfolgreich erstellt
+User_deleted_successfully: Der Nutzer wurde erfolgreich gelöscht
+Users: Nutzer
+Very_Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>1GB</b> Speicher für den Server verfügbar! Dies wird vorraussichtlich zu einem Absturz des ganzes Systems führen!
+Very_Low_Storage_Capacity_Title: Extrem wenig Speicherplatz
+Weather: Wetter
+Websocket_Lost_Connection: Der Websocket der die Verbindung herstellt wurde vom Server getrennt!
+Websocket_Reconnected: Verbindung zum Server wiederhergestellt!
+Were_not_able_to: Wir waren nicht in der Lage
+Whitelist: Whitelist
+Worlds: Welten
+Wrong_Name_Or_Password: Falscher Nutzername oder Passwort
+Wrong_Password: Falsche Passwort
+XP: XP
+XP_Level: XP Level
+XP_Required_For_Next_Level: nächstes Level

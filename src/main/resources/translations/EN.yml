@@ -1,234 +1,226 @@
-User_created_successfully: User created successfully
-Really_create_user: Do you really want to create this User?
-Initial_password: Initial password
-User_deleted_successfully: The User was deleted successfully
-Really_delete_User: Do you really want to delete this User?
-User_Changed_Successfully: User edited successfully
-Create_User: Create new User
-Group_deleted_successfully: The Group was deleted successfully
-Processing: Processing
-Can_have_big_effects: This can have critical effects
-Really_delete_Group: Do you really want to delete this Group?
-Process_Changes: to process the changes
-Changed: changed
-Might_require_new_Login: These changes might require relogging
-Group_Changed_Successfully: Group edited successfully
-Group_Created_Successfully: Group created successfully
-Really_Apply_Changes: Do you really want to apply these changes?
-Tabs: Tabs
-Users: Users
-Really_Create_Group: Do you really want to create this Group?
-Create: create
-Created: created
 Abort: Abort
-Groups: Groups
-Create_Group: Create new Group
-Save_Changes: Save Changes
-Permissions: Permissions
-Color: Color
-Appearance: Appearance
-Membercount: Membercount
-ID: ID
-Reloading_in_5_Seconds: Reloading in 5 Seconds...
-Wrong_Password: Wrong password
-Unknown_User: Unknown user
-Upload: Upload
-Paste: Paste
-Invalid: invalid
-Nothing_Selected_To_Cut_Or_Copy: You have nothing selected to Cut or Copy
-Upload_File: upload File
-Upload_The_File: upload the File
-Uploading_File: Uploading the File
-File_Uploaded_Successfully: The File was uploaded successfully
-Rename_The_File: rename the File
-Rename: rename
-How_Should_File_Be_Called: How should the File be called?
-Renaming_File: Renaming the File
-File_Renamed_Successfully: The File was renamed successfully
-Copy_The_File: copy the File
-Copying_File: Copying the File
-File_Is_Beeing_Copied_To: The File is beeing copied to
-File_Copied_Successfully: The File was copied successfully
-Move_The_File: move the File
-Moving_File: Moving the File
-File_Is_Beeing_Moved_To: The File is beeing moved to
-File_Moved_Successfully: The File was moved successfully
-Delete_The_File: delete the File
-Are_you_sure: Are you sure?
-Really_delete_File: Do you really want to delete the File?
-Cannot_be_undone: This cannot be undone!
-Deleting_File: Deleting the File
-File_Deleted_Successfully: The File was deleted successfully
-Were_not_able_to: We were not able to
-Please_Do_Manually_Or_Try_Again: Please do it manually or try again!
-Sucessfully: successfully
-File: File
-Copied: copied
-Moved: moved
-Renamed: renamed
-Deleted: deleted
-Uploaded: uploaded
-Oh_No: Oh no
-Cancel: cancel
-Confirm: confirm
-To: to
-Location: Location
-Loading_Basepage: Loading the Base Page for you
-Basepage: Basepage
-Scripts: Scripts
-Styling: Styling
-Loading_Page: We are loading the Page for you
-Page: Page
-Require_Auth: In order to continue, you have to approve your Authentication
-Authentication: Authentication
-Trying_To_Connect_To_Server: We are trying to connect you to the Server
-Connection: Connection
-Very_Low_Storage_Capacity_Title: Very low Storage Capacity
-Very_Low_Storage_Capacity_Content: Currently, there is less than <b>1GB</b> Storage free for the Server! This will probably cause the System to crash!
-Low_Storage_Capacity_Title: Low Storage Capacity
-Low_Storage_Capacity_Content: Currently, there is less than <b>2GB</b> Storage for the Server! Please free some space!
-RAM_Allocated: RAM allocated
-RAM_Used: RAM used
-Storage_Total: Total Storage
-Storage_Used: Used Storage
-RAM: RAM
-STORAGE: Storage
-USAGE: Usage
-Est_Connection_Failed: Failed to establish connection!
-Init_Est_Connection: Establishing Socket connection...
-Init_Load_Basepage: Loading Page (BASEPAGE)...
-Init_Wait_Auth: Waiting for Authentication...
-Init_Loading_Script: Loading Script (%NAME%)...
-Init_Loading_Style: Loading Style (%NAME%)...
-Init_Loading_Scripts: Loading Scripts...
-Init_Loading_Styles: Loading Styles...
-Please_wait_Moment: Please wait a moment...
-Websocket_Reconnected: Connection to Server re-established!
-Reconnected: Reconnected
-Reload_Page_If_Nec: Please reload the Page if necessary
-Websocket_Lost_Connection: The Websocket providing your connecting lost connection to the Server!
-Wrong_Name_Or_Password: Wrong Username or Password
-Login_Success: Login successful
-Kill: Kill
-Alt_Accounts: Alt Accounts
-Datapacks: Datapacks
+Action_Kick: Kick
+Action_Message: Message
 Actions: Actions
 Administration: Administration
-Edit_Operators: Edit operators
-Day_in_World: Day in World
-Send_Ingame_Message: Send Ingame Message
-NOTIFICATION_LOWTPS_CONTENT: Your Server is running at low TPS.<br>Check the Performance
-  Tabs for further Inforomation
-Stop: Stop
-Remove: Remove
-Action_Kick: Kick
-Supports: Supports
-Reload: Reload
-Back: Back
-Ingame_Message_Sent: The Message was sent to the Player!
-Disable: Disable
-Position: Position
-NOTIFICATION_UNLOADEDJARS_CONTENT: One or more JAR Files in the Plugins folder are
-  currently <b>unloaded or invalid</b>!
-Login: Login
 Allocated: Allocated
-Game: Game
-Gamemode_Creative: Creative
-XP_Required_For_Next_Level: Next Level
-Level: Level
-Performance: Performance
-Player_Left_Server: The Player left the Server
-In: in
-PLAYER_RECORD: Player Record
-TPS_Long: TPS (Ticks per Second)
-Last_Change: Last Change
-NOTIFICATION_RELOADNEED_CONTENT: A reload or restart is required to finish Plugin
-  installation!<br><button class="button is-danger" onclick='reloadServer();'>Reload</button>
-TPS: TPS
-CPU_load_server: Load caused by Server
-RAM_Usage: RAM Usage (mB)
-Gamemode_Adventure: Adventure
-Enable: Enable
-No_Players_Online: There are currently no Player on the Server
-Files: Files
-Engine_Stats: Engine Stats
-Players: Players
-Plugins: Plugins
-Food: Food
-Gamemode_Spectator: Spectator
-Uptime: Uptime
-Enabled: Enabled
-Player_Kicked: The Player was kicked from the Server!
-Entities: Entities
-Disable_Whitelist: Disable Whitelist
-Kicked: Kicked
-Installed: Installed
-Day: Day
-NOTIFICATION_LOWTPS_TITLE: Low TPS
-Send_Message: Send
-Chunks: Chunks
-Night: Night
-No_Players_in_World: Currently, there are no Players in this World
-Worlds: Worlds
-Displayname: Displayname
-XP_Level: XP Level
-NOTIFICATION_DISABLEDPLUGINS_TITLE: Disabled Plugins
-NOTIFICATION_RELOADNEED_TITLE: Reload required
-Name: Name
-NOTIFICATION_UPDATE_TITLE: Update available
-Install_Plugins: Install Plugins
-NOTIFICATION_UPDATE_CONTENT: An new Update for this Plugin was found!<br>Please visit
-  <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a>
-  for more Information
-Previous_Folder: Previous Folder
-Graphs: Graphs
-Disabled: Disabled
-Install: Install
-Enable_Whitelist: Enable Whitelist
-Sent: Sent
-Color_Codes_Supported: Color Codes are support (e.g '&6')
-Error_Unsupported_File_Format: File format not supported
-CPU_load_host: Host CPU Load
-Reconnecting: Reconnecting...
-NOTIFICATION_UNLOADEDJARS_TITLE: Unloaded JAR Files
-MSPT_Long: Milliseconds per Tick
-Enable_End: Enable End
+Alt_Accounts: Alt Accounts
+Appearance: Appearance
+Are_you_sure: Are you sure?
+Authentication: Authentication
+Back: Back
+Basepage: Basepage
 CPU_Usage: CPU Usage
-NOTIFICATION_DISABLEDPLUGINS_CONTENT: One or more Plugins are currently <b>disabled
-  or unloaded</b><br>Please check the Log for Errors if this is not intended!
-Login_Required: You need to be logged in, in order to continue!
-Page_Load_Failed: Failed to load the requested Page! Is the Server online?
-General: General
-Kick_player: Kick Player
-TPS_History: TPS History
-Icon: Icon
-Notifications: Notifications
+CPU_load_host: Host CPU Load
+CPU_load_server: Load caused by Server
+Can_have_big_effects: This can have critical effects
+Cancel: cancel
+Cannot_be_undone: This cannot be undone!
+Changed: changed
+Chunks: Chunks
+Color: Color
+Color_Codes_Supported: Color Codes are support (e.g '&6')
 Coming_Soon: Coming soon...
-Edit_Whitelist: Edit Whitelist
-Execute: Execute
-Action_Message: Message
-Gamemode: Gamemode
-Time: Time
+Command: Command
+Confirm: confirm
+Connection: Connection
 Console: Console
 Controls: Controls
+Copied: copied
+Copy_The_File: copy the File
+Copying_File: Copying the File
+Create: create
+Create_Group: Create new Group
+Create_User: Create new User
+Created: created
+Datapacks: Datapacks
+Day: Day
+Day_in_World: Day in World
+Delete_The_File: delete the File
+Deleted: deleted
+Deleting_File: Deleting the File
+Disable: Disable
 Disable_End: Disable End
-Login_Required_Short: Login required
-Password: Password
-Error_Occured: An error occured
-Others: Others
-Login_Required_Popup: You need to be logged in to use this Page!<br>Redirecting you
-  to the Login page...
-Health: Health
-Server_Offline: Oh no, the Server seems to be offline! We will try reconnecting for
-  you...
-Overview: Overview
-Management: Management
-From: From
-Gamemode_Survival: Survival
-Weather: Weather
 Disable_Nether: Disable Nether
-Used: Used
-Command: Command
-XP: XP
-Whitelist: Whitelist
+Disable_Whitelist: Disable Whitelist
+Disabled: Disabled
+Displayname: Displayname
+Edit_Operators: Edit operators
+Edit_Whitelist: Edit Whitelist
+Enable: Enable
+Enable_End: Enable End
 Enable_Nether: Enable Nether
+Enable_Whitelist: Enable Whitelist
+Enabled: Enabled
+Engine_Stats: Engine Stats
+Entities: Entities
+Error_Occured: An error occured
+Error_Unsupported_File_Format: File format not supported
+Est_Connection_Failed: Failed to establish connection!
+Execute: Execute
+File: File
+File_Copied_Successfully: The File was copied successfully
+File_Deleted_Successfully: The File was deleted successfully
+File_Is_Beeing_Copied_To: The File is beeing copied to
+File_Is_Beeing_Moved_To: The File is beeing moved to
+File_Moved_Successfully: The File was moved successfully
+File_Renamed_Successfully: The File was renamed successfully
+File_Uploaded_Successfully: The File was uploaded successfully
+Files: Files
+Food: Food
+From: From
+Game: Game
+Gamemode: Gamemode
+Gamemode_Adventure: Adventure
+Gamemode_Creative: Creative
+Gamemode_Spectator: Spectator
+Gamemode_Survival: Survival
+General: General
+Graphs: Graphs
+Group_Changed_Successfully: Group edited successfully
+Group_Created_Successfully: Group created successfully
+Group_deleted_successfully: The Group was deleted successfully
+Groups: Groups
+Health: Health
+How_Should_File_Be_Called: How should the File be called?
+ID: ID
+Icon: Icon
+In: in
+Ingame_Message_Sent: The Message was sent to the Player!
+Init_Est_Connection: Establishing Socket connection...
+Init_Load_Basepage: Loading Page (BASEPAGE)...
+Init_Loading_Script: Loading Script (%NAME%)...
+Init_Loading_Scripts: Loading Scripts...
+Init_Loading_Style: Loading Style (%NAME%)...
+Init_Loading_Styles: Loading Styles...
+Init_Wait_Auth: Waiting for Authentication...
+Initial_password: Initial password
+Install: Install
+Install_Plugins: Install Plugins
+Installed: Installed
+Invalid: invalid
+Kick_player: Kick Player
+Kicked: Kicked
+Kill: Kill
+Last_Change: Last Change
+Level: Level
+Loading_Basepage: Loading the Base Page for you
+Loading_Page: We are loading the Page for you
+Location: Location
+Login: Login
+Login_Required: You need to be logged in, in order to continue!
+Login_Required_Popup: You need to be logged in to use this Page!<br>Redirecting you to the Login page...
+Login_Required_Short: Login required
+Login_Success: Login successful
+Low_Storage_Capacity_Content: Currently, there is less than <b>2GB</b> Storage for the Server! Please free some space!
+Low_Storage_Capacity_Title: Low Storage Capacity
+MSPT_Long: Milliseconds per Tick
+Management: Management
+Membercount: Membercount
+Might_require_new_Login: These changes might require relogging
+Move_The_File: move the File
+Moved: moved
+Moving_File: Moving the File
+NOTIFICATION_DISABLEDPLUGINS_CONTENT: One or more Plugins are currently <b>disabled or unloaded</b><br>Please check the Log for Errors if this is not intended!
+NOTIFICATION_DISABLEDPLUGINS_TITLE: Disabled Plugins
+NOTIFICATION_LOWTPS_CONTENT: Your Server is running at low TPS.<br>Check the Performance Tabs for further Inforomation
+NOTIFICATION_LOWTPS_TITLE: Low TPS
+NOTIFICATION_RELOADNEED_CONTENT: A reload or restart is required to finish Plugin installation!<br><button class="button is-danger" onclick='reloadServer();'>Reload</button>
+NOTIFICATION_RELOADNEED_TITLE: Reload required
+NOTIFICATION_UNLOADEDJARS_CONTENT: One or more JAR Files in the Plugins folder are currently <b>unloaded or invalid</b>!
+NOTIFICATION_UNLOADEDJARS_TITLE: Unloaded JAR Files
+NOTIFICATION_UPDATE_CONTENT: An new Update for this Plugin was found!<br>Please visit <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a> for more Information
+NOTIFICATION_UPDATE_TITLE: Update available
+Name: Name
+Night: Night
+No_Players_Online: There are currently no Player on the Server
+No_Players_in_World: Currently, there are no Players in this World
+Nothing_Selected_To_Cut_Or_Copy: You have nothing selected to Cut or Copy
+Notifications: Notifications
+Oh_No: Oh no
+Others: Others
+Overview: Overview
+PLAYER_RECORD: Player Record
+Page: Page
+Page_Load_Failed: Failed to load the requested Page! Is the Server online?
+Password: Password
+Paste: Paste
+Performance: Performance
+Permissions: Permissions
+Player_Kicked: The Player was kicked from the Server!
+Player_Left_Server: The Player left the Server
+Players: Players
+Please_Do_Manually_Or_Try_Again: Please do it manually or try again!
+Please_wait_Moment: Please wait a moment...
+Plugins: Plugins
+Position: Position
+Previous_Folder: Previous Folder
+Process_Changes: to process the changes
+Processing: Processing
+RAM: RAM
+RAM_Allocated: RAM allocated
+RAM_Usage: RAM Usage (mB)
+RAM_Used: RAM used
+Really_Apply_Changes: Do you really want to apply these changes?
+Really_Create_Group: Do you really want to create this Group?
+Really_create_user: Do you really want to create this User?
+Really_delete_File: Do you really want to delete the File?
+Really_delete_Group: Do you really want to delete this Group?
+Really_delete_User: Do you really want to delete this User?
+Reconnected: Reconnected
+Reconnecting: Reconnecting...
+Reload: Reload
+Reload_Page_If_Nec: Please reload the Page if necessary
+Reloading_in_5_Seconds: Reloading in 5 Seconds...
+Remove: Remove
+Rename: rename
+Rename_The_File: rename the File
+Renamed: renamed
+Renaming_File: Renaming the File
+Require_Auth: In order to continue, you have to approve your Authentication
+STORAGE: Storage
+Save_Changes: Save Changes
+Scripts: Scripts
+Send_Ingame_Message: Send Ingame Message
+Send_Message: Send
+Sent: Sent
+Server_Offline: Oh no, the Server seems to be offline! We will try reconnecting for you...
+Stop: Stop
+Storage_Total: Total Storage
+Storage_Used: Used Storage
+Styling: Styling
+Sucessfully: successfully
+Supports: Supports
+TPS: TPS
+TPS_History: TPS History
+TPS_Long: TPS (Ticks per Second)
+Tabs: Tabs
+Time: Time
+To: to
+Trying_To_Connect_To_Server: We are trying to connect you to the Server
+USAGE: Usage
+Unknown_User: Unknown user
+Upload: Upload
+Upload_File: upload File
+Upload_The_File: upload the File
+Uploaded: uploaded
+Uploading_File: Uploading the File
+Uptime: Uptime
+Used: Used
+User_Changed_Successfully: User edited successfully
+User_created_successfully: User created successfully
+User_deleted_successfully: The User was deleted successfully
+Users: Users
+Very_Low_Storage_Capacity_Content: Currently, there is less than <b>1GB</b> Storage free for the Server! This will probably cause the System to crash!
+Very_Low_Storage_Capacity_Title: Very low Storage Capacity
+Weather: Weather
+Websocket_Lost_Connection: The Websocket providing your connecting lost connection to the Server!
+Websocket_Reconnected: Connection to Server re-established!
+Were_not_able_to: We were not able to
+Whitelist: Whitelist
+Worlds: Worlds
+Wrong_Name_Or_Password: Wrong Username or Password
+Wrong_Password: Wrong password
+XP: XP
+XP_Level: XP Level
+XP_Required_For_Next_Level: Next Level
