@@ -16,7 +16,7 @@ CPU_load_server: Last vom Server
 Can_have_big_effects: Dies kann schwerwiegende Auswirkungen haben
 Cancel: abbrechen
 Cannot_be_undone: Dies kann nicht rückgängig gemacht werden!
-Changed: verändert
+Check: Überprüfen
 Chunks: Chunks
 Color: Farbe
 Color_Codes_Supported: Color Codes werden unterstützt (e.g '&6')
@@ -25,13 +25,22 @@ Command: Befehl
 Confirm: bestätigen
 Connection: Verbindung
 Console: Konsole
+Console_Execute: Befehle ausführen
+Console_View: Konsole einsehen
 Controls: Kontrolle
+Controls_Ops_Edit: Administratoren verwalten
+Controls_Reload: Server neustarten
+Controls_Stop: Server herunterfahren
+Controls_Whitelist_Edit: Whitelist bearbeiten
+Controls_Whitelist_Toggle: Whitelist ein/abschalten
+Controls_World_End: End deaktivieren
+Controls_World_Nether: Nether deaktivieren
 Copied: kopiert
 Copy_The_File: die Datei zu kopieren
 Copying_File: Kopiere die Datei
 Create: Erstellen
 Create_Group: Neue Gruppe erstellen
-Create_User: Neuen Nutzer erstellen
+Create_User: Neuen Benutzer erstellen
 Created: erstellt
 Datapacks: Datenpakete (Datapacks)
 Day: Tag
@@ -45,8 +54,8 @@ Disable_Nether: Nether deaktivieren
 Disable_Whitelist: Whitelist deaktivieren
 Disabled: Deaktiviert
 Displayname: Anzeigename
-Edit_Operators: Admins verwalten
-Edit_Whitelist: Whitelist editieren
+Edit_Operators: Administratoren verwalten
+Edit_Whitelist: Whitelist bearbeiten
 Enable: Aktivieren
 Enable_End: End aktivieren
 Enable_Nether: Nether aktivieren
@@ -54,8 +63,9 @@ Enable_Whitelist: Whitelist aktivieren
 Enabled: Aktiviert
 Engine_Stats: Spielengine
 Entities: Entitäten
+Error: Fehler
 Error_Occured: Ein Fehler ist aufgetreten
-Error_Unsupported_File_Format: Dateiformat nicht Unterstützt
+Error_Unsupported_File_Format: Dateiformat nicht unterstützt
 Est_Connection_Failed: Fehler beim Aufbauen einer Verbindung!
 Execute: Ausführen
 File: Datei
@@ -67,6 +77,9 @@ File_Moved_Successfully: Die Datei wurde erfolgreich verschoben
 File_Renamed_Successfully: Die Datei wurde erfolgreich umbennant
 File_Uploaded_Successfully: Die Datei wurde erfolgreich hochgeladen
 Files: Dateien
+Files_Edit: Dateien bearbeiten
+Files_View: Dateien einsehen
+Files_upload: Dateien hochladen
 Food: Essen
 From: von
 Game: Spiel
@@ -77,8 +90,8 @@ Gamemode_Spectator: Zuschauer
 Gamemode_Survival: Überleben
 General: Allgemein
 Graphs: Graphen
-Group_Changed_Successfully: Gruppe erfolgreich editiert
 Group_Created_Successfully: Gruppe erfolgreich erstellt
+Group_Updated_Successfully: Gruppe erfolgreich aktualisiert
 Group_deleted_successfully: Die Gruppe wurde erfolgreich gelöscht
 Groups: Gruppen
 Health: Leben
@@ -102,7 +115,7 @@ Invalid: ungültig
 Kick_player: Spieler Kicken
 Kicked: Gekickt
 Kill: Töten
-Last_Change: Letzt Änderung
+Last_Change: Letzte Änderung
 Level: Level
 Loading_Basepage: Lade die Grundseite für dich
 Loading_Page: Die Seite wird für dich geladen
@@ -151,9 +164,14 @@ Permissions: Berechtigungen
 Player_Kicked: Der Spieler wurde vom Server gekickt!
 Player_Left_Server: Der Spieler hat den Server verlassen
 Players: Spieler
+Players_Details: Spielerdetails einsehen
+Players_Kick: Spieler rauswerfen
+Players_Message: Spieler anschreiben
 Please_Do_Manually_Or_Try_Again: Bitte mache es manuell oder versuche es ernuet!
 Please_wait_Moment: Bitte warte kurz...
 Plugins: Plugins
+Plugins_Install: Plugins installieren
+Plugins_Toggle: Plugins ein/abschlaten
 Position: Position
 Previous_Folder: Vorheriger Ordner
 Process_Changes: die Änderungen zu verarbeiten
@@ -164,15 +182,15 @@ RAM_Usage: RAM Nutzung (mB)
 RAM_Used: RAM benutzt
 Really_Apply_Changes: Willst du wirklich diese Änderungen anwenden?
 Really_Create_Group: Willst du diese Gruppe wirklich erstellen?
-Really_create_user: Willst du wirklich diesen neuen Nutzer erstellen?
+Really_create_user: Willst du wirklich diesen neuen Benutzer erstellen?
 Really_delete_File: Möchtest du die Datei wirklich löschen?
 Really_delete_Group: Willst du diese Gruppe wirklich löschen?
 Really_delete_User: Willst du disen Benutzer wirklich löschen?
 Reconnected: Neuverbunden
 Reconnecting: Neuverbinden...
 Reload: Neuladen
-Reload_Page_If_Nec: Bitte lade die Seite neu wenn nötig
-Reloading_in_5_Seconds: Lade die Seite neu in 5 Sekunden...
+Reload_Page_If_Nec: Bitte lade die Seite neu, wenn nötig
+Reloading_in_5_Seconds: Neuladen der Seite in 5 Sekunden...
 Remove: Entfernen
 Rename: umbennenen
 Rename_The_File: die Datei umzubennenen
@@ -180,13 +198,13 @@ Renamed: umbennant
 Renaming_File: Nenne die Datei um
 Require_Auth: Um fortzufahren benötigen wir deine Authentifizierung
 STORAGE: Speicher
-Save_Changes: Änderungen Speichern
+Save_Changes: Änderungen speichern
 Scripts: Skripte
 Send_Ingame_Message: Ingame Nachricht Senden
 Send_Message: Senden
 Sent: Gesendet
 Server_Offline: Oh nein, der Server scheint offline zu sein! Wir versuchen erneut eine Verbindung herzustellen...
-Stop: Stop
+Stop: Herunterfahren
 Storage_Total: Insgesamter Speicher
 Storage_Used: Verwendeter Speicher
 Styling: Aussehen
@@ -195,12 +213,22 @@ Supports: Unterstützt
 TPS: TPS
 TPS_History: TPS Historie
 TPS_Long: TPS (Ticks pro Sekunden)
+Tab_Console: Konsole
+Tab_Controls: Kontrolle
+Tab_Files: Dateien
+Tab_Graphs: Graphen
+Tab_Overview: Übersicht
+Tab_Players: Spieler
+Tab_Plugins: Plugins
+Tab_Users: Bentzer
+Tab_Worlds: Welten
 Tabs: Tabs
 Time: Zeit
 To: zu
 Trying_To_Connect_To_Server: Wir verbinden dich mit dem Server
 USAGE: Nutzung
-Unknown_User: Unbekannter Nutzer
+Unknown_User: Unbekannter Benutzer
+Updated: Aktualisiert
 Upload: Hochladen
 Upload_File: Datei hochladen
 Upload_The_File: die Datei hochzuladen
@@ -208,14 +236,20 @@ Uploaded: hochgeladen
 Uploading_File: Die Datei wird hochgeladen
 Uptime: Uptime
 Used: Genutzt
-User_Changed_Successfully: Nutzer erfolgreich editiert
-User_created_successfully: Nutzer erfolgreich erstellt
-User_deleted_successfully: Der Nutzer wurde erfolgreich gelöscht
-Users: Nutzer
+User_Is_Admin: Benutzer ist Administrator
+User_Updated_Successfully: Benutzer erfolgreich aktualisiert
+User_created_successfully: Benutzer erfolgreich erstellt
+User_deleted_successfully: Der Benutzer wurde erfolgreich gelöscht
+Username: Benutzername
+Users: Benutzer
+Users_Add: Benutzer hinzufügen
+Users_Delete: Benutzer löschen
+Users_Edit: Benutzer bearbeiten
+Users_View: Benutzer einsehen
 Very_Low_Storage_Capacity_Content: Es ist derzeit weniger als <b>1GB</b> Speicher für den Server verfügbar! Dies wird vorraussichtlich zu einem Absturz des ganzes Systems führen!
 Very_Low_Storage_Capacity_Title: Extrem wenig Speicherplatz
 Weather: Wetter
-Websocket_Lost_Connection: Der Websocket der die Verbindung herstellt wurde vom Server getrennt!
+Websocket_Lost_Connection: Der Websocket, der die Verbindung herstellt, wurde vom Server getrennt!
 Websocket_Reconnected: Verbindung zum Server wiederhergestellt!
 Were_not_able_to: Wir waren nicht in der Lage
 Whitelist: Whitelist

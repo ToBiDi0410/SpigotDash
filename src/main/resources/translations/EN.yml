@@ -16,7 +16,7 @@ CPU_load_server: Load caused by Server
 Can_have_big_effects: This can have critical effects
 Cancel: cancel
 Cannot_be_undone: This cannot be undone!
-Changed: changed
+Check: Check
 Chunks: Chunks
 Color: Color
 Color_Codes_Supported: Color Codes are support (e.g '&6')
@@ -25,7 +25,16 @@ Command: Command
 Confirm: confirm
 Connection: Connection
 Console: Console
+Console_Execute: Execute Commands
+Console_View: View Console
 Controls: Controls
+Controls_Ops_Edit: Edit Ops
+Controls_Reload: Reload Server
+Controls_Stop: Stop Server
+Controls_Whitelist_Edit: Edit Whitelist
+Controls_Whitelist_Toggle: Toggle Whitelist
+Controls_World_End: Disable End
+Controls_World_Nether: Disable Nether
 Copied: copied
 Copy_The_File: copy the File
 Copying_File: Copying the File
@@ -54,6 +63,7 @@ Enable_Whitelist: Enable Whitelist
 Enabled: Enabled
 Engine_Stats: Engine Stats
 Entities: Entities
+Error: Error
 Error_Occured: An error occured
 Error_Unsupported_File_Format: File format not supported
 Est_Connection_Failed: Failed to establish connection!
@@ -67,6 +77,9 @@ File_Moved_Successfully: The File was moved successfully
 File_Renamed_Successfully: The File was renamed successfully
 File_Uploaded_Successfully: The File was uploaded successfully
 Files: Files
+Files_Edit: Edit Files
+Files_View: View Files
+Files_upload: Upload Files
 Food: Food
 From: From
 Game: Game
@@ -77,7 +90,7 @@ Gamemode_Spectator: Spectator
 Gamemode_Survival: Survival
 General: General
 Graphs: Graphs
-Group_Changed_Successfully: Group edited successfully
+Group_Updated_Successfully: Group updated successfully
 Group_Created_Successfully: Group created successfully
 Group_deleted_successfully: The Group was deleted successfully
 Groups: Groups
@@ -150,9 +163,14 @@ Permissions: Permissions
 Player_Kicked: The Player was kicked from the Server!
 Player_Left_Server: The Player left the Server
 Players: Players
+Players_Details: View Player Details
+Players_Kick: Kick Player
+Players_Message: Message Player
 Please_Do_Manually_Or_Try_Again: Please do it manually or try again!
 Please_wait_Moment: Please wait a moment...
 Plugins: Plugins
+Plugins_Install: Install Plugins
+Plugins_Toggle: Toggle Plugins
 Position: Position
 Previous_Folder: Previous Folder
 Process_Changes: to process the changes
@@ -194,12 +212,22 @@ Supports: Supports
 TPS: TPS
 TPS_History: TPS History
 TPS_Long: TPS (Ticks per Second)
+Tab_Console: Console
+Tab_Controls: Controls
+Tab_Files: Files
+Tab_Graphs: Graphs
+Tab_Overview: Overview
+Tab_Players: Players
+Tab_Plugins: Plugins
+Tab_Users: Users
+Tab_Worlds: Worlds
 Tabs: Tabs
 Time: Time
 To: to
 Trying_To_Connect_To_Server: We are trying to connect you to the Server
 USAGE: Usage
 Unknown_User: Unknown user
+Updated: Updated
 Upload: Upload
 Upload_File: upload File
 Upload_The_File: upload the File
@@ -207,10 +235,16 @@ Uploaded: uploaded
 Uploading_File: Uploading the File
 Uptime: Uptime
 Used: Used
-User_Changed_Successfully: User edited successfully
+User_Is_Admin: User is administrator
+User_Updated_Successfully: User updated successfully
 User_created_successfully: User created successfully
 User_deleted_successfully: The User was deleted successfully
+Username: Username
 Users: Users
+Users_Add: View Users
+Users_Delete: Delete Users
+Users_Edit: Edit Users
+Users_View: View Users
 Very_Low_Storage_Capacity_Content: Currently, there is less than <b>1GB</b> Storage free for the Server! This will probably cause the System to crash!
 Very_Low_Storage_Capacity_Title: Very low Storage Capacity
 Weather: Weather

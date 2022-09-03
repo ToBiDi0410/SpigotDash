@@ -57,7 +57,7 @@ public class PermissionSet {
     public boolean USERS_ADD = false;
     public boolean USERS_DELETE = false;
     public boolean USERS_EDIT = false;
-    public boolean USERS_IS_ADMIN = false;
+    public boolean USER_IS_ADMIN = false;
 
     public boolean GROUPS_VIEW = false;
     public boolean GROUPS_ADD = false;
@@ -104,7 +104,7 @@ public class PermissionSet {
         this.USERS_DELETE = t;
         this.USERS_EDIT = t;
         this.USERS_VIEW = t;
-        this.USERS_IS_ADMIN = t;
+        this.USER_IS_ADMIN = t;
 
         this.GROUPS_ADD = t;
         this.GROUPS_DELETE = t;
