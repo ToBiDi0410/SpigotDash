@@ -245,6 +245,7 @@ async function openFileInViewer(path) {
 
     try {
         var TYPE = await getDataFromAPI({ TYPE: "SYSFILE", METHOD: "GET_TYPE", PATH: path });
+        
         if (!TYPE.includes("text/") && !TYPE.includes("application/json")) {
             throw new Error("%T%ERROR_UNSUPPORTED_FILE_FORMAT%T%");
         }

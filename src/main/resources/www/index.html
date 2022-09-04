@@ -26,12 +26,12 @@
                 <div class="formIn hidden">
                     <form onkeydown="return onEnter(event);" onkeypress="return onEnter(event);" id="loginFORM">
                         <div class="passwordForm">
-                            <div class="inputLable">Username</div>
+                            <div class="inputLable">%T%USERNAME%T%</div>
                             <div class="fancyInput">
                                 <input class="inputBox" type="username" autocomplete="username" placeholder="Admin">
                             </div>
 
-                            <div class="inputLable">Password</div>
+                            <div class="inputLable">%T%PASSWORD%T%</div>
                             <div class="fancyInput">
                                 <input class="inputBox" type="password" autocomplete="current-password" placeholder="SecurityIsEverything123">
                             </div>
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="confirmButton" onclick="tryAuth();">
-                            Check
+                            %T%CHECK%T%
                         </div>
 
                         <input type="submit" value="Sign In!" class="hidden">
@@ -185,7 +185,7 @@
             }
             
             input:-webkit-autofill {
-                -webkit-background-clip: text;
+                background-clip: text;
             }
         </style>
     </div>

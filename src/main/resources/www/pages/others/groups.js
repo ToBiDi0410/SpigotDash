@@ -93,9 +93,9 @@ async function updateGroup(ID, NAME, COLOR, PERMS) {
 
         if (res == "FIELDS_UPDATED") {
             Swal.fire({
-                title: "%T%CHANGED%T%".capitalizeFirstLetter(),
+                title: "%T%UPDATED%T%".capitalizeFirstLetter(),
                 icon: "success",
-                html: "%T%GROUP_CHANGED_SUCCESSFULLY%T%<br>%T%MIGHT_REQUIRE_NEW_LOGIN%T%".capitalizeFirstLetter(),
+                html: "%T%GROUP_UPDATED_SUCCESSFULLY%T%<br>%T%MIGHT_REQUIRE_NEW_LOGIN%T%".capitalizeFirstLetter(),
                 timer: 2000
             });
         } else {

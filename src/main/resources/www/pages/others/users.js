@@ -94,9 +94,9 @@ async function updateUser(NAME, NEWNAME, PERMS, ROLES, PASSWORD) {
 
         if (res == "UPDATED") {
             Swal.fire({
-                title: "%T%CHANGED%T%".capitalizeFirstLetter(),
+                title: "%T%UPDATED%T%".capitalizeFirstLetter(),
                 icon: "success",
-                html: "%T%USER_CHANGED_SUCCESSFULLY%T%<br>%T%MIGHT_REQUIRE_NEW_LOGIN%T%".capitalizeFirstLetter(),
+                html: "%T%USER_UPDATED_SUCCESSFULLY%T%<br>%T%MIGHT_REQUIRE_NEW_LOGIN%T%".capitalizeFirstLetter(),
                 timer: 2000
             });
         } else {

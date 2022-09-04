@@ -1,149 +1,142 @@
-Wrong_Password: Неверный пароль
-Unknown_User: Неизвестный пользователь
-Location: место нахождения
-Loading_Basepage: Загрузка базовой страницы для вас
-Basepage: Базовая сторона
-Scripts: Скрипты
-Styling: Появление
-Loading_Page: Страница загружается за вас
-Page: страница
-Require_Auth: Нам нужна ваша аутентификация, чтобы продолжить
-Authentication: Аутентификация
-Trying_To_Connect_To_Server: Подключаем вас к серверу
-Connection: ссылка
-Very_Low_Storage_Capacity_Title: Очень низкая емкость хранилища
-Very_Low_Storage_Capacity_Content: В настоящее время для сервера доступно менее <b>1 ГБ</b> свободного места! Это, вероятно, вызовет сбой системы!
-Low_Storage_Capacity_Title: Низкая емкость хранилища
-Low_Storage_Capacity_Content: В настоящее время для сервера меньше <b>2 ГБ</b> хранилища! Пожалуйста, освободите место!
-RAM_Allocated: Выделено RAM
-RAM_Used: Используется RAM
-Storage_Total: Общий объем хранилища
-Storage_Used: Использованное хранилище
-RAM: RAM
-STORAGE: Хранение
-USAGE: Использование
-Wrong_Name_Or_Password: Неверное имя пользователя или пароль
-Login_Success: Вход выполнен успешно
-MSPT_Long: Миллисекунды на тик
-Gamemode_Creative: креатив
-Gamemode_Adventure: приключение
-Gamemode_Spectator: зрители
-Gamemode: игровой режим
-Gamemode_Survival: выживание
-Level: уровень
-XP: XP
-XP_Required_For_Next_Level: следующий уровень
-XP_Level: Уровень опыта
-Uptime: Время безотказной работы
-No_Players_in_World: В настоящее время в этом мире нет игроков
-Day: День
-Night: ночь
-Time: Время
-Weather: Погода
-Send_Message: Отправить
-Chunks: Чанки
-Send_Ingame_Message: Отправить сообщение
-NOTIFICATION_LOWTPS_CONTENT: Ваш сервер работает с низким TPS.<br>Проверьте вкладки
-  производительности для получения дополнительной информации.
-Stop: Стоп
-Worlds: Миры
-Displayname: Ник
-NOTIFICATION_DISABLEDPLUGINS_TITLE: Отключенные плагины
-Remove: Удалить
-NOTIFICATION_RELOADNEED_TITLE: Требуется перезагрузка
-Name: Название
-NOTIFICATION_UPDATE_TITLE: Доступно обновление
 Action_Kick: Кик
-Supports: Поддерживает
-Install_Plugins: Установить плагины
-Reload: Перезагрузка
-NOTIFICATION_UPDATE_CONTENT: Обнаружено обновление для этого плагина!<br>Посетите
-  <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a>
- за дополнительной информацией
-Back: Назад
-Previous_Folder: Предыдущая папка
-Graphs: Графики
-Ingame_Message_Sent: Сообщение отправлено игроку!
-Disabled: Выключен
-Install: Установить
-Enable_Whitelist: Включить белый список
-Disable: Отключить
-Sent: Отправлено
-Color_Codes_Supported: Поддерживаются цветовые коды (например,'&6')
-Error_Unsupported_File_Format: Формат файла не поддерживается
-Position: Позиция
-CPU_load_host: Загрузка центрального процессора
-NOTIFICATION_UNLOADEDJARS_CONTENT: Один или несколько файлов JAR в папке Plugins <b>выгружен
-  или недействителен</b>!
-Login: Войти
-Allocated: Выделено
-Reconnecting: Повторное подключение...
-NOTIFICATION_UNLOADEDJARS_TITLE: Выгруженные файлы JAR
-Enable_End: Включить Эндер мир
-CPU_Usage: Процессор
-Game: Игра
-NOTIFICATION_DISABLEDPLUGINS_CONTENT: Один или несколько подключаемых модулей в настоящее
-  время <b>отключены или выгружены</b><br>Пожалуйста, проверьте логи на наличие ошибок!
-Login_Required: Вам необходимо войти в систему, чтобы продолжить!
-Page_Load_Failed: Не удалось загрузить запрошенную страницу! Сервер в сети?
-General: Общий
-Kick_player: Кикнуть игрока
-TPS_History: История TPS
-Icon: Иконка
-Performance: Производительность
-Notifications: Уведомления
-Coming_Soon: Скоро будет...
-Kill: убийство
-Alt_Accounts: старый аккаунт
-Datapacks: пакеты данных
+Action_Message: ообщение
 Actions: Действия
 Administration: Администрация
-Edit_Operators: редактировать операторы
-Day_in_World: день в мире
-Player_Left_Server: Игрок покинул сервер
-Edit_Whitelist: Изменить белый список
-Execute: Выполнить
-Action_Message: ообщение
-In: в
-PLAYER_RECORD: Запись игрока
-TPS_Long: TPS (Тиков в секунду)
-Last_Change: Последнее изменение
-NOTIFICATION_RELOADNEED_CONTENT: Для завершения установки плагина требуется перезагрузка
-  сервера!<br><button class="button is-danger" onclick='reloadServer();'>Перезагрузить</button>
-TPS: TPS
+Allocated: Выделено
+Alt_Accounts: старый аккаунт
+Authentication: Аутентификация
+Back: Назад
+Basepage: Базовая сторона
+CPU_Usage: Процессор
+CPU_load_host: Загрузка центрального процессора
 CPU_load_server: Нагрузка, вызванная сервером
-RAM_Usage: Использование RAM (mB)
+Chunks: Чанки
+Color_Codes_Supported: Поддерживаются цветовые коды (например,'&6')
+Coming_Soon: Скоро будет...
+Command: Команда
+Connection: ссылка
 Console: Консоль
 Controls: Управление
-Enable: Включить
-No_Players_Online: На сервере нет игроков
-Files: Файлы
+Datapacks: пакеты данных
+Day: День
+Day_in_World: день в мире
+Disable: Отключить
 Disable_End: Отключить Эндер
+Disable_Nether: Отключить Ад
+Disable_Whitelist: Отключить белый список
+Disabled: Выключен
+Displayname: Ник
+Edit_Operators: редактировать операторы
+Edit_Whitelist: Изменить белый список
+Enable: Включить
+Enable_End: Включить Эндер мир
+Enable_Nether: Вклю Ад
+Enable_Whitelist: Включить белый список
+Enabled: Включено
 Engine_Stats: Статистика движка
+Entities: Сущности
+Error_Occured: Произошла ошибка
+Error_Unsupported_File_Format: Формат файла не поддерживается
+Execute: Выполнить
+Files: Файлы
+Food: Еда
+From: Из
+Game: Игра
+Gamemode: игровой режим
+Gamemode_Adventure: приключение
+Gamemode_Creative: креатив
+Gamemode_Spectator: зрители
+Gamemode_Survival: выживание
+General: Общий
+Graphs: Графики
+Health: Здоровье
+Icon: Иконка
+In: в
+Ingame_Message_Sent: Сообщение отправлено игроку!
+Install: Установить
+Install_Plugins: Установить плагины
+Installed: Установлен
+Kick_player: Кикнуть игрока
+Kicked: Кикнут
+Kill: убийство
+Last_Change: Последнее изменение
+Level: уровень
+Loading_Basepage: Загрузка базовой страницы для вас
+Loading_Page: Страница загружается за вас
+Location: место нахождения
+Login: Войти
+Login_Required: Вам необходимо войти в систему, чтобы продолжить!
+Login_Required_Popup: Вы должны войти в систему, чтобы использовать эту страницу!<br>Перенаправляем вас на страницу входа ...
 Login_Required_Short: Требуется авторизация
+Login_Success: Вход выполнен успешно
+Low_Storage_Capacity_Content: В настоящее время для сервера меньше <b>2 ГБ</b> хранилища! Пожалуйста, освободите место!
+Low_Storage_Capacity_Title: Низкая емкость хранилища
+MSPT_Long: Миллисекунды на тик
+Management: Управление
+NOTIFICATION_DISABLEDPLUGINS_CONTENT: Один или несколько подключаемых модулей в настоящее время <b>отключены или выгружены</b><br>Пожалуйста, проверьте логи на наличие ошибок!
+NOTIFICATION_DISABLEDPLUGINS_TITLE: Отключенные плагины
+NOTIFICATION_LOWTPS_CONTENT: Ваш сервер работает с низким TPS.<br>Проверьте вкладки производительности для получения дополнительной информации.
+NOTIFICATION_LOWTPS_TITLE: Низкий TPS
+NOTIFICATION_RELOADNEED_CONTENT: Для завершения установки плагина требуется перезагрузка сервера!<br><button class="button is-danger" onclick='reloadServer();'>Перезагрузить</button>
+NOTIFICATION_RELOADNEED_TITLE: Требуется перезагрузка
+NOTIFICATION_UNLOADEDJARS_CONTENT: Один или несколько файлов JAR в папке Plugins <b>выгружен или недействителен</b>!
+NOTIFICATION_UNLOADEDJARS_TITLE: Выгруженные файлы JAR
+NOTIFICATION_UPDATE_CONTENT: Обнаружено обновление для этого плагина!<br>Посетите <a href='https://www.spigotmc.org/resources/spigotdash-webinterface-performance-monitor.93710/'><b>SpigotMC</b></a> за дополнительной информацией
+NOTIFICATION_UPDATE_TITLE: Доступно обновление
+Name: Название
+Night: ночь
+No_Players_Online: На сервере нет игроков
+No_Players_in_World: В настоящее время в этом мире нет игроков
+Notifications: Уведомления
+Ontime: Время работы
+Others: Другое
+Overview: Обзор
+PLAYER_RECORD: Запись игрока
+Page: страница
+Page_Load_Failed: Не удалось загрузить запрошенную страницу! Сервер в сети?
 Password: Пароль
+Performance: Производительность
+Player_Kicked: Игрок кикнут с сервера!
+Player_Left_Server: Игрок покинул сервер
 Players: Игроки
 Plugins: Плагины
-Ontime: Время работы
-Food: Еда
-Error_Occured: Произошла ошибка
-Others: Другое
-Login_Required_Popup: Вы должны войти в систему, чтобы использовать эту страницу!<br>Перенаправляем
-  вас на страницу входа ...
-Health: Здоровье
-Enabled: Включено
+Position: Позиция
+Previous_Folder: Предыдущая папка
+RAM: RAM
+RAM_Allocated: Выделено RAM
+RAM_Usage: Использование RAM (mB)
+RAM_Used: Используется RAM
+Reconnecting: Повторное подключение...
+Reload: Перезагрузка
+Remove: Удалить
+Require_Auth: Нам нужна ваша аутентификация, чтобы продолжить
+STORAGE: Хранение
+Scripts: Скрипты
+Send_Ingame_Message: Отправить сообщение
+Send_Message: Отправить
+Sent: Отправлено
 Server_Offline: Сервер отключен! Мы попробуем переподключиться за вас ...
-Overview: Обзор
-Player_Kicked: Игрок кикнут с сервера!
-Management: Управление
-From: Из
-Entities: Сущности
-Disable_Whitelist: Отключить белый список
-Disable_Nether: Отключить Ад
-Kicked: Кикнут
+Stop: Стоп
+Storage_Total: Общий объем хранилища
+Storage_Used: Использованное хранилище
+Styling: Появление
+Supports: Поддерживает
+TPS: TPS
+TPS_History: История TPS
+TPS_Long: TPS (Тиков в секунду)
+Time: Время
+Trying_To_Connect_To_Server: Подключаем вас к серверу
+USAGE: Использование
+Unknown_User: Неизвестный пользователь
+Uptime: Время безотказной работы
 Used: Использовал
-Command: Команда
-Installed: Установлен
+Very_Low_Storage_Capacity_Content: В настоящее время для сервера доступно менее <b>1 ГБ</b> свободного места! Это, вероятно, вызовет сбой системы!
+Very_Low_Storage_Capacity_Title: Очень низкая емкость хранилища
+Weather: Погода
 Whitelist: Белый список
-Enable_Nether: Вклю Ад
-NOTIFICATION_LOWTPS_TITLE: Низкий TPS
+Worlds: Миры
+Wrong_Name_Or_Password: Неверное имя пользователя или пароль
+Wrong_Password: Неверный пароль
+XP: XP
+XP_Level: Уровень опыта
+XP_Required_For_Next_Level: следующий уровень

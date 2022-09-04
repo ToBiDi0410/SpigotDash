@@ -78,7 +78,7 @@ public class main extends JavaPlugin {
 				adminGroup.html_color = "#c73f45";
 				adminGroup.LEVEL = 100;
 				adminGroup.IS_ADMIN_GROUP = true;
-				adminGroup.permissions.USERS_IS_ADMIN = true;
+				adminGroup.permissions.USER_IS_ADMIN = true;
 				GroupsFile.addGroup(adminGroup);
 			}
 
